@@ -634,11 +634,11 @@ function App() {
             </button>
 
             {filtersExpanded && (
-              <div className="filters-grid" style={{ padding: '15px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                {/* Left Column: Status and Maps */}
+              <div className="filters-grid" style={{ padding: '15px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
+                {/* Left Column: Status */}
                 <div>
                   {/* Status Section */}
-                  <div style={{ marginBottom: '20px' }}>
+                  <div>
                     <p style={{ margin: '0 0 10px 0', color: '#1a1a1a', fontWeight: 'bold' }}>Status:</p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                       {(['possible', 'partial', 'impossible'] as const).map((status) => {
@@ -672,7 +672,10 @@ function App() {
                       })}
                     </div>
                   </div>
+                </div>
 
+                {/* Middle Column: Maps */}
+                <div>
                   {/* Maps Section */}
                   <div>
                     <p style={{ margin: '0 0 10px 0', color: '#1a1a1a', fontWeight: 'bold' }}>Maps:</p>
