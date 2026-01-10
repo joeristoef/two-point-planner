@@ -604,44 +604,47 @@ function App() {
             </button>
 
             {filtersExpanded && (
-              <div style={{ padding: '15px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
-                {/* Status Column */}
+              <div style={{ padding: '15px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                {/* Left Column: Status and Maps */}
                 <div>
-                  <p style={{ margin: '0 0 10px 0', color: '#1a1a1a', fontWeight: 'bold' }}>Status:</p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    {(['possible', 'partial', 'impossible'] as const).map((status) => (
-                      <label key={status} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#1a1a1a', cursor: 'pointer' }}>
-                        <input
-                          type="checkbox"
-                          checked={filterStatuses.has(status)}
-                          onChange={() => toggleStatusFilter(status)}
-                          style={{ cursor: 'pointer' }}
-                        />
-                        <span style={{ textTransform: 'capitalize' }}>{status}</span>
-                      </label>
-                    ))}
+                  {/* Status Section */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <p style={{ margin: '0 0 10px 0', color: '#1a1a1a', fontWeight: 'bold' }}>Status:</p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {(['possible', 'partial', 'impossible'] as const).map((status) => (
+                        <label key={status} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#1a1a1a', cursor: 'pointer' }}>
+                          <input
+                            type="checkbox"
+                            checked={filterStatuses.has(status)}
+                            onChange={() => toggleStatusFilter(status)}
+                            style={{ cursor: 'pointer' }}
+                          />
+                          <span style={{ textTransform: 'capitalize' }}>{status}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Maps Section */}
+                  <div>
+                    <p style={{ margin: '0 0 10px 0', color: '#1a1a1a', fontWeight: 'bold' }}>Maps:</p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {uniqueMaps.map((map) => (
+                        <label key={map} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#1a1a1a', cursor: 'pointer' }}>
+                          <input
+                            type="checkbox"
+                            checked={filterMaps.has(map)}
+                            onChange={() => toggleMapFilter(map)}
+                            style={{ cursor: 'pointer' }}
+                          />
+                          <span>{map}</span>
+                        </label>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
-                {/* Maps Column */}
-                <div>
-                  <p style={{ margin: '0 0 10px 0', color: '#1a1a1a', fontWeight: 'bold' }}>Maps:</p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    {uniqueMaps.map((map) => (
-                      <label key={map} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#1a1a1a', cursor: 'pointer' }}>
-                        <input
-                          type="checkbox"
-                          checked={filterMaps.has(map)}
-                          onChange={() => toggleMapFilter(map)}
-                          style={{ cursor: 'pointer' }}
-                        />
-                        <span>{map}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Reward Filters */}
+                {/* Right Column: Reward Filters */}
                 <div>
                   <p style={{ margin: '0 0 10px 0', color: '#1a1a1a', fontWeight: 'bold' }}>Reward Types:</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
