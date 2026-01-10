@@ -7,7 +7,7 @@ import { ExpeditionList } from './components/ExpeditionList';
 import { SkillSelector } from './components/SkillSelector';
 import { checkAllExpeditions } from './utils/expeditionMatcher';
 import { parseRewardsCsv } from './data/loadRewards';
-import { getRewardIcon } from './utils/iconMaps';
+import { getRewardIcon, getStaffTypeIcon, getMapIcon } from './utils/iconMaps';
 import './App.css';
 
 function App() {
@@ -324,7 +324,17 @@ function App() {
   };
 
   const feasibilities = checkAllExpeditions(staff, expeditions);
-  const uniqueMaps = Array.from(new Set(expeditions.map((e) => e.map))).sort();
+  
+  // Order maps as specified
+  const mapOrder = ['Bone Belt', 'Two Point Sea', 'Bungle Burrows', 'Known Universe', 'Netherworld', 'Farflung Isles', 'Scorched Earth', 'Digiverse'];
+  const uniqueMaps = Array.from(new Set(expeditions.map((e) => e.map))).sort((a, b) => {
+    const indexA = mapOrder.indexOf(a);
+    const indexB = mapOrder.indexOf(b);
+    if (indexA === -1 && indexB === -1) return a.localeCompare(b); // Both not in order, sort alphabetically
+    if (indexA === -1) return 1; // a not in order, comes after
+    if (indexB === -1) return -1; // b not in order, comes after
+    return indexA - indexB; // Both in order, sort by order
+  });
   
   // Get unique reward types, subtypes, and names
   const rewardTypeMap = new Map<string, Set<string>>();
@@ -342,7 +352,17 @@ function App() {
       rewardSubtypeMap.get(reward.subtype)!.add(reward.name);
     });
   });
-  const uniqueRewardTypes = Array.from(rewardTypeMap.keys()).sort();
+  
+  // Order reward types to match expert order: Prehistory, Botany, Marine Life, Science, Space, Supernatural, Wildlife, Fantasy, Digital
+  const rewardTypeOrder = ['Prehistory', 'Botany', 'Marine Life', 'Science', 'Space', 'Supernatural', 'Wildlife', 'Fantasy', 'Digital'];
+  const uniqueRewardTypes = Array.from(rewardTypeMap.keys()).sort((a, b) => {
+    const indexA = rewardTypeOrder.indexOf(a);
+    const indexB = rewardTypeOrder.indexOf(b);
+    if (indexA === -1 && indexB === -1) return a.localeCompare(b); // Both not in order, sort alphabetically
+    if (indexA === -1) return 1; // a not in order, comes after
+    if (indexB === -1) return -1; // b not in order, comes after
+    return indexA - indexB; // Both in order, sort by order
+  });
   
   // Apply same filtering logic to stats as in ExpeditionList
   const filteredForStats = feasibilities.filter((exp) => {
@@ -564,17 +584,26 @@ function App() {
           <div style={{ marginBottom: '20px', backgroundColor: '#ffffff', padding: '15px', borderRadius: '8px', border: '1px solid #dee2e6' }}>
             <h2 style={{ margin: '0 0 15px 0', color: '#1a1a1a' }}>Expedition Summary</h2>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
-              <div style={{ textAlign: 'center', padding: '10px', backgroundColor: '#d3f9d8', borderRadius: '5px', border: '1px solid #b2f2bb' }}>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#2f9e44' }}>{stats.possible}</div>
-                <div style={{ fontSize: '12px', color: '#5c940d' }}>Possible</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px', backgroundColor: '#d3f9d8', borderRadius: '5px', border: '1px solid #b2f2bb' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#28a745', flexShrink: 0 }}>✓</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#2f9e44' }}>{stats.possible}</div>
+                  <div style={{ fontSize: '11px', color: '#5c940d' }}>Possible</div>
+                </div>
               </div>
-              <div style={{ textAlign: 'center', padding: '10px', backgroundColor: '#fff3bf', borderRadius: '5px', border: '1px solid #ffe066' }}>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#f59f00' }}>{stats.partial}</div>
-                <div style={{ fontSize: '12px', color: '#d9a825' }}>Partial</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px', backgroundColor: '#fff3bf', borderRadius: '5px', border: '1px solid #ffe066' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#ffc107', flexShrink: 0 }}>≈</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#f59f00' }}>{stats.partial}</div>
+                  <div style={{ fontSize: '11px', color: '#d9a825' }}>Partial</div>
+                </div>
               </div>
-              <div style={{ textAlign: 'center', padding: '10px', backgroundColor: '#ffe0e0', borderRadius: '5px', border: '1px solid #ffa8a8' }}>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#dc3545' }}>{stats.impossible}</div>
-                <div style={{ fontSize: '12px', color: '#c92a2a' }}>Impossible</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px', backgroundColor: '#ffe0e0', borderRadius: '5px', border: '1px solid #ffa8a8' }}>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#dc3545', flexShrink: 0 }}>✕</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#dc3545' }}>{stats.impossible}</div>
+                  <div style={{ fontSize: '11px', color: '#c92a2a' }}>Impossible</div>
+                </div>
               </div>
             </div>
           </div>
@@ -612,17 +641,35 @@ function App() {
                   <div style={{ marginBottom: '20px' }}>
                     <p style={{ margin: '0 0 10px 0', color: '#1a1a1a', fontWeight: 'bold' }}>Status:</p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      {(['possible', 'partial', 'impossible'] as const).map((status) => (
-                        <label key={status} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#1a1a1a', cursor: 'pointer' }}>
-                          <input
-                            type="checkbox"
-                            checked={filterStatuses.has(status)}
-                            onChange={() => toggleStatusFilter(status)}
-                            style={{ cursor: 'pointer' }}
-                          />
-                          <span style={{ textTransform: 'capitalize' }}>{status}</span>
-                        </label>
-                      ))}
+                      {(['possible', 'partial', 'impossible'] as const).map((status) => {
+                        const statusConfig = {
+                          possible: { icon: '✓', color: '#28a745', symbol: 'checkmark' },
+                          partial: { icon: '≈', color: '#ffc107', symbol: 'tilde' },
+                          impossible: { icon: '✕', color: '#dc3545', symbol: 'cross' },
+                        };
+                        const config = statusConfig[status];
+                        return (
+                          <label key={status} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#1a1a1a', cursor: 'pointer' }}>
+                            <input
+                              type="checkbox"
+                              checked={filterStatuses.has(status)}
+                              onChange={() => toggleStatusFilter(status)}
+                              style={{ cursor: 'pointer' }}
+                            />
+                            <span style={{
+                              fontSize: '1.2em',
+                              fontWeight: 'bold',
+                              color: config.color,
+                              width: '20px',
+                              textAlign: 'center',
+                              lineHeight: '1',
+                            }}>
+                              {config.icon}
+                            </span>
+                            <span style={{ textTransform: 'capitalize' }}>{status}</span>
+                          </label>
+                        );
+                      })}
                     </div>
                   </div>
 
@@ -637,6 +684,14 @@ function App() {
                             checked={filterMaps.has(map)}
                             onChange={() => toggleMapFilter(map)}
                             style={{ cursor: 'pointer' }}
+                          />
+                          <img
+                            src={getMapIcon(map)}
+                            alt={map}
+                            style={{ width: '24px', height: '24px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                            }}
                           />
                           <span>{map}</span>
                         </label>
@@ -693,6 +748,15 @@ function App() {
                                   if (input) input.indeterminate = isIndeterminate;
                                 }}
                                 style={{ cursor: 'pointer' }}
+                              />
+                              {/* Expert icon for this reward type */}
+                              <img
+                                src={getStaffTypeIcon(`${rewardType} Expert`)}
+                                alt={`${rewardType} Expert`}
+                                style={{ width: '24px', height: '24px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display = 'none';
+                                }}
                               />
                               <span>{rewardType}</span>
                             </label>

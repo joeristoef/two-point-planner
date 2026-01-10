@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ExpeditionFeasibility } from '../types/index';
-import { getStaffTypeIcon, getSkillIcon, getExpeditionIcon, getRewardIcon } from '../utils/iconMaps';
+import { getStaffTypeIcon, getSkillIcon, getExpeditionIcon, getRewardIcon, getMapIcon } from '../utils/iconMaps';
 
 interface ExpeditionListProps {
   expeditions: ExpeditionFeasibility[];
@@ -193,7 +193,15 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                         </span>
                       )}
                     </div>
-                    <p style={{ margin: '0', fontSize: '0.9em', color: '#6c757d' }}>
+                    <p style={{ margin: '0', fontSize: '0.9em', color: '#6c757d', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <img
+                        src={getMapIcon(feasibility.expedition.map)}
+                        alt={feasibility.expedition.map}
+                        style={{ width: '20px', height: '20px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
                       {feasibility.expedition.map}
                     </p>
                   </div>

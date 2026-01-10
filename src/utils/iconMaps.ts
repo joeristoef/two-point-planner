@@ -47,16 +47,18 @@ export const skillIcons: Record<Skill, string> = {
 
 export const getStaffTypeIcon = (staffType: string): string => {
   if (staffType === 'ANY Expert') {
-    return '/assets/staff-type-icons/expert.webp';
+    return new URL('../assets/staff-type-icons/expert.webp', import.meta.url).href;
   }
   if (staffType === 'ANY Staff') {
-    return '/assets/staff-type-icons/staff.webp';
+    return new URL('../assets/staff-type-icons/staff.webp', import.meta.url).href;
   }
-  return `/assets/staff-type-icons/${staffTypeIcons[staffType as StaffType] || 'default.webp'}`;
+  const iconFile = staffTypeIcons[staffType as StaffType] || 'default.webp';
+  return new URL(`../assets/staff-type-icons/${iconFile}`, import.meta.url).href;
 };
 
 export const getSkillIcon = (skill: Skill): string => {
-  return `/assets/skill-icons/${skillIcons[skill] || 'default.webp'}`;
+  const iconFile = skillIcons[skill] || 'default.webp';
+  return new URL(`../assets/skill-icons/${iconFile}`, import.meta.url).href;
 };
 
 export const getExpeditionIcon = (expeditionName: string): string => {
@@ -65,25 +67,68 @@ export const getExpeditionIcon = (expeditionName: string): string => {
     .replace(/\s+/g, '-')
     .replace(/'/g, '')
     .replace(/&/g, 'n') + '.webp';
-  return `/assets/expedition-icons/${filename}`;
+  return new URL(`../assets/expedition-icons/${filename}`, import.meta.url).href;
 };
 
 export const getRewardIcon = (rewardName: string): string => {
-  // Convert reward name to filename format: "Chomper Jr." -> "Chomper-Jr.-Icon.webp"
+  // Special case mappings for rewards where the name doesn't match the filename
+  const specialCases: Record<string, string> = {
+    'War Turf': 'War-Turf-29-Icon.webp',
+    "Douse 'n Dose": 'Douse-n-Dose-Icon.webp',
+    'Robo Janitor': 'Robo-Janitor-Project-Icon.webp',
+    'Robo Security Guard': 'Robo-Security-Guard-Project-Icon.webp',
+  };
+  
+  if (specialCases[rewardName]) {
+    return new URL(`../assets/reward-icons-2/${specialCases[rewardName]}`, import.meta.url).href;
+  }
+  
+  // Convert reward name to filename format: "Meaty Sword 3D" -> "Meaty-Sword-3D-Icon.webp"
   // 1. Remove apostrophes
   // 2. Replace spaces with hyphens
-  // 3. Remove all other special characters except hyphens
-  // 4. Capitalize first letter of each word
+  // 3. Remove parentheses and ampersand
+  // 4. Capitalize first letter of each word (except small articles), preserve numbers and uppercase letters
   // 5. Append "-Icon.webp"
+  
+  const smallWords = new Set(['a', 'an', 'and', 'or', 'of', 'the', 'in', 'at', 'by', 'for']);
   
   const normalized = rewardName
     .replace(/'/g, '') // Remove apostrophes
     .replace(/\s+/g, '-') // Replace spaces with hyphens
     .replace(/[()&]/g, '') // Remove parentheses and ampersand
-    .replace(/[^a-zA-Z0-9\-]/g, '') // Remove other special characters
     .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .map((word, index) => {
+      // Don't capitalize small words, except the first word
+      if (index > 0 && smallWords.has(word.toLowerCase())) {
+        return word.toLowerCase();
+      }
+      // Capitalize first letter if it's a letter, keep rest as-is for mixed case (like 3D)
+      if (word.length === 0) return word;
+      const firstChar = word.charAt(0);
+      if (/[a-z]/.test(firstChar)) {
+        return firstChar.toUpperCase() + word.slice(1);
+      }
+      return word;
+    })
     .join('-');
   
-  return `/assets/reward-icons-2/${normalized}-Icon.webp`;
+  return new URL(`../assets/reward-icons-2/${normalized}-Icon.webp`, import.meta.url).href;
+};
+
+export const getMapIcon = (mapName: string): string => {
+  // Map names to their icon filenames
+  const mapIcons: Record<string, string> = {
+    'Bone Belt': 'Bone-Belt-Icon.webp',
+    'Two Point Sea': 'Two-Point-Sea-Icon.webp',
+    'Bungle Burrows': 'Bungle-Burrows-Icon.webp',
+    'Known Universe': 'Known-Universe-Icon.webp',
+    'Netherworld': 'Netherworld-Icon.webp',
+    'Farflung Isles': 'Farflung-Isles-Icon.webp',
+    'Scorched Earth': 'Scorched-Earth-Icon.webp',
+    'Digiverse': 'Digiverse-Icon.webp',
+  };
+  
+  const iconFile = mapIcons[mapName];
+  if (!iconFile) return '';
+  return new URL(`../assets/map-icons/${iconFile}`, import.meta.url).href;
 };
