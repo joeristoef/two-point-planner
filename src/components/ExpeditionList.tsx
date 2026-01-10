@@ -173,12 +173,12 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                   ✖
                 </button>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'stretch', paddingLeft: '40px', gap: '8px' }}>
+              <div className="expedition-content" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'stretch', paddingLeft: '40px', gap: '8px' }}>
                 <div style={{ flex: 1, display: 'flex', gap: '8px', alignItems: 'stretch' }}>
                   <img
                     src={getExpeditionIcon(feasibility.expedition.name)}
                     alt={feasibility.expedition.name}
-                    style={{ width: '50px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0, backgroundColor: '#f0f0f0', border: '1px solid #ddd' }}
+                    style={{ width: '50px', height: '50px', objectFit: 'contain', objectPosition: 'center', borderRadius: '2px', flexShrink: 0, backgroundColor: '#f0f0f0', border: '1px solid #ddd' }}
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
                       (e.target as HTMLImageElement).style.opacity = '0';
@@ -208,7 +208,7 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                 </div>
 
                 {/* Requirements Icons */}
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginRight: '12px' }}>
+                <div className="expedition-requirements" style={{ display: 'flex', gap: '12px', alignItems: 'center', marginRight: '12px', flexShrink: 0 }}>
                   {/* Staff Icons */}
                   <div style={{ display: 'flex', gap: '4px' }}>
                     {feasibility.expedition.staffRequirements.map((req) => {

@@ -20,6 +20,19 @@ p {
 strong {
   color: #1a1a1a;
 }
+
+/* Desktop: requirements icons inline with expedition info */
+.expedition-content {
+  flex-wrap: nowrap !important;
+}
+
+.expedition-requirements {
+  align-items: center !important;
+  margin-right: 12px !important;
+  margin-top: 0 !important;
+  padding-left: 0 !important;
+}
+
 /* Mobile Responsive */
 @media (max-width: 1200px) {
   /* Tablet: 2 columns with Status/Maps on left, Reward Types on right */
@@ -71,5 +84,18 @@ strong {
   .filters-grid > div:nth-child(3) {
     grid-column: auto;
     grid-row: auto;
+  }
+
+  /* Mobile: wrap requirements icons below expedition info */
+  .expedition-content {
+    flex-wrap: wrap !important;
+  }
+
+  .expedition-requirements {
+    margin-top: 8px !important;
+    margin-right: 0 !important;
+    padding-left: 40px !important;
+    order: 2;
+    flex-basis: 100%;
   }
 }
