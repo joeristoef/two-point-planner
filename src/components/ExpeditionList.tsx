@@ -6,8 +6,6 @@ interface ExpeditionListProps {
   expeditions: ExpeditionFeasibility[];
   filterByStatuses?: Set<'possible' | 'partial' | 'impossible'>;
   filterByMaps?: Set<string>;
-  filterByRewardTypes?: Set<string>;
-  filterByRewardSubtypes?: Set<string>;
   filterByRewardNames?: Set<string>;
   pinnedExpeditions?: Set<string>;
   onTogglePin?: (expeditionName: string) => void;
@@ -19,8 +17,6 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
   expeditions,
   filterByStatuses = new Set(['possible', 'partial', 'impossible']),
   filterByMaps = new Set(),
-  filterByRewardTypes = new Set(),
-  filterByRewardSubtypes = new Set(),
   filterByRewardNames = new Set(),
   pinnedExpeditions = new Set(),
   onTogglePin,

@@ -16,8 +16,6 @@ function App() {
     new Set(['possible', 'partial', 'impossible'])
   );
   const [filterMaps, setFilterMaps] = useState<Set<string>>(new Set());
-  const [filterRewardTypes, setFilterRewardTypes] = useState<Set<string>>(new Set());
-  const [filterRewardSubtypes, setFilterRewardSubtypes] = useState<Set<string>>(new Set());
   const [filterRewardNames, setFilterRewardNames] = useState<Set<string>>(new Set());
   const [filtersExpanded, setFiltersExpanded] = useState(true);
   const [expandedThemes, setExpandedThemes] = useState<Set<string>>(new Set());
@@ -498,8 +496,6 @@ function App() {
             expeditions={feasibilities}
             filterByStatuses={filterStatuses}
             filterByMaps={filterMaps}
-            filterByRewardTypes={filterRewardTypes}
-            filterByRewardSubtypes={filterRewardSubtypes}
             filterByRewardNames={filterRewardNames}
             pinnedExpeditions={pinnedExpeditions}
             onTogglePin={togglePinExpedition}
