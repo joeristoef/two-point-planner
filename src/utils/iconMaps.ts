@@ -45,10 +45,25 @@ export const skillIcons: Record<Skill, string> = {
   'Strolling Surveillance': 'strolling-surveillance.webp',
 };
 
-export const getStaffTypeIcon = (staffType: StaffType): string => {
-  return `/assets/staff-type-icons/${staffTypeIcons[staffType] || 'default.webp'}`;
+export const getStaffTypeIcon = (staffType: string): string => {
+  if (staffType === 'ANY Expert') {
+    return '/assets/staff-type-icons/expert.webp';
+  }
+  if (staffType === 'ANY Staff') {
+    return '/assets/staff-type-icons/staff.webp';
+  }
+  return `/assets/staff-type-icons/${staffTypeIcons[staffType as StaffType] || 'default.webp'}`;
 };
 
 export const getSkillIcon = (skill: Skill): string => {
   return `/assets/skill-icons/${skillIcons[skill] || 'default.webp'}`;
+};
+
+export const getExpeditionIcon = (expeditionName: string): string => {
+  // Convert expedition name to filename format (spaces to hyphens, remove apostrophes, & to n)
+  const filename = expeditionName
+    .replace(/\s+/g, '-')
+    .replace(/'/g, '')
+    .replace(/&/g, 'n') + '.webp';
+  return `/assets/expedition-icons/${filename}`;
 };

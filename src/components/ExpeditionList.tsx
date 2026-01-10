@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ExpeditionFeasibility } from '../types/index';
-import { getStaffTypeIcon, getSkillIcon } from '../utils/iconMaps';
+import { getStaffTypeIcon, getSkillIcon, getExpeditionIcon } from '../utils/iconMaps';
 
 interface ExpeditionListProps {
   expeditions: ExpeditionFeasibility[];
@@ -173,19 +173,30 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                   ✖
                 </button>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingLeft: '40px' }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <h4 style={{ margin: '0 0 3px 0', color: '#1a1a1a' }}>{feasibility.expedition.name}</h4>
-                    {duplicateRewardsPerExpedition.has(feasibility.expedition.name) && (
-                      <span style={{ backgroundColor: '#fff3bf', color: '#856404', padding: '2px 6px', borderRadius: '3px', fontSize: '11px', fontWeight: 'bold' }}>
-                        {duplicateRewardsPerExpedition.get(feasibility.expedition.name)!.size} duplicate reward{duplicateRewardsPerExpedition.get(feasibility.expedition.name)!.size !== 1 ? 's' : ''}
-                      </span>
-                    )}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'stretch', paddingLeft: '40px', gap: '8px' }}>
+                <div style={{ flex: 1, display: 'flex', gap: '8px', alignItems: 'stretch' }}>
+                  <img
+                    src={getExpeditionIcon(feasibility.expedition.name)}
+                    alt={feasibility.expedition.name}
+                    style={{ width: '50px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0, backgroundColor: '#f0f0f0', border: '1px solid #ddd' }}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
+                      (e.target as HTMLImageElement).style.opacity = '0';
+                    }}
+                  />
+                  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <h4 style={{ margin: '0 0 3px 0', color: '#1a1a1a' }}>{feasibility.expedition.name}</h4>
+                      {duplicateRewardsPerExpedition.has(feasibility.expedition.name) && (
+                        <span style={{ backgroundColor: '#fff3bf', color: '#856404', padding: '2px 6px', borderRadius: '3px', fontSize: '11px', fontWeight: 'bold' }}>
+                          {duplicateRewardsPerExpedition.get(feasibility.expedition.name)!.size} duplicate reward{duplicateRewardsPerExpedition.get(feasibility.expedition.name)!.size !== 1 ? 's' : ''}
+                        </span>
+                      )}
+                    </div>
+                    <p style={{ margin: '0', fontSize: '0.9em', color: '#6c757d' }}>
+                      {feasibility.expedition.map}
+                    </p>
                   </div>
-                  <p style={{ margin: '0', fontSize: '0.9em', color: '#6c757d' }}>
-                    {feasibility.expedition.map}
-                  </p>
                 </div>
 
                 {/* Requirements Icons */}

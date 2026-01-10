@@ -317,7 +317,7 @@ const expeditionsBase: Expedition[] = [
     name: "Endless Dump",
     map: "Netherworld",
     skillRequirements: [{ skill: "Happy Thoughts", level: 1 }, { skill: "Survival Skills", level: 1 }],
-    staffRequirements: [{ type: "ANY Staff", count: 1 }, { type: "Supernatural Expert", count: 1 }],
+    staffRequirements: [{ type: "Janitor", count: 1 }, { type: "Supernatural Expert", count: 1 }],
   },
   {
     name: "Iced Spires",
@@ -936,6 +936,12 @@ const expeditionsBase: Expedition[] = [
     map: "Farflung Isles",
     skillRequirements: [{ skill: "Pilot Wings", level: 1 }, { skill: "Survival Skills", level: 2 }],
     staffRequirements: [{ type: "Wildlife Expert", count: 2 }],
+  },
+  {
+    name: "Familiar Falls",
+    map: "Netherworld Map",
+    skillRequirements: [{ skill: "Analysis", level: 1 }, { skill: "Customer Service", level: 1 }],
+    staffRequirements: [{ type: "ANY Expert", count: 1 }, { type: "Assistant", count: 1 }],
   },
 ];
 
