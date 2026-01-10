@@ -939,7 +939,7 @@ const expeditionsBase: Expedition[] = [
   },
   {
     name: "Familiar Falls",
-    map: "Netherworld Map",
+    map: "Netherworld",
     skillRequirements: [{ skill: "Analysis", level: 1 }, { skill: "Customer Service", level: 1 }],
     staffRequirements: [{ type: "ANY Expert", count: 1 }, { type: "Assistant", count: 1 }],
   },

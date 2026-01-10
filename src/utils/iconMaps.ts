@@ -67,3 +67,23 @@ export const getExpeditionIcon = (expeditionName: string): string => {
     .replace(/&/g, 'n') + '.webp';
   return `/assets/expedition-icons/${filename}`;
 };
+
+export const getRewardIcon = (rewardName: string): string => {
+  // Convert reward name to filename format: "Chomper Jr." -> "Chomper-Jr.-Icon.webp"
+  // 1. Remove apostrophes
+  // 2. Replace spaces with hyphens
+  // 3. Remove all other special characters except hyphens
+  // 4. Capitalize first letter of each word
+  // 5. Append "-Icon.webp"
+  
+  const normalized = rewardName
+    .replace(/'/g, '') // Remove apostrophes
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/[()&]/g, '') // Remove parentheses and ampersand
+    .replace(/[^a-zA-Z0-9\-]/g, '') // Remove other special characters
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('-');
+  
+  return `/assets/reward-icons-2/${normalized}-Icon.webp`;
+};

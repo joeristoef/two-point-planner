@@ -7,6 +7,7 @@ import { ExpeditionList } from './components/ExpeditionList';
 import { SkillSelector } from './components/SkillSelector';
 import { checkAllExpeditions } from './utils/expeditionMatcher';
 import { parseRewardsCsv } from './data/loadRewards';
+import { getRewardIcon } from './utils/iconMaps';
 import './App.css';
 
 function App() {
@@ -742,12 +743,20 @@ function App() {
                                     {isSubthemeExpanded && (
                                       <div style={{ paddingLeft: '40px', display: 'flex', flexDirection: 'column', gap: '3px', marginTop: '3px' }}>
                                         {rewardNamesForSubtype.map((rewardName) => (
-                                          <label key={rewardName} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.85em', color: '#495057' }}>
+                                          <label key={rewardName} style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.85em', color: '#495057' }}>
                                             <input
                                               type="checkbox"
                                               checked={filterRewardNames.has(rewardName)}
                                               onChange={() => toggleRewardNameFilter(rewardName)}
-                                              style={{ cursor: 'pointer' }}
+                                              style={{ cursor: 'pointer', marginRight: '2px' }}
+                                            />
+                                            <img
+                                              src={getRewardIcon(rewardName)}
+                                              alt={rewardName}
+                                              style={{ width: '31px', height: '31px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
+                                              onError={(e) => {
+                                                (e.target as HTMLImageElement).style.display = 'none';
+                                              }}
                                             />
                                             <span>{rewardName}</span>
                                           </label>

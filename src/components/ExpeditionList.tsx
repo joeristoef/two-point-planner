@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ExpeditionFeasibility } from '../types/index';
-import { getStaffTypeIcon, getSkillIcon, getExpeditionIcon } from '../utils/iconMaps';
+import { getStaffTypeIcon, getSkillIcon, getExpeditionIcon, getRewardIcon } from '../utils/iconMaps';
 
 interface ExpeditionListProps {
   expeditions: ExpeditionFeasibility[];
@@ -340,10 +340,20 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                   {feasibility.expedition.rewards && feasibility.expedition.rewards.length > 0 && (
                     <div style={{ marginBottom: '10px', color: '#1a1a1a', backgroundColor: 'rgba(76, 175, 80, 0.1)', padding: '8px', borderRadius: '4px' }}>
                       <strong>Possible Rewards:</strong>
-                      <ul style={{ margin: '5px 0 0 20px' }}>
+                      <ul style={{ margin: '5px 0 0 20px', listStyle: 'none', paddingLeft: '0' }}>
                         {feasibility.expedition.rewards.map((reward, idx) => (
-                          <li key={idx}>
-                            {reward.name} <span style={{ fontSize: '0.85em', color: '#666' }}>({reward.type} - {reward.subtype})</span>
+                          <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                            <span style={{ fontSize: '1.1em' }}>•</span>
+                            <img
+                              src={getRewardIcon(reward.name)}
+                              alt={reward.name}
+                              style={{ width: '68px', height: '68px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).style.display = 'none';
+                              }}
+                            />
+                            <span>{reward.name}</span>
+                            <span style={{ fontSize: '0.85em', color: '#666' }}>({reward.type} - {reward.subtype})</span>
                           </li>
                         ))}
                       </ul>
