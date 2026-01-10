@@ -46,9 +46,9 @@ export const skillIcons: Record<Skill, string> = {
 };
 
 export const getStaffTypeIcon = (staffType: StaffType): string => {
-  return `/src/assets/staff-type-icons/${staffTypeIcons[staffType] || 'default.webp'}`;
+  return `/assets/staff-type-icons/${staffTypeIcons[staffType] || 'default.webp'}`;
 };
 
 export const getSkillIcon = (skill: Skill): string => {
-  return `/src/assets/skill-icons/${skillIcons[skill] || 'default.webp'}`;
+  return `/assets/skill-icons/${skillIcons[skill] || 'default.webp'}`;
 };
