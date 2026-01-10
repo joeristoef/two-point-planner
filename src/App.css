@@ -46,4 +46,9 @@ strong {
   .mobile-toggle {
     display: flex !important;
   }
+
+  /* Filters grid should be single column on mobile */
+  .filters-grid {
+    grid-template-columns: 1fr !important;
+  }
 }

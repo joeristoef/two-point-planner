@@ -634,7 +634,7 @@ function App() {
             </button>
 
             {filtersExpanded && (
-              <div style={{ padding: '15px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <div className="filters-grid" style={{ padding: '15px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                 {/* Left Column: Status and Maps */}
                 <div>
                   {/* Status Section */}
