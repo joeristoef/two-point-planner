@@ -1,0 +1,286 @@
+﻿Expedition,StaffType,Count
+Grave Shallows,ANY Staff,1
+Malicious Dungeon,ANY Staff,2
+Space Gibbon Circuit,ANY Staff,2
+Frosted Tops,ANY Expert,1
+Familiar Falls,ANY Expert,1
+Greasy Fields,Prehistory Expert,1
+Rib Row,Prehistory Expert,1
+Lake Longloss,Prehistory Expert,1
+Cold Mines,Prehistory Expert,1
+Frosted Tops,Prehistory Expert,1
+Primal Frontier,Prehistory Expert,1
+Gnawn Wood,Prehistory Expert,1
+Treacle Ponds,Prehistory Expert,1
+Hermit Hills,Prehistory Expert,1
+Must End,Prehistory Expert,2
+Carrion Trail,Prehistory Expert,2
+Spoony Dunes,Prehistory Expert,2
+Withering Way,Prehistory Expert,1
+Scruffy Bluff,Prehistory Expert,1
+Rex Rock,Prehistory Expert,1
+Vintage Vestiges,Prehistory Expert,1
+Stop B & D,Prehistory Expert,1
+Ginormous Rock,Prehistory Expert,1
+Old Yolk Dome,Prehistory Expert,1
+Shag Summit,Prehistory Expert,1
+Bone Bank,Prehistory Expert,1
+Soggy Grotto,Prehistory Expert,1
+Volcanic Springs,Prehistory Expert,1
+Bigfoot Gardens,Botany Expert,1
+Primal Frontier,Botany Expert,1
+Chomper Jungle,Botany Expert,1
+Gnawn Wood,Botany Expert,1
+Scruffy Bluff,Botany Expert,1
+Herbaceous Greens,Botany Expert,1
+Lethargic River,Botany Expert,1
+Pebberley Coast,Botany Expert,1
+Overgrowth Jungle,Botany Expert,1
+Bone Bank,Botany Expert,1
+Allotment Labs,Botany Expert,1
+Cumulus Woods,Botany Expert,1
+Lake Longloss,Marine Life Expert,1
+Temple of the Blobs,Marine Life Expert,1
+Hogsport Peninsula,Marine Life Expert,1
+Pebberley Reef,Marine Life Expert,1
+Pebberley Coast,Marine Life Expert,1
+Gulfweed Grove,Marine Life Expert,1
+Tide Mountain,Marine Life Expert,1
+Marina Junction,Marine Life Expert,1
+S.S. Silverbottom,Marine Life Expert,1
+Silverbottom Salvage,Marine Life Expert,1
+Murky Middlesea,Marine Life Expert,2
+Ravenous Caverns,Marine Life Expert,1
+Wetlantean Outskirts,Marine Life Expert,1
+Wetlantean Catacombs,Marine Life Expert,1
+Wetlantean Treasure Trove,Marine Life Expert,1
+Numb Drop,Marine Life Expert,2
+Coldspot Cave,Marine Life Expert,2
+Downtown Wetlantis,Marine Life Expert,1
+Uptown Wetlantis,Marine Life Expert,1
+Soggy Grotto,Marine Life Expert,1
+Volcanic Springs,Marine Life Expert,1
+Gelatinous Gorge,Marine Life Expert,1
+Wetlanteans Wilderness,Marine Life Expert,1
+Darkest Depths,Marine Life Expert,1
+Wetlantean Underwater,Marine Life Expert,2
+Grave Shallows,Marine Life Expert,1
+Data Stream,Marine Life Expert,1
+The Marrows,Marine Life Expert,1
+Gale Cliffs,Marine Life Expert,1
+Stellar Basin,Marine Life Expert,1
+Portstorm,Marine Life Expert,1
+Jagged Jaunt,Marine Life Expert,1
+Withering Way,Supernatural Expert,1
+S.S. Silverbottom,Supernatural Expert,1
+Silverbottom Salvage,Supernatural Expert,1
+Infernal Station,Supernatural Expert,1
+Endless Dump,Supernatural Expert,1
+Iced Spires,Supernatural Expert,1
+Slumber Yard,Supernatural Expert,1
+Mushroom Wilds,Supernatural Expert,1
+Netherworld's Fair,Supernatural Expert,2
+Hellhole Hangout,Supernatural Expert,1
+Backwards Passage,Supernatural Expert,1
+Dead Air Theatre,Supernatural Expert,2
+The Resting Place,Supernatural Expert,2
+Alternate Yesterday,Supernatural Expert,1
+Reaper Furrow,Supernatural Expert,2
+Semi-Evil Castle,Supernatural Expert,1
+Paranormal Detection Agency,Supernatural Expert,1
+Fog Moors,Supernatural Expert,1
+Spiffinmoore's Spire,Supernatural Expert,1
+Mad Forest,Supernatural Expert,1
+Inlaid Library,Supernatural Expert,1
+Cappella Magna,Supernatural Expert,1
+Battlefelled,Supernatural Expert,1
+Bungle Burrows,Science Expert,1
+Upper Antique Archives,Science Expert,1
+Laser Labs,Science Expert,1
+Security Labs,Science Expert,2
+Chemical Labs,Science Expert,1
+Robot Labs,Science Expert,1
+Modification Labs,Science Expert,1
+Shock Labs,Science Expert,1
+Memory Labs,Science Expert,1
+Counter Intelligence Labs,Science Expert,1
+Medical Labs,Science Expert,2
+Charge Labs,Science Expert,1
+Lower Antique Archives,Science Expert,1
+Cryo Labs,Science Expert,1
+Two Point Orbit,Space Expert,1
+The Moon,Space Expert,1
+Mozzastella,Space Expert,1
+Blue Cheese Moon,Space Expert,1
+Motherboard,Space Expert,1
+Gibbon Moon One,Space Expert,1
+Gibbon Moon Two,Space Expert,1
+Gibbon Moon Three,Space Expert,2
+Ribbetonia,Space Expert,2
+Hyperway Services,Space Expert,1
+Satelilly Pad,Space Expert,1
+Hayley's Comet,Space Expert,1
+Anomalonian Archives,Space Expert,2
+Meat Wizard,Digital Expert,1
+Meat Wizard 2,Digital Expert,1
+Meat Wizard 3D,Digital Expert,1
+Data Stream,Digital Expert,1
+The Marrows,Digital Expert,1
+Gale Cliffs,Digital Expert,1
+Stellar Basin,Digital Expert,1
+Mad Forest,Digital Expert,1
+Inlaid Library,Digital Expert,1
+Cappella Magna,Digital Expert,1
+Meat Wizard 2,Fantasy Expert,1
+Meat Wizard 3D,Fantasy Expert,1
+Mad Forest,Fantasy Expert,1
+Inlaid Library,Fantasy Expert,1
+Cappella Magna,Fantasy Expert,1
+The Fledgling Arms,Fantasy Expert,1
+Wishfell Village,Fantasy Expert,2
+Fairydale,Fantasy Expert,2
+Fairydale (Destroyed),Fantasy Expert,3
+Rainor Shrine,Fantasy Expert,2
+Archwise Rise,Fantasy Expert,1
+Portstorm,Fantasy Expert,1
+Troll Bridge,Fantasy Expert,4
+Battlefelled,Fantasy Expert,2
+Mines of Adnausea,Fantasy Expert,2
+Great Dwharf,Fantasy Expert,3
+Furious Forge,Fantasy Expert,1
+Cog Tower,Fantasy Expert,3
+Folktown,Fantasy Expert,2
+The Woblin' Goblin,Fantasy Expert,1
+Jagged Jaunt,Fantasy Expert,1
+Obscure City,Fantasy Expert,2
+Cumulus Woods,Fantasy Expert,2
+Upside Town,Fantasy Expert,3
+Halvenhaf Castle,Fantasy Expert,3
+Longrange Inn,Fantasy Expert,1
+Bizarre Market,Fantasy Expert,3
+Flue Pastures,Fantasy Expert,4
+Wyvern Way,Fantasy Expert,4
+Mount Gloom,Fantasy Expert,4
+Silverback Swamp,Wildlife Expert,1
+Sticky Thicket,Wildlife Expert,1
+Farflung Jungle,Wildlife Expert,1
+Eversteam Forest,Wildlife Expert,1
+Eaten Track,Wildlife Expert,2
+Bumbling Bush,Wildlife Expert,3
+The Heat Line,Wildlife Expert,1
+Lion Lowlands,Wildlife Expert,1
+Farflung Desert,Wildlife Expert,2
+Parched Prairie,Wildlife Expert,2
+Spore Garden,Wildlife Expert,1
+Farflung Green,Wildlife Expert,1
+Meander Meadow,Wildlife Expert,1
+Goldrush Stream,Wildlife Expert,2
+Farflung Caves,Wildlife Expert,2
+Under Wilds,Wildlife Expert,2
+Chilly Heather,Wildlife Expert,2
+Briskward Brook,Wildlife Expert,2
+Farflung Cliffs,Wildlife Expert,1
+Iceberg Dip,Wildlife Expert,2
+Cold Mines,Assistant,1
+Frosted Tops,Assistant,1
+Primal Frontier,Assistant,1
+Chomper Jungle,Assistant,1
+Treacle Ponds,Assistant,1
+Scruffy Bluff,Assistant,1
+Rex Rock,Assistant,1
+Herbaceous Greens,Assistant,2
+Vintage Vestiges,Assistant,1
+Lethargic River,Assistant,1
+Stop B & D,Assistant,2
+Ginormous Rock,Assistant,2
+Shag Summit,Assistant,1
+Temple of the Blobs,Assistant,1
+Gulfweed Grove,Assistant,1
+Wetlantean Outskirts,Assistant,1
+Downtown Wetlantis,Assistant,1
+Uptown Wetlantis,Assistant,1
+Iced Spires,Assistant,1
+Hellhole Hangout,Assistant,1
+Dead Air Theatre,Assistant,1
+Familiar Falls,Assistant,1
+Paranormal Detection Agency,Assistant,1
+Spiffinmoore's Spire,Assistant,1
+Bungle Burrows,Assistant,1
+Laser Labs,Assistant,1
+Chemical Labs,Assistant,1
+Cryo Labs,Assistant,1
+Gibbon Moon Two,Assistant,1
+Satelilly Pad,Assistant,1
+Hayley's Comet,Assistant,1
+Anomalonian Archives,Assistant,1
+Bumbling Bush,Assistant,1
+Meander Meadow,Assistant,1
+Cold Mines,Janitor,1
+Primal Frontier,Janitor,1
+Chomper Jungle,Janitor,1
+Must End,Janitor,1
+Withering Way,Janitor,1
+Scruffy Bluff,Janitor,1
+Old Yolk Dome,Janitor,1
+Shag Summit,Janitor,1
+Wetlantean Catacombs,Janitor,1
+Wetlantean Treasure Trove,Janitor,2
+Soggy Grotto,Janitor,1
+Volcanic Springs,Janitor,1
+Endless Dump,Janitor,1
+Slumber Yard,Janitor,1
+Mushroom Wilds,Janitor,1
+Backwards Passage,Janitor,2
+The Resting Place,Janitor,1
+Oreful Quarry,Janitor,1
+Surplus Supplies,Janitor,2
+Memory Labs,Janitor,1
+Golden Mine,Janitor,2
+Crystal Caves,Janitor,2
+The Moon,Janitor,1
+Motherboard,Janitor,1
+Gibbon Moon One,Janitor,1
+Hyperway Services,Janitor,1
+Hayley's Comet,Janitor,1
+Eversteam Forest,Janitor,1
+Lion Lowlands,Janitor,1
+Spore Garden,Janitor,1
+Farflung Caves,Janitor,1
+Bigfoot Gardens,Security Guard,1
+Chomper Jungle,Security Guard,1
+Rex Rock,Security Guard,2
+Herbaceous Greens,Security Guard,1
+Lethargic River,Security Guard,1
+Stop B & D,Security Guard,1
+Old Yolk Dome,Security Guard,1
+Shag Summit,Security Guard,1
+Temple of the Blobs,Security Guard,1
+Silverback Swamp,Security Guard,1
+Tide Mountain,Security Guard,1
+Marina Junction,Security Guard,1
+Ravenous Caverns,Security Guard,1
+Gelatinous Gorge,Security Guard,1
+Wetlanteans Wilderness,Security Guard,1
+Darkest Depths,Security Guard,1
+Wetlantean Underwater,Security Guard,1
+Netherworld's Fair,Security Guard,1
+Hellhole Hangout,Security Guard,2
+Backwards Passage,Security Guard,1
+Alternate Yesterday,Security Guard,1
+Semi-Evil Castle,Security Guard,1
+Fog Moors,Security Guard,1
+Robot Labs,Security Guard,1
+Memory Labs,Security Guard,1
+Counter Intelligence Labs,Security Guard,1
+Blue Cheese Moon,Security Guard,1
+Gibbon Moon Three,Security Guard,1
+Satelilly Pad,Security Guard,1
+Hayley's Comet,Security Guard,1
+Anomalonian Archives,Security Guard,1
+Eaten Track,Security Guard,2
+Lion Lowlands,Security Guard,1
+Farflung Desert,Security Guard,1
+Parched Prairie,Security Guard,1
+Farflung Green,Security Guard,2
+Under Wilds,Security Guard,1
+Farflung Cliffs,Security Guard,1
