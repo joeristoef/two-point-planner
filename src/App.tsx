@@ -23,6 +23,10 @@ function App() {
   const [pinnedExpeditions, setPinnedExpeditions] = useState<Set<string>>(new Set());
   const [ignoredExpeditions, setIgnoredExpeditions] = useState<Set<string>>(new Set());
   const [selectedStaffId, setSelectedStaffId] = useState<string | null>(null);
+  const [showInstructions, setShowInstructions] = useState(false);
+  const [showCredits, setShowCredits] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const [mobileActivePanel, setMobileActivePanel] = useState<'staff' | 'expeditions'>('staff');
 
   // Load rewards on mount
   useEffect(() => {
@@ -34,6 +38,107 @@ function App() {
       setExpeditions(expeditionsWithRewards);
     });
   }, []);
+
+  // Load staff and filters from localStorage on mount
+  useEffect(() => {
+    const savedStaff = localStorage.getItem('staff');
+    const savedFilterStatuses = localStorage.getItem('filterStatuses');
+    const savedFilterMaps = localStorage.getItem('filterMaps');
+    const savedFilterRewardNames = localStorage.getItem('filterRewardNames');
+    const savedPinnedExpeditions = localStorage.getItem('pinnedExpeditions');
+    const savedIgnoredExpeditions = localStorage.getItem('ignoredExpeditions');
+
+    if (savedStaff) {
+      try {
+        const parsedStaff = JSON.parse(savedStaff).map((member: any) => ({
+          ...member,
+          skills: new Map(member.skills),
+        }));
+        setStaff(parsedStaff);
+      } catch (e) {
+        console.error('Error loading staff', e);
+      }
+    }
+
+    if (savedFilterStatuses) {
+      try {
+        setFilterStatuses(new Set(JSON.parse(savedFilterStatuses)));
+      } catch (e) {
+        console.error('Error loading filter statuses', e);
+      }
+    }
+
+    if (savedFilterMaps) {
+      try {
+        setFilterMaps(new Set(JSON.parse(savedFilterMaps)));
+      } catch (e) {
+        console.error('Error loading filter maps', e);
+      }
+    }
+
+    if (savedFilterRewardNames) {
+      try {
+        setFilterRewardNames(new Set(JSON.parse(savedFilterRewardNames)));
+      } catch (e) {
+        console.error('Error loading filter reward names', e);
+      }
+    }
+
+    if (savedPinnedExpeditions) {
+      try {
+        setPinnedExpeditions(new Set(JSON.parse(savedPinnedExpeditions)));
+      } catch (e) {
+        console.error('Error loading pinned expeditions', e);
+      }
+    }
+
+    if (savedIgnoredExpeditions) {
+      try {
+        setIgnoredExpeditions(new Set(JSON.parse(savedIgnoredExpeditions)));
+      } catch (e) {
+        console.error('Error loading ignored expeditions', e);
+      }
+    }
+
+    // Mark that we've finished loading from localStorage
+    setHasLoaded(true);
+  }, []);
+
+  // Save staff to localStorage whenever it changes (but only after loading)
+  useEffect(() => {
+    if (!hasLoaded) return;
+    const staffToSave = staff.map((member) => ({
+      ...member,
+      skills: Array.from(member.skills.entries()),
+    }));
+    localStorage.setItem('staff', JSON.stringify(staffToSave));
+  }, [staff, hasLoaded]);
+
+  // Save filters to localStorage whenever they change (but only after loading)
+  useEffect(() => {
+    if (!hasLoaded) return;
+    localStorage.setItem('filterStatuses', JSON.stringify(Array.from(filterStatuses)));
+  }, [filterStatuses, hasLoaded]);
+
+  useEffect(() => {
+    if (!hasLoaded) return;
+    localStorage.setItem('filterMaps', JSON.stringify(Array.from(filterMaps)));
+  }, [filterMaps, hasLoaded]);
+
+  useEffect(() => {
+    if (!hasLoaded) return;
+    localStorage.setItem('filterRewardNames', JSON.stringify(Array.from(filterRewardNames)));
+  }, [filterRewardNames, hasLoaded]);
+
+  useEffect(() => {
+    if (!hasLoaded) return;
+    localStorage.setItem('pinnedExpeditions', JSON.stringify(Array.from(pinnedExpeditions)));
+  }, [pinnedExpeditions, hasLoaded]);
+
+  useEffect(() => {
+    if (!hasLoaded) return;
+    localStorage.setItem('ignoredExpeditions', JSON.stringify(Array.from(ignoredExpeditions)));
+  }, [ignoredExpeditions, hasLoaded]);
 
   const handleAddStaff = (newStaff: StaffMember) => {
     setStaff([...staff, newStaff]);
@@ -259,10 +364,67 @@ function App() {
 
   const selectedStaff = staff.find((s) => s.id === selectedStaffId);
 
+  const resetStaff = () => {
+    if (window.confirm('Are you sure you want to reset all staff members? This cannot be undone.')) {
+      setStaff([]);
+      setSelectedStaffId(null);
+    }
+  };
+
+  const resetFilters = () => {
+    if (window.confirm('Are you sure you want to reset all filters?')) {
+      setFilterStatuses(new Set(['possible', 'partial', 'impossible']));
+      setFilterMaps(new Set());
+      setFilterRewardNames(new Set());
+      setExpandedThemes(new Set());
+      setExpandedSubthemes(new Set());
+      setPinnedExpeditions(new Set());
+      setIgnoredExpeditions(new Set());
+    }
+  };
+
   return (
-    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#f8f9fa' }}>
-      {/* Left Panel - Staff Management */}
+    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#f8f9fa', flexDirection: 'column' }}>
+      {/* Mobile Panel Toggle - Always visible on mobile */}
+      <div className="mobile-toggle" style={{ display: 'none', gap: '10px', padding: '10px 20px', backgroundColor: '#f8f9fa', borderBottom: '1px solid #dee2e6' }}>
+        <button
+          onClick={() => setMobileActivePanel('staff')}
+          style={{
+            flex: 1,
+            padding: '8px 12px',
+            backgroundColor: mobileActivePanel === 'staff' ? '#4c6ef5' : '#e9ecef',
+            color: mobileActivePanel === 'staff' ? '#ffffff' : '#495057',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: '500',
+          }}
+        >
+          Staff
+        </button>
+        <button
+          onClick={() => setMobileActivePanel('expeditions')}
+          style={{
+            flex: 1,
+            padding: '8px 12px',
+            backgroundColor: mobileActivePanel === 'expeditions' ? '#4c6ef5' : '#e9ecef',
+            color: mobileActivePanel === 'expeditions' ? '#ffffff' : '#495057',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: '500',
+          }}
+        >
+          Expeditions
+        </button>
+      </div>
+
+      {/* Main content container */}
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
       <div
+        className={`staff-panel ${mobileActivePanel === 'expeditions' ? 'hidden' : ''}`}
         style={{
           flex: 1,
           maxWidth: '400px',
@@ -276,16 +438,127 @@ function App() {
         }}
       >
         <div style={{ padding: '20px', borderBottom: '1px solid #dee2e6', backgroundColor: '#f8f9fa', flexShrink: 0 }}>
-          <h1 style={{ margin: '0', color: '#1a1a1a' }}>Two Point Museum Planner</h1>
+          <h1 style={{ margin: '0 0 12px 0', color: '#1a1a1a' }}>Two Point Museum™ Planner</h1>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button
+              onClick={() => setShowInstructions(true)}
+              style={{
+                padding: '6px 12px',
+                backgroundColor: '#4c6ef5',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = '#364fc7';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = '#4c6ef5';
+              }}
+            >
+              Instructions
+            </button>
+            <button
+              onClick={() => setShowCredits(true)}
+              style={{
+                padding: '6px 12px',
+                backgroundColor: '#748ffc',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = '#5c7cfa';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = '#748ffc';
+              }}
+            >
+              Credits
+            </button>
+            <button
+              onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSdZikF5AhrT7BPp94z_V0z20dNp502sPRzFBQ7jJu0kh0nt4Q/viewform?usp=dialog', '_blank')}
+              style={{
+                padding: '6px 12px',
+                backgroundColor: '#a78bfa',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = '#9370db';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = '#a78bfa';
+              }}
+            >
+              Feedback
+            </button>
+          </div>
         </div>
-        <div style={{ overflowY: 'auto', flex: 1 }}>
+        <div style={{ display: 'flex', gap: '10px', padding: '0 20px 15px 20px', borderBottom: '1px solid #dee2e6', flexShrink: 0 }}>
+          <button
+            onClick={resetStaff}
+            style={{
+              flex: 1,
+              padding: '8px 12px',
+              backgroundColor: '#ff6b6b',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '13px',
+              fontWeight: '500',
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = '#ee5a52';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = '#ff6b6b';
+            }}
+          >
+            Reset Staff
+          </button>
+          <button
+            onClick={resetFilters}
+            style={{
+              flex: 1,
+              padding: '8px 12px',
+              backgroundColor: '#ffa94d',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '13px',
+              fontWeight: '500',
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = '#fd7e14';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = '#ffa94d';
+            }}
+          >
+            Reset Filters
+          </button>
+        </div>
+        <div style={{ overflowY: 'auto', flex: 1, paddingBottom: '100px' }}>
           <StaffForm onAddStaff={handleAddStaff} />
           <StaffList staff={staff} onRemoveStaff={handleRemoveStaff} onSkillSlotClick={handleSkillSlotClick} onSkillLevelChange={handleSkillLevelChange} />
         </div>
       </div>
 
       {/* Right Panel - Expeditions */}
-      <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', backgroundColor: '#ffffff' }}>
+      <div className={`expeditions-panel ${mobileActivePanel === 'staff' ? 'hidden' : ''}`} style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: '20px' }}>
           <div style={{ marginBottom: '20px', backgroundColor: '#ffffff', padding: '15px', borderRadius: '8px', border: '1px solid #dee2e6' }}>
             <h2 style={{ margin: '0 0 15px 0', color: '#1a1a1a' }}>Expedition Summary</h2>
@@ -513,6 +786,198 @@ function App() {
           onClose={handleSkillSelectorClose}
         />
       )}
+
+      {/* Instructions Modal */}
+      {showInstructions && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+          }}
+          onClick={() => setShowInstructions(false)}
+        >
+          <div
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '8px',
+              padding: '30px',
+              maxWidth: '600px',
+              maxHeight: '80vh',
+              overflowY: 'auto',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h2 style={{ margin: 0, color: '#1a1a1a' }}>How to Use</h2>
+              <button
+                onClick={() => setShowInstructions(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  color: '#666',
+                  padding: 0,
+                  width: '30px',
+                  height: '30px',
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            <div style={{ color: '#333', lineHeight: '1.6' }}>
+              <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>1. Add Staff Members</h3>
+              <p style={{ marginTop: 0 }}>Start by adding your museum staff members on the left panel.</p>
+
+              <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>2. Assign Skills</h3>
+              <p style={{ marginTop: 0 }}>Click on a skill slot under a staff member to select a skill. Each skill can have a level from 1 to 3. Use the + and - buttons to adjust skill levels.</p>
+
+              <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>3. Filter Expeditions</h3>
+              <p style={{ marginTop: 0 }}>Use the filter panel on the right to narrow down expeditions by:</p>
+              <ul style={{ marginTop: '8px', marginBottom: 0 }}>
+                <li><strong>Status:</strong> Possible (green), Partial (yellow), or Impossible (red)</li>
+                <li><strong>Maps:</strong> Select expedition maps</li>
+                <li><strong>Reward Types:</strong> Filter by reward themes and specific items</li>
+              </ul>
+
+              <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>4. Pin & Ignore Expeditions</h3>
+              <p style={{ marginTop: 0 }}>Pin expeditions to keep them at the top of the list, or ignore them to exclude them from the summary and push them to the bottom.</p>
+
+              <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>5. View Summary</h3>
+              <p style={{ marginTop: 0 }}>The expedition summary shows how many expeditions are possible, partial, or impossible with your current staff (excluding ignored expeditions).</p>
+
+              <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>Tips</h3>
+              <ul style={{ marginTop: '8px', marginBottom: 0 }}>
+                <li>Duplicate rewards across expeditions are highlighted to help you plan efficiently</li>
+                <li>Click on reward names in the filter to show only expeditions with those specific rewards</li>
+                <li>Use the expand/collapse buttons to manage the filter panel and see more expeditions</li>
+              </ul>
+            </div>
+
+            <button
+              onClick={() => setShowInstructions(false)}
+              style={{
+                marginTop: '25px',
+                padding: '10px 20px',
+                backgroundColor: '#4c6ef5',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = '#364fc7';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = '#4c6ef5';
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Credits Modal */}
+      {showCredits && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+          }}
+          onClick={() => setShowCredits(false)}
+        >
+          <div
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '8px',
+              padding: '30px',
+              maxWidth: '600px',
+              maxHeight: '80vh',
+              overflowY: 'auto',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h2 style={{ margin: 0, color: '#1a1a1a' }}>Credits & Legal</h2>
+              <button
+                onClick={() => setShowCredits(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  color: '#666',
+                  padding: 0,
+                  width: '30px',
+                  height: '30px',
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            <div style={{ color: '#333', lineHeight: '1.6' }}>
+              <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>Game Intellectual Property</h3>
+              <p style={{ marginTop: 0 }}><strong>Two Point Studios Limited</strong> owns the trademarks for "Two Point," "Two Point Museum™," and all related logos and intellectual property associated with the game.</p>
+
+              <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>Publisher</h3>
+              <p style={{ marginTop: 0 }}><strong>SEGA CORPORATION</strong> is the publisher of Two Point Museum™ and holds all copyrights for the game and its brand assets.</p>
+
+              <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>Application Creator</h3>
+              <p style={{ marginTop: 0 }}>This Two Point Museum™ Planner application was created by <strong>Joeristoef</strong> as a fan-made planning tool.</p>
+
+              <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>Disclaimer</h3>
+              <p style={{ marginTop: 0 }}>This is an unofficial fan application and is not affiliated with, endorsed by, or associated with Two Point Studios Limited or SEGA CORPORATION. All trademarks and copyrights belong to their respective owners.</p>
+            </div>
+
+            <button
+              onClick={() => setShowCredits(false)}
+              style={{
+                marginTop: '25px',
+                padding: '10px 20px',
+                backgroundColor: '#4c6ef5',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = '#364fc7';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = '#4c6ef5';
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+      </div>
     </div>
   );
 }

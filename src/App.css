@@ -20,3 +20,30 @@ p {
 strong {
   color: #1a1a1a;
 }
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  #root {
+    height: 100dvh; /* Use dynamic viewport height for mobile */
+  }
+
+  .staff-panel {
+    max-width: none !important;
+    border-right: none !important;
+  }
+
+  .staff-panel.hidden {
+    display: none !important;
+  }
+
+  .expeditions-panel {
+    display: flex !important;
+  }
+
+  .expeditions-panel.hidden {
+    display: none !important;
+  }
+
+  .mobile-toggle {
+    display: flex !important;
+  }
+}
