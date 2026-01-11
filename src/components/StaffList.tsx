@@ -1,7 +1,7 @@
 import React from 'react';
 import { StaffMember, Skill } from '../types/index';
 import { calculateUsedSkillSlots, getMaxSkillSlots } from '../utils/skillRules';
-import { getSkillIcon } from '../utils/iconMaps';
+import { getSkillIcon, getStaffTypeIcon } from '../utils/iconMaps';
 
 // Staff type ordering
 const STAFF_TYPES_ORDER: StaffMember['type'][] = [
@@ -63,7 +63,12 @@ export const StaffList: React.FC<StaffListProps> = ({ staff, onRemoveStaff, onSk
               >
                 {/* Header with remove button */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-                  <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <img 
+                      src={getStaffTypeIcon(member.type)} 
+                      alt={member.type}
+                      style={{ width: '24px', height: '24px' }}
+                    />
                     <h4 style={{ color: '#1a1a1a', margin: '0' }}>
                       {member.type} #{getStaffNumber(member)}
                     </h4>

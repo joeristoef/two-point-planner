@@ -26,6 +26,12 @@ function App() {
   const [selectedStaffId, setSelectedStaffId] = useState<string | null>(null);
   const [showInstructions, setShowInstructions] = useState(false);
   const [showCredits, setShowCredits] = useState(false);
+  const [showPlannedFeatures, setShowPlannedFeatures] = useState(false);
+  const [showChangelog, setShowChangelog] = useState(false);
+  const [plannedFeaturesContent, setPlannedFeaturesContent] = useState('');
+  const [changelogContent, setChangelogContent] = useState('');
+  const [currentVersion, setCurrentVersion] = useState('');
+  const [hasNewVersion, setHasNewVersion] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [mobileActivePanel, setMobileActivePanel] = useState<'staff' | 'expeditions'>('staff');
 
@@ -39,6 +45,33 @@ function App() {
       setExpeditions(expeditionsWithRewards);
     });
   }, []);
+
+  // Load markdown files on mount
+  useEffect(() => {
+    Promise.all([
+      fetch('/PLANNED_FEATURES.md').then(res => res.text()),
+      fetch('/CHANGELOG.md').then(res => res.text())
+    ]).then(([features, changelog]) => {
+      setPlannedFeaturesContent(features);
+      setChangelogContent(changelog);
+      
+      // Extract version from changelog
+      const versionMatch = changelog.match(/## Version ([\d.]+)/);
+      if (versionMatch) {
+        const version = versionMatch[1];
+        setCurrentVersion(version);
+        
+        // Check if this is a new version since last visit
+        const lastSeenVersion = localStorage.getItem('lastSeenVersion');
+        if (lastSeenVersion !== version) {
+          setHasNewVersion(true);
+        }
+      }
+    }).catch(err => {
+      console.error('Error loading content files:', err);
+    });
+  }, []);
+
 
   // Load staff and filters from localStorage on mount
   useEffect(() => {
@@ -385,6 +418,15 @@ function App() {
 
   const selectedStaff = staff.find((s) => s.id === selectedStaffId);
 
+  const handleOpenChangelog = () => {
+    setShowChangelog(true);
+    // Mark version as seen
+    if (currentVersion) {
+      localStorage.setItem('lastSeenVersion', currentVersion);
+      setHasNewVersion(false);
+    }
+  };
+
   const resetStaff = () => {
     if (window.confirm('Are you sure you want to reset all staff members? This cannot be undone.')) {
       setStaff([]);
@@ -459,8 +501,8 @@ function App() {
         }}
       >
         <div style={{ padding: '20px', borderBottom: '1px solid #dee2e6', backgroundColor: '#f8f9fa', flexShrink: 0 }}>
-          <h1 style={{ margin: '0 0 12px 0', color: '#1a1a1a' }}>Two Point Museum™ Planner</h1>
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <h1 style={{ margin: '0 0 12px 0', color: '#1a1a1a' }}>Two Point Museum™ Planner {currentVersion && <span style={{ fontSize: '0.6em', color: '#666' }}>v{currentVersion}</span>}</h1>
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
             <button
               onClick={() => setShowInstructions(true)}
               style={{
@@ -523,6 +565,61 @@ function App() {
               }}
             >
               Feedback
+            </button>
+          </div>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button
+              onClick={() => setShowPlannedFeatures(true)}
+              style={{
+                padding: '6px 12px',
+                backgroundColor: '#f76707',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = '#e56600';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = '#f76707';
+              }}
+            >
+              Planned Features
+            </button>
+            <button
+              onClick={handleOpenChangelog}
+              style={{
+                padding: '6px 12px',
+                backgroundColor: '#40c057',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
+                position: 'relative',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = '#37b24d';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = '#40c057';
+              }}
+            >
+              Changelog
+              {hasNewVersion && (
+                <span style={{
+                  position: 'absolute',
+                  top: '-8px',
+                  right: '-8px',
+                  fontSize: '18px',
+                }}>
+                  ⭐
+                </span>
+              )}
             </button>
           </div>
         </div>
@@ -930,7 +1027,7 @@ function App() {
               </ul>
 
               <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>4. Pin & Ignore Expeditions</h3>
-              <p style={{ marginTop: 0 }}>Pin expeditions to keep them at the top of the list, or ignore them to exclude them from the summary and push them to the bottom.</p>
+              <p style={{ marginTop: 0 }}>Pin expeditions to keep them at the top of the list. Use the ignore button to exclude expeditions from the summary and push them to the bottom—this is useful for marking expeditions as completed or ones you don't want to focus on.</p>
 
               <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>5. View Summary</h3>
               <p style={{ marginTop: 0 }}>The expedition summary shows how many expeditions are possible, partial, or impossible with your current staff (excluding ignored expeditions).</p>
@@ -1033,6 +1130,195 @@ function App() {
 
             <button
               onClick={() => setShowCredits(false)}
+              style={{
+                marginTop: '25px',
+                padding: '10px 20px',
+                backgroundColor: '#4c6ef5',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = '#364fc7';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = '#4c6ef5';
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Planned Features Modal */}
+      {showPlannedFeatures && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+          }}
+          onClick={() => setShowPlannedFeatures(false)}
+        >
+          <div
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '8px',
+              padding: '30px',
+              maxWidth: '600px',
+              maxHeight: '80vh',
+              overflowY: 'auto',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h2 style={{ margin: 0, color: '#1a1a1a' }}>Planned Features</h2>
+              <button
+                onClick={() => setShowPlannedFeatures(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  color: '#666',
+                  padding: 0,
+                  width: '30px',
+                  height: '30px',
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            <div style={{ color: '#333', lineHeight: '1.6' }}>
+              {plannedFeaturesContent && (
+                <>
+                  {plannedFeaturesContent.split('\n').map((line, idx) => {
+                    if (line.startsWith('# ')) {
+                      return null; // Skip the main heading
+                    } else if (line.startsWith('## ')) {
+                      return <h3 key={idx} style={{ marginTop: '20px', marginBottom: '10px', color: '#1a1a1a' }}>{line.replace('## ', '')}</h3>;
+                    } else if (line.startsWith('- ')) {
+                      return <div key={idx} style={{ marginLeft: '20px', marginBottom: '8px' }}>• {line.replace('- ', '')}</div>;
+                    } else if (line.trim()) {
+                      return <p key={idx} style={{ marginTop: '12px', marginBottom: '12px' }}>{line}</p>;
+                    }
+                    return null;
+                  })}
+                </>
+              )}
+            </div>
+
+            <button
+              onClick={() => setShowPlannedFeatures(false)}
+              style={{
+                marginTop: '25px',
+                padding: '10px 20px',
+                backgroundColor: '#4c6ef5',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = '#364fc7';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = '#4c6ef5';
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Changelog Modal */}
+      {showChangelog && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+          }}
+          onClick={() => setShowChangelog(false)}
+        >
+          <div
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '8px',
+              padding: '30px',
+              maxWidth: '600px',
+              maxHeight: '80vh',
+              overflowY: 'auto',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h2 style={{ margin: 0, color: '#1a1a1a' }}>Changelog</h2>
+              <button
+                onClick={() => setShowChangelog(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  color: '#666',
+                  padding: 0,
+                  width: '30px',
+                  height: '30px',
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            <div style={{ color: '#333', lineHeight: '1.6' }}>
+              {changelogContent && (
+                <>
+                  {changelogContent.split('\n').map((line, idx) => {
+                    if (line.startsWith('# ')) {
+                      return null; // Skip the main heading
+                    } else if (line.startsWith('## ')) {
+                      return <h3 key={idx} style={{ marginTop: '20px', marginBottom: '5px', color: '#1a1a1a' }}>{line.replace('## ', '')}</h3>;
+                    } else if (/^\w+ \d+, \d{4}$/.test(line.trim())) {
+                      // Date pattern: "January 10, 2026"
+                      return <p key={idx} style={{ marginTop: '2px', marginBottom: '12px', fontSize: '13px', color: '#999' }}>{line}</p>;
+                    } else if (line.startsWith('- ')) {
+                      return <div key={idx} style={{ marginLeft: '20px', marginBottom: '6px' }}>• {line.replace('- ', '')}</div>;
+                    } else if (line.trim()) {
+                      return <p key={idx} style={{ marginTop: '8px', marginBottom: '8px', fontSize: '14px', color: '#666' }}>{line}</p>;
+                    }
+                    return null;
+                  })}
+                </>
+              )}
+            </div>
+
+            <button
+              onClick={() => setShowChangelog(false)}
               style={{
                 marginTop: '25px',
                 padding: '10px 20px',
