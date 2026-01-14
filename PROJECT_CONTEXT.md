@@ -402,7 +402,7 @@ GAME_CONSTANTS = {
 
 **Critical (blocking features):**
 - [x] 1.1: Move expeditions to CSV (3-4 days) - **COMPLETED Jan 14**
-- [ ] 1.2: Create gameRules.ts (1-2 days)
+- [x] 1.2: Create gameRules.ts (1-2 days) - **COMPLETED Jan 14**
 - [ ] 1.3: Add Jest tests (2-3 days)
 - [ ] 1.4: Set up CI/CD (1 day)
 

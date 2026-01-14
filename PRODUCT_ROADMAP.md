@@ -71,47 +71,40 @@ These items block Mode 2 work and must be done before feature development.
 
 #### **1.2 Create Centralized Game Rules Configuration**
 
-**Current State:**
-- Magic numbers scattered throughout code
-- Skill rules in `skillRules.ts`
-- Icon mappings in separate file
-- Optimizer preferences undefined
-- Non-expedition utility undefined
+**Status: ✅ COMPLETED**
 
-**What to Do:**
-- Create `src/config/gameRules.ts`
-- Define all constants:
-  ```typescript
-  GAME_CONSTANTS = {
-    staffSystem: { maxSlots: 5, maxSkillLevel: 3 },
-    skillCategories: { universal: [...], expertOnly: [...] },
-    staffTypeSkills: { /* all skill restrictions */ },
-    nonExpeditionUtility: { /* skill utility scores */ },
-    optimizer: { /* preset configurations */ },
-  }
-  ```
-- Reference from everywhere instead of hardcoding
+**What Was Done:**
+- Created `src/config/gameRules.ts` (380+ lines)
+- Moved SKILL_RESTRICTIONS from skillRules.ts
+- Added SKILL_CATEGORIES (universal, expertOnly, typeExclusive)
+- Added STAFF_SYSTEM constants (maxSlots: 5, maxSkillLevel: 3)
+- Defined SKILL_UTILITY preferences with examples:
+  - Aerodynamics (utility 8): Fast Security Guards catch criminals
+  - Pilot Wings (utility 7): Speeds up expeditions
+  - Happy Thoughts (utility 3): Needed for Netherworld, use "mule" staff
+  - Fire-Resistance, Ghost Capture, Camera Room (situational)
+- Added OPTIMIZER_PRESETS scaffolding (Perfectionist, Pragmatist, Efficient, Minimalist)
+- Consolidated utility functions (getAvailableSkills, canHaveSkill, isExpert, etc.)
+- Updated 3 files to import from gameRules instead of skillRules
+- Deleted old skillRules.ts (consolidation complete)
 
-**Why It Matters:**
-- Makes code maintainable
-- Optimizer can reference for smart allocation
-- Easy to adjust "game balance" later
-- Community can suggest tweaks
+**Verified:**
+- ✅ Build succeeds with 0 errors
+- ✅ All imports updated correctly
+- ✅ No functional changes to app (refactoring only)
+- ✅ Code is cleaner and more maintainable
 
-**Dependencies:**
-- None
-
-**Blocks:**
-- Optimizer implementation (needs clean config)
+**Impact:**
+- ✅ Single source of truth for all game rules
+- ✅ Skill utilities are flexible and tweakable
+- ✅ Optimizer presets scaffolded for Phase 3.1
+- ✅ Future-ready for user-configurable preferences
+- ✅ Unblocks: Staff Optimizer work
 
 **Estimated Effort:** 1-2 days
 **Estimated Value:** 7/10 (high quality improvement)
 **Difficulty:** Easy
-
-**Success Criteria:**
-- ✅ All magic numbers in one file
-- ✅ Code references gameRules instead of hardcoding
-- ✅ Tests confirm all values accessible
+**Completed:** January 14, 2026
 
 ---
 
@@ -127,7 +120,7 @@ These items block Mode 2 work and must be done before feature development.
 - Create test structure: `src/__tests__/`
 - Write 10-15 core tests covering:
   - expeditionMatcher (Darkest Depths, edge cases)
-  - skillRules (exclusivity, max slots)
+  - gameRules (skill restrictions, max slots)
   - Data loading (CSV parsing, validation)
   - optimizer (when built)
 
@@ -138,7 +131,7 @@ These items block Mode 2 work and must be done before feature development.
 - Essential for CI/CD
 
 **Dependencies:**
-- Ideally after Mode 1.1 (clean data structure)
+- After Mode 1.2 (gameRules is now in place)
 
 **Blocks:**
 - CI/CD setup (needs tests to run)
