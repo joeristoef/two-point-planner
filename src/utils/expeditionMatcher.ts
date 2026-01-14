@@ -1,5 +1,5 @@
 import { StaffMember, Expedition, ExpeditionFeasibility } from '../types/index';
-import { isExpert } from './skillRules';
+import { isExpert } from '../config/gameRules';
 
 // Generate all combinations of size k from array
 function* combinations<T>(arr: T[], k: number): Generator<T[]> {

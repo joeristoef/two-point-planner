@@ -1,6 +1,6 @@
 import React from 'react';
 import { StaffMember, Skill } from '../types/index';
-import { calculateUsedSkillSlots, getMaxSkillSlots } from '../utils/skillRules';
+import { calculateUsedSkillSlots, getMaxSkillSlots } from '../config/gameRules';
 import { getSkillIcon, getStaffTypeIcon } from '../utils/iconMaps';
 
 // Staff type ordering

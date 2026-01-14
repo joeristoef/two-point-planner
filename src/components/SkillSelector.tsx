@@ -1,6 +1,6 @@
 import React from 'react';
 import { Skill, StaffMember } from '../types/index';
-import { getAvailableSkills, calculateUsedSkillSlots, getMaxSkillSlots } from '../utils/skillRules';
+import { getAvailableSkills, calculateUsedSkillSlots, getMaxSkillSlots } from '../config/gameRules';
 import { getSkillIcon } from '../utils/iconMaps';
 
 interface SkillSelectorProps {
