@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react';
 import { StaffMember, Skill, Expedition } from './types/index';
-import { expeditions as expeditionsBase } from './data/expeditions';
+import { loadExpeditionsFromCSV } from './data/loadExpeditions';
 import { StaffForm } from './components/StaffForm';
 import { StaffList } from './components/StaffList';
 import { ExpeditionList } from './components/ExpeditionList';
 import { SkillSelector } from './components/SkillSelector';
 import { checkAllExpeditions } from './utils/expeditionMatcher';
-import { parseRewardsCsv } from './data/loadRewards';
 import { getRewardIcon, getStaffTypeIcon, getMapIcon } from './utils/iconMaps';
 import './App.css';
 
 function App() {
   const [staff, setStaff] = useState<StaffMember[]>([]);
-  const [expeditions, setExpeditions] = useState<Expedition[]>(expeditionsBase);
+  const [expeditions, setExpeditions] = useState<Expedition[]>([]);
   const [filterStatuses, setFilterStatuses] = useState<Set<'possible' | 'partial' | 'impossible'>>(
     new Set(['possible', 'partial', 'impossible'])
   );
@@ -35,14 +34,15 @@ function App() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [mobileActivePanel, setMobileActivePanel] = useState<'staff' | 'expeditions'>('staff');
 
-  // Load rewards on mount
+  // Load expeditions from CSV on mount
   useEffect(() => {
-    parseRewardsCsv().then((rewardsMap) => {
-      const expeditionsWithRewards = expeditionsBase.map((exp) => ({
-        ...exp,
-        rewards: rewardsMap.get(exp.name) || [],
-      }));
-      setExpeditions(expeditionsWithRewards);
+    loadExpeditionsFromCSV().then((result) => {
+      if (result.errors.length > 0) {
+        console.error('Failed to load expeditions:', result.errors);
+        return;
+      }
+      setExpeditions(result.expeditions);
+      setHasLoaded(true);
     });
   }, []);
 

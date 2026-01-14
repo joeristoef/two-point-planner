@@ -62,12 +62,32 @@ export interface Reward {
   subtype: string;
 }
 
+export interface EventCounter {
+  skill?: string;
+  skillLevel?: number;
+  rank?: number;
+  stat?: string;
+  statLevel?: number;
+  item?: string;
+}
+
+export interface Event {
+  id: number;
+  name: string;
+  type: string;
+  subtype: string;
+  description: string;
+  unlockDescription: string;
+  counter: EventCounter;
+}
+
 export interface Expedition {
   name: string;
   map: string;
   skillRequirements: SkillRequirement[];
   staffRequirements: StaffRequirement[];
-  rewards?: Reward[];
+  events: Event[];
+  rewards: Reward[];
 }
 
 export interface ExpeditionFeasibility {
