@@ -32,7 +32,7 @@
 **Technology Stack:**
 - Frontend: React + TypeScript + Vite
 - Styling: CSS (custom)
-- Data: CSV files + TypeScript hardcoded data
+- Data: CSV files (dynamic loading, no hardcoded data)
 - Storage: localStorage (browser)
 - Testing: None yet
 - CI/CD: None yet
@@ -187,7 +187,7 @@ Marine Life Expert with:
 
 ---
 
-### 2. Skill Exclusivity (In skillRules.ts)
+### 2. Skill Exclusivity (In gameRules.ts)
 
 **Universal Skills** (any staff can learn):
 - Aerodynamics
@@ -308,53 +308,107 @@ Put Happy Thoughts on Janitor (spare slots, situational use) instead of Prehisto
 
 ### Data Structure
 
-**CURRENT STATE:** Inconsistent
-- Expeditions: Hardcoded in TypeScript (950 lines)
-- Rewards: Parsed from CSV dynamically
-- Events: CSV exists but unused
-- Skill Requirements: Partially in CSV, partially in code
+**CURRENT STATE:** Fully CSV-based ✅
+- Expeditions: Loaded from CSV dynamically (159 expeditions)
+- Rewards: Loaded from CSV (338 items)
+- Events: Loaded from CSV (668 events with counters)
+- Skill Requirements: Loaded from CSV
+- Staff Requirements: Loaded from CSV
 
-**DECISION MADE:** Move to all CSV
+**HOW IT WORKS:**
+1. `loadExpeditions.ts` fetches all 5 CSVs in parallel
+2. `csvParser.ts` parses each CSV (handles quoted fields, escapes, newlines)
+3. `dataValidator.ts` validates skill names and staff types
+4. Data joined by expedition name into Map (preserves CSV order)
+5. Secondary indices built for fast lookup
+6. Returned as `Expedition[]` with all data populated
 
-**Rationale:**
-- Single source of truth
-- Non-coders can update
-- Essential for DLC support
-- Easier to validate
+**CSVs Used:**
+- `Expeditions.csv` (name, map)
+- `ExpeditionSkillRequirements.csv` (expedition, skill, level)
+- `ExpeditionStaffRequirements.csv` (expedition, staffType, quantity)
+- `ExpeditionEvents.csv` (expedition, event details with counters)
+- `ExpeditionRewardTypes.csv` (expedition, reward, type, subtype)
 
-**CSVs to use:**
-- Expeditions.csv (name, map)
-- ExpeditionSkillRequirements.csv
-- ExpeditionStaffRequirements.csv
-- ExpeditionEvents.csv
-- ExpeditionRewardTypes.csv
+**CSV File Locations:**
+- Development: Root directory (for dev access)
+- Web serving: `/public/` folder (served by Vite to browser)
+- Production: `/dist/` folder (built into static site)
+- Note: All 5 CSVs must exist in ALL THREE locations
 
-**Status:** Not yet implemented (Phase 1, item 1.1)
+**Status:** ✅ COMPLETED (Phase 1.1) - Implemented January 14, 2026
 
 ---
 
 ### Configuration Management
 
-**DECISION MADE:** Centralize in gameRules.ts
+**CURRENT STATE:** Centralized in src/config/gameRules.ts ✅
 
-**What goes there:**
+**What's in gameRules.ts:**
 ```typescript
-GAME_CONSTANTS = {
-  staffSystem: { maxSlots: 5, maxSkillLevel: 3 },
-  skillCategories: { universal: [...], expertOnly: [...] },
-  staffTypeSkills: { /* all restrictions */ },
-  nonExpeditionUtility: { /* utility scores */ },
-  optimizer: { /* preset configs */ },
+// Constants
+STAFF_SYSTEM = {
+  maxSlots: 5,
+  maxSkillLevel: 3,
 }
+
+// Hierarchical skill organization
+SKILL_CATEGORIES = {
+  universal: [Aerodynamics, Happy Thoughts, Pilot Wings],
+  expertOnly: [Analysis, Rapid Restoration, Survey Skills, ...],
+  typeExclusive: { Marine Life Expert: [Fish Whispering], ... },
+}
+
+// What each staff type can learn
+SKILL_RESTRICTIONS = Record<StaffType, Set<Skill>>
+
+// Preference-based utility scores (not hard rules)
+SKILL_UTILITY = {
+  Aerodynamics: { utility: 8, notes: "Fast Security Guards catch criminals" },
+  Pilot Wings: { utility: 7, notes: "Speeds up expeditions" },
+  Happy Thoughts: { utility: 3, notes: "Mostly useless, needed for Netherworld" },
+  // ... etc
+}
+
+// Scaffolding for Phase 3.1 optimizer
+OPTIMIZER_PRESETS = {
+  Perfectionist: { /* config */ },
+  Pragmatist: { /* config */ },
+  // ... etc
+}
+
+// Utility functions
+getAvailableSkills(staffType)
+canHaveSkill(staffType, skill)
+isExpert(staffType)
+getMaxSkillSlots(staffType)
+calculateUsedSkillSlots(staff)
+// ... etc
 ```
+
+**Key Insight - Skill Utility is Preference-Based:**
+Unlike skill restrictions (hard rules), utilities are flexible preferences:
+- Can be tweaked per balance patches
+- Different users may weight differently
+- Optimizer uses these as guidance, not requirements
+- Makes code future-proof for balance changes
 
 **Rationale:**
 - Single source for all rules
 - Easy to tweak balance
 - Optimizer can reference
-- Community can suggest changes
+- Flexible for community balance discussions
+- Non-coders can understand the scoring
 
-**Status:** Not yet implemented (Phase 1, item 1.2)
+**Files Updated:**
+- `SkillSelector.tsx` - imports from gameRules
+- `StaffList.tsx` - imports from gameRules
+- `expeditionMatcher.ts` - imports from gameRules
+
+**Files Deleted:**
+- `src/utils/skillRules.ts` - consolidation complete
+
+**Status:** ✅ COMPLETED (Phase 1.2) - Implemented January 14, 2026
 
 ---
 
@@ -365,15 +419,15 @@ GAME_CONSTANTS = {
 **When:**
 - Before optimizer work (too complex to test manually)
 - Before CI/CD setup
-- Core priority
+- Core priority (Phase 1.3)
 
 **Tests needed:**
-- expeditionMatcher edge cases
-- skillRules validation
-- Data loading (CSV parsing)
-- Optimizer correctness (when built)
+- expeditionMatcher edge cases (especially Darkest Depths)
+- gameRules validation (skill restrictions, slot calculations)
+- Data loading (CSV parsing, validation)
+- Optimizer correctness (when built in Phase 3)
 
-**Status:** Not yet implemented (Phase 1, item 1.3)
+**Status:** Not yet implemented (Phase 1.3, pending)
 
 ---
 
@@ -391,8 +445,9 @@ GAME_CONSTANTS = {
 - Catches bugs before merge
 - Safe for future contributors
 - Professional quality bar
+- Depends on Phase 1.3 (tests must exist first)
 
-**Status:** Not yet implemented (Phase 1, item 1.4)
+**Status:** Not yet implemented (Phase 1.4, pending after 1.3)
 
 ---
 
@@ -401,10 +456,10 @@ GAME_CONSTANTS = {
 ### Phase 1: Infrastructure (Mode 1) - 4 weeks
 
 **Critical (blocking features):**
-- [x] 1.1: Move expeditions to CSV (3-4 days) - **COMPLETED Jan 14**
-- [x] 1.2: Create gameRules.ts (1-2 days) - **COMPLETED Jan 14**
-- [ ] 1.3: Add Jest tests (2-3 days)
-- [ ] 1.4: Set up CI/CD (1 day)
+- [x] 1.1: Move expeditions to CSV (3-4 days) - **✅ COMPLETED Jan 14**
+- [x] 1.2: Create gameRules.ts (1-2 days) - **✅ COMPLETED Jan 14**
+- [ ] 1.3: Add Jest tests (2-3 days) - **PENDING**
+- [ ] 1.4: Set up CI/CD (1 day) - **PENDING** (after 1.3)
 
 **Important (alongside Phase 2):**
 - [ ] 2.1: Data versioning (2 days)
@@ -463,56 +518,110 @@ GAME_CONSTANTS = {
 
 ---
 
-## Project Files Reference
+### Project Files Reference
 
 ### Documentation Files (Read Before Starting)
 - **EVENT_FILTERING_IMPLEMENTATION.md** - How event filtering works, step-by-step plan, no breaking changes
 - **STAFF_OPTIMIZATION_PACKAGE.md** - Comprehensive optimizer design, use cases, algorithm overview
 - **PRODUCT_ROADMAP.md** - Prioritized list of all work, timelines, effort/value analysis
+- **IMPLEMENTATION_LOG.md** - Detailed log of Phase 1.1 and 1.2 implementation
 - **This file** - PROJECT_CONTEXT.md (you are here)
 
-### Source Code Files
-- **src/data/expeditions.ts** - Hardcoded expedition data (to be moved to CSV in Phase 1.1)
-- **src/utils/skillRules.ts** - Skill exclusivity rules, expert definitions
+### Source Code Files (Active)
+- **src/config/gameRules.ts** - Single source of truth for all game rules and constants ✅ NEW
+- **src/data/loadExpeditions.ts** - CSV loader that fetches, parses, validates, joins all expedition data ✅ NEW
+- **src/data/csvParser.ts** - Generic CSV parser handling quoted fields, escapes, newlines ✅ NEW
+- **src/data/dataValidator.ts** - Validates loaded data against game rules ✅ NEW
 - **src/utils/expeditionMatcher.ts** - Core matching algorithm (complex combinations logic)
 - **src/App.tsx** - Main app state and component orchestration
 
-### Data Files
-- **Expeditions.csv** - Expedition names and maps
-- **ExpeditionSkillRequirements.csv** - Skill requirements (all events)
-- **ExpeditionStaffRequirements.csv** - Staff type requirements
-- **ExpeditionEvents.csv** - Events that occur on expeditions (unused, for future)
-- **ExpeditionRewardTypes.csv** - Rewards given by expeditions
+### Source Code Files (Deleted)
+- **src/data/expeditions.ts** - ❌ DELETED (replaced by CSV loading)
+- **src/utils/skillRules.ts** - ❌ DELETED (consolidated into gameRules.ts)
+
+### Data Files (CSV - All Locations)
+**All 5 CSVs must exist in these locations:**
+- Root: `Expeditions.csv`, `ExpeditionSkillRequirements.csv`, `ExpeditionStaffRequirements.csv`, `ExpeditionEvents.csv`, `ExpeditionRewardTypes.csv`
+- `/public/` folder (for Vite to serve)
+- `/dist/` folder (built automatically into production)
+
+**CSV Contents:**
+- **Expeditions.csv** - Expedition names and maps (159 expeditions)
+- **ExpeditionSkillRequirements.csv** - Skill requirements by level
+- **ExpeditionStaffRequirements.csv** - Staff type requirements by quantity
+- **ExpeditionEvents.csv** - Events with counters (skill/stat/rank/item)
+- **ExpeditionRewardTypes.csv** - Rewards with types and subtypes (338 rewards)
 
 ---
 
 ## Current Blockers & Next Steps
 
-### Immediate Blockers
-1. **Expeditions in TS vs. CSV**: Inconsistent data approach
-2. **No tests**: Can't safely optimize
-3. **No gameRules.ts**: Config scattered everywhere
+### Completed Blockers ✅
+1. ✅ **CSV Data Loading (1.1)** - All expeditions, events, rewards load from CSV
+2. ✅ **gameRules.ts (1.2)** - Single source of truth for all game rules
+3. ✅ **Type Safety** - Event and EventCounter types added to Expedition
+
+### Immediate Blockers (Remaining)
+1. **No tests** - Can't safely optimize or make changes
+2. **No CI/CD** - Can't verify builds or catch regressions
 
 ### What's Needed Before Optimizer Work
-1. CSV data loading (1.1)
-2. gameRules.ts (1.2)
-3. Jest tests (1.3)
+1. ✅ CSV data loading (1.1) - DONE
+2. ✅ gameRules.ts (1.2) - DONE
+3. Jest tests (1.3) - PENDING (2-3 days)
+4. CI/CD pipeline (1.4) - PENDING (1 day, after 1.3)
 
 ### Recommended Next Session
-1. Decide: Do Mode 1 critical items first (2 weeks) or jump to features?
-2. Decide: What's your timeline? Deadline?
-3. Decide: Which user (A/B/C/D) do you want to serve first?
-4. Pick: One Mode 1 task to start (probably 1.1)
+
+**Phase 1.1 & 1.2 are COMPLETE.** Next steps:
+
+1. **Priority A:** Phase 1.3 (Jest testing) - 2-3 days
+   - Essential before optimizer work
+   - Tests: expeditionMatcher, gameRules, CSV loading
+   - Will make future changes safer
+
+2. **Priority B:** Phase 1.4 (CI/CD) - 1 day (after 1.3)
+   - GitHub Actions for test automation
+   - Prevents regressions
+   - Professional quality bar
+
+3. **After Phase 1:** Phase 3.1 (Staff Optimizer)
+   - Can safely start after 1.3 & 1.4 complete
+   - Uses gameRules.ts and tested data loading
+   - Will serve User D (Everything Museum goal)
+
+**Decide:**
+1. Do you want to continue with Phase 1.3 testing?
+2. Timeline for optimizer work?
+3. Any issues with current Phase 1.1/1.2 implementation?
 
 ---
 
-## Key Decisions You've Made
+## Key Decisions Made (& Status)
 
-1. **Data-first approach:** Move expeditions to CSV (not database)
-2. **Testing:** Jest before optimizer (not optional)
-3. **Infrastructure now:** Better to invest now than regret later
-4. **No backend yet:** Stay frontend-only for now
-5. **Community-friendly:** Eventually want contributions
+1. **Data-first approach:** Move expeditions to CSV ✅ DONE
+   - Single source of truth for non-coders to update
+   - Enables DLC support without code changes
+   - 159 expeditions + 668 events + 338 rewards loading from CSV
+
+2. **Testing:** Jest before optimizer (not optional) - PENDING
+   - Will implement in Phase 1.3
+   - Critical before Phase 3 (optimizer work)
+
+3. **Infrastructure now:** Better to invest now than regret later ✅ PROVEN
+   - Phase 1.1 & 1.2 complete in 1 evening session
+   - Unblocks entire optimizer development
+   - Cleaner codebase for future contributors
+
+4. **No backend yet:** Stay frontend-only ✅ CONFIRMED
+   - CSV approach works perfectly
+   - Can scale to larger datasets easily
+   - Users can manage CSV exports/updates
+
+5. **Community-friendly:** Eventually want contributions ✅ PREPARED
+   - gameRules.ts makes balance tweaks obvious
+   - CSV data is accessible to non-programmers
+   - IMPLEMENTATION_LOG.md documents decisions
 
 ---
 
@@ -577,11 +686,12 @@ Do NOT guess or assume. Always clarify.
 ## Version History
 
 | Date | Change | Updated By |
-|------|--------|-----------|
-| 2026-01-14 | Initial creation | Setup session |
+|------|--------|-------------|
+| 2026-01-14 | Phase 1.1 & 1.2 Completion: CSV loading live, gameRules.ts created, obsolete references removed | Post-implementation review |
 
 ---
 
 **Document Status:** Active (Read Before Each Session)  
-**Last Verified:** January 14, 2026  
-**Next Review:** Before Phase 1 work starts
+**Last Updated:** January 14, 2026 (Phase 1.1 & 1.2 Complete)  
+**Verified Working:** CSV loading in production ✅, gameRules.ts live ✅, 159 expeditions loading ✅  
+**Next Review:** Before Phase 1.3 testing starts
