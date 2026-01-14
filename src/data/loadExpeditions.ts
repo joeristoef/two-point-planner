@@ -177,11 +177,8 @@ export async function loadExpeditionsFromCSV(): Promise<LoadedExpeditions> {
       }
     });
 
-    // 9. Convert map to array and sort by map then name
-    const expeditions = Array.from(expeditionMap.values()).sort((a, b) => {
-      if (a.map !== b.map) return a.map.localeCompare(b.map);
-      return a.name.localeCompare(b.name);
-    });
+    // 9. Convert map to array (preserves CSV order due to Map insertion order)
+    const expeditions = Array.from(expeditionMap.values());
 
     console.log(`✅ Loaded ${expeditions.length} expeditions successfully`);
 
