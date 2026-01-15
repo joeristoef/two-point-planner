@@ -421,13 +421,24 @@ Unlike skill restrictions (hard rules), utilities are flexible preferences:
 - Before CI/CD setup
 - Core priority (Phase 1.3)
 
-**Tests needed:**
-- expeditionMatcher edge cases (especially Darkest Depths)
-- gameRules validation (skill restrictions, slot calculations)
-- Data loading (CSV parsing, validation)
-- Optimizer correctness (when built in Phase 3)
+**Core Tests (Phase 1.3 - ✅ COMPLETED Jan 15):**
+- expeditionMatcher edge cases (especially Darkest Depths) ✅
+- gameRules validation (skill restrictions, slot calculations) ✅
+- Data loading (CSV parsing, validation) ✅
+- Slot calculation accuracy ✅
+- Skill restriction enforcement ✅
 
-**Status:** Not yet implemented (Phase 1.3, pending)
+**Test Results:** 77 tests passing, all critical edge cases covered
+
+**IMPORTANT - Testing Requirements for New Features:**
+- Every new feature MUST include tests before merge
+- Optimizer tests (Phase 3.1): Prove correctness on all 159 expeditions
+- Event filtering tests (Phase 3.2): Verify dynamic requirement changes
+- Multi-expedition tests (Phase 3.3): Verify conflict detection works
+- Ask Copilot: "What tests do we need for this feature?" (reminder)
+- No feature is "done" without green tests
+
+**Status:** ✅ COMPLETED (Phase 1.3) - Implemented January 15, 2026
 
 ---
 
@@ -458,7 +469,7 @@ Unlike skill restrictions (hard rules), utilities are flexible preferences:
 **Critical (blocking features):**
 - [x] 1.1: Move expeditions to CSV (3-4 days) - **✅ COMPLETED Jan 14**
 - [x] 1.2: Create gameRules.ts (1-2 days) - **✅ COMPLETED Jan 14**
-- [ ] 1.3: Add Jest tests (2-3 days) - **PENDING**
+- [x] 1.3: Add Jest tests (2-3 days) - **✅ COMPLETED Jan 15**
 - [ ] 1.4: Set up CI/CD (1 day) - **PENDING** (after 1.3)
 
 **Important (alongside Phase 2):**
@@ -687,11 +698,12 @@ Do NOT guess or assume. Always clarify.
 
 | Date | Change | Updated By |
 |------|--------|-------------|
+| 2026-01-15 | Phase 1.3 Completion: Jest testing framework live, 77 tests passing, Darkest Depths edge case verified | Post-implementation review |
 | 2026-01-14 | Phase 1.1 & 1.2 Completion: CSV loading live, gameRules.ts created, obsolete references removed | Post-implementation review |
 
 ---
 
 **Document Status:** Active (Read Before Each Session)  
-**Last Updated:** January 14, 2026 (Phase 1.1 & 1.2 Complete)  
-**Verified Working:** CSV loading in production ✅, gameRules.ts live ✅, 159 expeditions loading ✅  
-**Next Review:** Before Phase 1.3 testing starts
+**Last Updated:** January 15, 2026 (Phase 1.3 Complete)  
+**Verified Working:** CSV loading in production ✅, gameRules.ts live ✅, 159 expeditions loading ✅, Jest testing framework ✅ (77 tests passing)  
+**Next Review:** Before Phase 1.4 CI/CD setup
