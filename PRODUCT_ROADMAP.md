@@ -1,8 +1,8 @@
 # Product Roadmap
 
-**Created:** January 14, 2026  
+**Last Updated:** January 15, 2026  
 **Project:** Two Point Planner  
-**Status:** Planning Phase
+**Status:** Execution Phase (Mode 1: Critical Infrastructure)
 
 ---
 
@@ -18,7 +18,16 @@ The roadmap identifies dependencies, prioritizes blocking work, and estimates ef
 
 ## Mode 1: Infrastructure & Code Quality
 
+**Completion Status: 60%** (3 of 5 critical items done)
+
 ### Priority Tier 1: BLOCKING (Do First)
+
+**STATUS:**
+- ✅ 1.1: CSV data migration (COMPLETE)
+- ✅ 1.2: Centralized game rules (COMPLETE)
+- ✅ 1.3: Testing framework (COMPLETE + cleanup)
+- ⏳ 1.4: CI/CD pipeline (NOT STARTED)
+- ⏳ 1.5: Icon data structure (NOT STARTED)
 
 These items block Mode 2 work and must be done before feature development.
 
@@ -101,17 +110,17 @@ These items block Mode 2 work and must be done before feature development.
 - ✅ Future-ready for user-configurable preferences
 - ✅ Unblocks: Staff Optimizer work
 
-**Estimated Effort:** 1-2 days
-**Estimated Value:** 7/10 (high quality improvement)
-**Difficulty:** Easy
-**Completed:** January 14, 2026
+**Estimated Effort:** (January 15, 2026)**
 
----
-
-#### **1.3 Add Jest Testing Framework & Core Tests**
-
-**Status: ✅ COMPLETED**
-
+**What Was Done:**
+- Installed Jest + React Testing Library + ts-jest
+- Created `jest.config.ts` with TypeScript support
+- Created test setup file: `src/__tests__/setup.ts`
+- Written 4 core test files with 75 total tests:
+  - `gameRules.test.ts` (23 tests) - Skill restrictions, slot system, utility scoring
+  - `slotSystem.test.ts` (18 tests) - **Darkest Depths edge case verified (5/5 slots LOCKED)**
+  - `expeditionMatcher.test.ts` (20 tests) - Complex matching logic, Darkest Depths matching
+  - `dataLoading.test.ts` (14
 **What Was Done:**
 - Installed Jest + React Testing Library + ts-jest
 - Created `jest.config.ts` with TypeScript support
@@ -137,12 +146,11 @@ These items block Mode 2 work and must be done before feature development.
 **Difficulty:** Medium
 **Completed:** January 15, 2026
 
-**Success Criteria Met:**
-- ✅ Jest installed and configured
-- ✅ 77 tests written and passing
-- ✅ Darkest Depths test passes (tricky edge case)
-- ✅ npm test runs all tests successfully in <3 seconds
-- ✅ Test structure documented for future features
+**Post-Completion Cleanup (January 15, 2026):**
+- Removed non-existent "General Staff" type from entire codebase (misconception cleanup)
+- Updated 8 files: types.ts, gameRules.ts, dataValidator.ts, iconMaps.ts, 3 test files, PRODUCT_OVERVIEW.md
+- All 75 tests still passing after cleanup
+- Build successful, deployed to live
 
 ---
 
@@ -182,6 +190,70 @@ These items block Mode 2 work and must be done before feature development.
 - ✅ Runs on every push
 - ✅ Shows ✅/❌ status on GitHub
 
+
+---
+
+#### **1.5 Review & Optimize Icon/Image Data Structure**
+
+**Status: ⏳ NOT STARTED (scheduled)**
+
+**Current State:**
+- Icons mapped in `src/utils/iconMaps.ts` (Record<StaffType, string> and Record<Skill, string>)
+- Staff type icons in `src/assets/staff-type-icons/`
+- Skill icons in `src/assets/skill-icons/`
+- Reward icons in `public/assets/reward-icons-2/` (inconsistent naming/location)
+- Event icons in `src/assets/event-icons/`
+- No systematic check for missing images
+- Icon references scattered across components
+
+**Why It Matters:**
+- Adding more content later (DLC, variants, new expeditions)
+- Need scalable naming conventions
+- Need to detect broken references
+- Asset optimization not yet addressed
+- Inconsistent folder structure (public vs src)
+
+**What to Do:**
+1. **Audit All Images:**
+   - List all referenced icons in code
+   - Compare against actual files in assets/
+   - Identify missing images
+   - Identify unused images
+
+2. **Establish Naming Convention:**
+   - Consistent pattern for staff types: `{type}-icon.webp`
+   - Consistent pattern for skills: `{skill}-icon.webp`
+   - Consistent pattern for rewards: `{reward}-icon.webp`
+   - Consistent pattern for events: `{event}-icon.webp`
+
+3. **Centralize Asset Management:**
+   - Decide: public vs src (recommend src/assets for vite optimization)
+   - Move mislocated assets
+   - Create single source of truth for icon paths
+
+4. **Add Validation:**
+   - Build-time check for missing images (optional)
+   - Runtime fallback for missing images
+   - Add warnings to console for broken references
+
+**Dependencies:**
+- After 1.3 (tests in place)
+- Before 3.1 (optimizer, which adds UI complexity)
+
+**Blocks:**
+- Adding new content (icons need to follow convention)
+- UI improvements (need reliable asset system)
+
+**Estimated Effort:** 2-3 days
+**Estimated Value:** 6/10 (prevents broken images, enables scaling)
+**Difficulty:** Easy-Medium
+
+**Success Criteria:**
+- ✅ All referenced icons exist
+- ✅ No broken references
+- ✅ Naming convention documented
+- ✅ Asset folder structure consistent
+- ✅ Validation system in place
 ---
 
 ### Priority Tier 2: IMPORTANT (Do Soon)
@@ -276,24 +348,32 @@ Non-blocking improvements that improve code quality and maintainability.
 - No service workers
 - localStorage for everything
 
-**What to Do:**
-- Implement memoization for matching results
-- Hash staff rosters, cache by hash
-- Implement localStorage caching strategy
-- (Future: Service Workers for offline)
+**COMPLETED:**
+```
+Week 1 (Jan 6-12):
+  ✅ 1.1: Move expeditions to CSV (1 day actual)
+  ✅ 1.2: Create gameRules.ts (1 day actual)
 
-**Why It Matters:**
-- Faster re-evaluations when user tweaks staff
-- Smoother user experience
-- Preparation for larger datasets
+Week 2 (Jan 13-15):
+  ✅ 1.3: Add Jest & tests (1 day actual)
+  ✅ 1.3b: Cleanup "General Staff" misconception (1 day actual)
+  ⏳ 1.4: Set up CI/CD (not started)
+  ⏳ 1.5: Icon/image data structure review (not started)
+```
 
-**Dependencies:**
-- After 1.1 (stable data structure)
+**UPCOMING:**
+```
+Week 3:
+  - 1.4: Set up CI/CD (1 day)
+  - 1.5: Review & optimize icons (2-3 days)
+  - 2.1: Data versioning (2 days)
 
-**Blocks:**
-- Nothing critical now, but blocks scaling to 1000+ expeditions
+Week 4:
+  - 2.2: Documentation (2-3 days)
+  - 2.3: Performance optimization (2-3 days)
+  - 2.4: Environment config (0.5 days)
 
-**Estimated Effort:** 2-3 days
+Total Projected: ~3-4 weeks remaining for Mode 1
 **Estimated Value:** 5/10 (smooth UX, future-proof)
 **Difficulty:** Medium
 

@@ -1,6 +1,6 @@
 # PROJECT CONTEXT - Two Point Planner
 
-**Last Updated:** January 14, 2026  
+**Last Updated:** January 15, 2026  
 **For:** GitHub Copilot / AI Assistant  
 **Purpose:** Complete project context to avoid re-explaining things each session
 
@@ -28,6 +28,13 @@
 - See which expeditions are possible/partial/impossible
 - Filter expeditions by map/reward/status
 - Save rosters to localStorage
+
+**Code Quality Status:**
+- ✅ Jest testing framework in place (75 tests, all passing)
+- ✅ Core game rules consolidated and tested
+- ✅ "General Staff" misconception removed (code now only contains 13 real staff types)
+- ✅ No hardcoded data (all from CSVs)
+- ✅ Build & dev server stable
 
 **Technology Stack:**
 - Frontend: React + TypeScript + Vite
@@ -219,7 +226,40 @@ Marine Life Expert with:
 
 ---
 
-### 3. Forced Compositions (KEY INSIGHT)
+### 3. Real Staff Types (CORRECTED January 15, 2026)
+
+**The 13 Real Staff Types:**
+```
+Experts (9):
+  - Prehistory Expert
+  - Botany Expert
+  - Fantasy Expert
+  - Marine Life Expert
+  - Wildlife Expert
+  - Digital Expert
+  - Supernatural Expert
+  - Science Expert
+  - Space Expert
+
+Support (4):
+  - Janitor
+  - Security Guard
+  - Assistant
+
+Total: 13 types
+```
+
+**Note on "General Staff":**
+ Previously thought "General Staff" was a real type that could have any universal skills.
+ This was a misconception. Removed from codebase January 15, 2026.
+ 
+**"ANY Staff" Means:**
+ Expedition requirement of "ANY Staff" = "any of the 13 defined types"
+ NOT a special staff type. Just flexible matching.
+
+---
+
+### 4. Forced Compositions (KEY INSIGHT)
 
 **What is it:**
 When an expedition has exclusive skills that fill exactly 5 slots, that staff type is "locked" and can't be optimized.
@@ -255,7 +295,7 @@ Result: ZERO flexibility in composition. This is the ONLY way to satisfy it.
 
 ---
 
-### 4. Training Effort Curve (IMPORTANT FOR USER D)
+### 5. Training Effort Curve (IMPORTANT FOR USER D)
 
 **Reality in the game:**
 Training to 5 slots is exponentially harder than training to 3.
@@ -284,7 +324,7 @@ Often Option B is better, but depends on game design.
 
 ---
 
-### 5. Non-Expedition Utility (SKILL ALLOCATION)
+### 6. Non-Expedition Utility (SKILL ALLOCATION)
 
 **Concept:**
 Some skills have value outside expeditions (in normal game operations).
