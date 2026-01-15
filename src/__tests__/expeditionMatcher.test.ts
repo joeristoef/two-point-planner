@@ -14,7 +14,7 @@ import { Expedition, StaffMember } from '../types/index';
 // Helper to create staff members for testing
 function createStaff(
   name: string,
-  type: 'Marine Life Expert' | 'Security Guard' | 'General Staff' | 'Janitor' | 'Prehistory Expert'
+  type: 'Marine Life Expert' | 'Security Guard' | 'Janitor' | 'Prehistory Expert' | 'Assistant'
 ): StaffMember {
   return {
     id: name.toLowerCase().replace(/\s+/g, '-'),

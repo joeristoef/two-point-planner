@@ -52,10 +52,6 @@ export const SKILL_CATEGORIES = {
 // ============================================================================
 
 export const SKILL_RESTRICTIONS: Record<StaffType, Set<Skill>> = {
-  'General Staff': new Set([
-    ...SKILL_CATEGORIES.universal as any,
-  ]),
-
   'Prehistory Expert': new Set([
     ...SKILL_CATEGORIES.universal as any,
     ...SKILL_CATEGORIES.expertOnly as any,
@@ -165,20 +161,17 @@ export const SKILL_UTILITY: Record<string, {
 
   'Fire-Resistance': {
     utility: 5,
-    idealStaffType: 'Janitor',
-    notes: 'Useful in dangerous areas of the museum. Janitors typically need this more than other staff.',
+    notes: 'Exclusive to Janitor. Useful in dangerous areas of the museum.',
   },
 
   'Ghost Capture': {
     utility: 4,
-    idealStaffType: 'Janitor',
-    notes: 'Only useful if ghost incidents occur. Situational value depending on museum settings.',
+    notes: 'Exclusive to Janitor. Only useful if ghost incidents occur.',
   },
 
   'Camera Room': {
     utility: 4,
-    idealStaffType: 'Security Guard',
-    notes: 'Improves security surveillance. Situational usefulness.',
+    notes: 'Exclusive to Security Guard. Improves security surveillance.',
   },
 
   // Other skills have minimal non-expedition utility and are not listed

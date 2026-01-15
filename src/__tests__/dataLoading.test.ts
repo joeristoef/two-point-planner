@@ -97,7 +97,7 @@ describe('dataValidator.ts', () => {
         // If the skill can be assigned to at least one staff type, it's valid
         let isValidSkill = false;
         const staffTypes = [
-          'General Staff',
+          'Prehistory Expert',
           'Marine Life Expert',
           'Security Guard',
           'Janitor',
@@ -119,7 +119,7 @@ describe('dataValidator.ts', () => {
       
       // None of the staff types can have this skill
       const staffTypes = [
-        'General Staff',
+        'Prehistory Expert',
         'Marine Life Expert',
         'Security Guard',
       ];
@@ -139,7 +139,7 @@ describe('dataValidator.ts', () => {
   describe('Staff Type Validation', () => {
     it('should validate known staff types', () => {
       const validTypes = [
-        'General Staff',
+        'Prehistory Expert',
         'Marine Life Expert',
         'Security Guard',
         'Janitor',

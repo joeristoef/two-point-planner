@@ -2,7 +2,6 @@ import { StaffType, Skill } from '../types/index';
 
 // Staff type icons - map to your icon filenames
 export const staffTypeIcons: Record<StaffType, string> = {
-  'General Staff': 'general-staff.webp',
   'Prehistory Expert': 'prehistory-expert.webp',
   'Botany Expert': 'botany-expert.webp',
   'Fantasy Expert': 'fantasy-expert.webp',

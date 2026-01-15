@@ -22,19 +22,6 @@ import {
 
 describe('gameRules.ts - Skill Restrictions', () => {
   describe('Skill Restrictions by Staff Type', () => {
-    it('should allow General Staff only universal skills', () => {
-      const generalStaffSkills = SKILL_RESTRICTIONS['General Staff'];
-      
-      // Universal skills should be allowed
-      expect(generalStaffSkills.has('Aerodynamics')).toBe(true);
-      expect(generalStaffSkills.has('Happy Thoughts')).toBe(true);
-      expect(generalStaffSkills.has('Pilot Wings')).toBe(true);
-      
-      // Expert-only skills should NOT be allowed
-      expect(generalStaffSkills.has('Analysis')).toBe(false);
-      expect(generalStaffSkills.has('Survey Skills')).toBe(false);
-    });
-
     it('should allow Marine Life Expert to have Fish Whispering', () => {
       const marineSkills = SKILL_RESTRICTIONS['Marine Life Expert'];
       expect(marineSkills.has('Fish Whispering')).toBe(true);
@@ -69,12 +56,12 @@ describe('gameRules.ts - Skill Restrictions', () => {
   describe('canHaveSkill() function', () => {
     it('should return true for allowed skills', () => {
       expect(canHaveSkill('Marine Life Expert', 'Fish Whispering')).toBe(true);
-      expect(canHaveSkill('General Staff', 'Pilot Wings')).toBe(true);
+      expect(canHaveSkill('Janitor', 'Fire-Resistance')).toBe(true);
     });
 
     it('should return false for disallowed skills', () => {
       expect(canHaveSkill('Marine Life Expert', 'Button Master')).toBe(false);
-      expect(canHaveSkill('General Staff', 'Fish Whispering')).toBe(false);
+      expect(canHaveSkill('Assistant', 'Fish Whispering')).toBe(false);
     });
   });
 
@@ -86,7 +73,6 @@ describe('gameRules.ts - Skill Restrictions', () => {
     });
 
     it('should not identify non-experts as experts', () => {
-      expect(isExpert('General Staff')).toBe(false);
       expect(isExpert('Janitor')).toBe(false);
       expect(isExpert('Security Guard')).toBe(false);
       expect(isExpert('Assistant')).toBe(false);
@@ -199,14 +185,6 @@ describe('gameRules.ts - Skill Utility', () => {
 });
 
 describe('gameRules.ts - getAvailableSkills() function', () => {
-  it('should return universal skills for General Staff', () => {
-    const available = getAvailableSkills('General Staff');
-    expect(available).toContain('Aerodynamics');
-    expect(available).toContain('Pilot Wings');
-    expect(available).toContain('Happy Thoughts');
-    expect(available.length).toBeLessThan(10);
-  });
-
   it('should return universal + expert skills for Marine Life Expert', () => {
     const available = getAvailableSkills('Marine Life Expert');
     expect(available).toContain('Aerodynamics');

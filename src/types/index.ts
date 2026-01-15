@@ -1,5 +1,4 @@
 export type StaffType = 
-  | 'General Staff'
   | 'Prehistory Expert'
   | 'Botany Expert'
   | 'Fantasy Expert'

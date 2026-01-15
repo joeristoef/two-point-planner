@@ -2,7 +2,6 @@ import { Skill, StaffType } from '../types/index';
 
 // Valid staff types from types/index.ts
 const VALID_STAFF_TYPES: Set<string> = new Set([
-  'General Staff',
   'Prehistory Expert',
   'Botany Expert',
   'Fantasy Expert',

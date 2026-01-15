@@ -9,7 +9,7 @@ Two Point Museum Planner is an interactive planning tool designed to help player
 **Staff Management**
 - Create and manage a roster of museum staff members
 - Assign specialized skills to each staff member with varying expertise levels
-- Track staff types (General Staff, Experts in various fields)
+- Track staff types (Experts in various fields, Assistants, Janitors, Security Guards)
 - Persistent storage of your staff data across sessions
 
 **Expedition Planning**
