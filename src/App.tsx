@@ -6,7 +6,7 @@ import { StaffList } from './components/StaffList';
 import { ExpeditionList } from './components/ExpeditionList';
 import { SkillSelector } from './components/SkillSelector';
 import { checkAllExpeditions } from './utils/expeditionMatcher';
-import { getRewardIcon, getStaffTypeIcon, getMapIcon } from './utils/iconMaps';
+import { getRewardIcon, getRewardCategoryIcon, getStaffTypeIcon, getMapIcon } from './utils/iconMaps';
 import './App.css';
 
 function App() {
@@ -874,6 +874,7 @@ function App() {
                                 // If subtype only contains one reward with the same name, render it as a simple item
                                 if (rewardNamesForSubtype.length === 1 && rewardNamesForSubtype[0] === subtype) {
                                   const rewardName = rewardNamesForSubtype[0];
+                                  const categoryIcon = getRewardCategoryIcon(subtype);
                                   return (
                                     <label key={subtype} style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.85em', paddingLeft: '20px' }}>
                                       <input
@@ -882,14 +883,16 @@ function App() {
                                         onChange={() => toggleRewardNameFilter(rewardName)}
                                         style={{ cursor: 'pointer', marginRight: '2px' }}
                                       />
-                                      <img
-                                        src={getRewardIcon(rewardName)}
-                                        alt={rewardName}
-                                        style={{ width: '31px', height: '31px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
-                                        onError={(e) => {
-                                          (e.target as HTMLImageElement).style.display = 'none';
-                                        }}
-                                      />
+                                      {categoryIcon && (
+                                        <img
+                                          src={categoryIcon}
+                                          alt={subtype}
+                                          style={{ width: '31px', height: '31px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
+                                          onError={(e) => {
+                                            (e.target as HTMLImageElement).style.display = 'none';
+                                          }}
+                                        />
+                                      )}
                                       <span>{rewardName}</span>
                                     </label>
                                   );
@@ -925,6 +928,16 @@ function App() {
                                           }}
                                           style={{ cursor: 'pointer' }}
                                         />
+                                        {getRewardCategoryIcon(subtype) && (
+                                          <img
+                                            src={getRewardCategoryIcon(subtype)!}
+                                            alt={subtype}
+                                            style={{ width: '24px', height: '24px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
+                                            onError={(e) => {
+                                              (e.target as HTMLImageElement).style.display = 'none';
+                                            }}
+                                          />
+                                        )}
                                         <span>{subtype}</span>
                                       </label>
                                     </div>

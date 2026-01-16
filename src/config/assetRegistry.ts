@@ -95,6 +95,12 @@ export const rewardSpecialCases: Record<string, string> = {
   'Robo Security Guard': 'robo-security-guard-project.webp',
 };
 
+// Special reward icons from other folders
+export const rewardSpecialIconFolders: Record<string, { folder: string; filename: string }> = {
+  'Bonus XP': { folder: 'misc-icons', filename: 'xp.webp' },
+  'Money': { folder: 'misc-icons', filename: 'currency.webp' },
+};
+
 // ============================================================================
 // MAP ICONS
 // ============================================================================

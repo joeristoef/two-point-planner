@@ -10,6 +10,7 @@ import {
   specialStaffTypeIcons,
   skillIcons,
   rewardSpecialCases,
+  rewardSpecialIconFolders,
   mapIcons,
   normalizeExpeditionName,
   normalizeEventName,
@@ -79,13 +80,36 @@ export const getEventIcon = (eventName: string): string => {
 // REWARD ICONS
 // ============================================================================
 
+// List of known perk names for icon resolution
+const PERK_NAMES = new Set([
+  'Wide Watch', 'High Alert', 'Haunt Halter', 'Big Knowledge Boost',
+  'Buzz Boost', 'Built-in Speaker', 'Anti-Rust',
+  'Decoration Boost', 'Decoration & Entertainment Boost', 'Limited Edition',
+  'Duration Boost', 'Energy Boost', 'Entertainment Boost',
+  'Batery Saver', 'Cheap Charge', 'Fast Charge', 'Chrome Cover',
+  'Buzz Duration Boost', 'Buzz Energy Boost', 'Buzz Entertainment Boost',
+  'Supportive Soil', 'Knowledge Boost', 'Easy Fixture'
+]);
+
 export const getRewardIcon = (rewardName: string): string => {
-  // Check special cases first
+  // Check special icon folders first (misc-icons, etc.)
+  if (rewardName in rewardSpecialIconFolders) {
+    const special = rewardSpecialIconFolders[rewardName];
+    return getAssetPath(special.folder, special.filename);
+  }
+
+  // Check if it's a perk
+  if (PERK_NAMES.has(rewardName)) {
+    const filename = normalizeRewardName(rewardName);
+    return getAssetPath('perk-icons', filename);
+  }
+
+  // Check special cases in reward-icons-2 folder
   if (rewardName in rewardSpecialCases) {
     return getAssetPath('reward-icons-2', rewardSpecialCases[rewardName]);
   }
 
-  // Use standard normalization
+  // Use standard normalization for regular rewards
   const filename = normalizeRewardName(rewardName);
   return getAssetPath('reward-icons-2', filename);
 };
@@ -98,6 +122,24 @@ export const getMapIcon = (mapName: string): string => {
   const iconFile = mapIcons[mapName];
   if (!iconFile) return '';
   return getAssetPath('map-icons', iconFile);
+};
+
+// ============================================================================
+// REWARD CATEGORY ICONS
+// ============================================================================
+
+export const getRewardCategoryIcon = (categoryName: string): string => {
+  // Special handling for category icons
+  if (categoryName === 'Perks') {
+    return getAssetPath('misc-icons', 'perks.webp');
+  }
+  if (categoryName === 'Bonus XP') {
+    return getAssetPath('misc-icons', 'xp.webp');
+  }
+  if (categoryName === 'Money') {
+    return getAssetPath('misc-icons', 'currency.webp');
+  }
+  return '';
 };
 
 // ============================================================================
