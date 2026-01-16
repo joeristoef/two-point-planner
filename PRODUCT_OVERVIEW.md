@@ -1,36 +1,70 @@
-# Two Point Museum Planner
+# Two Point Planner
 
-## Overview
+A Two Point Hospital expedition optimizer and analyzer built with React and TypeScript.
 
-Two Point Museum Planner is an interactive planning tool designed to help players optimize their museum operations. It provides a comprehensive view of all available expeditions and automatically calculates which ones are feasible based on your current staff roster.
+## Development Status
 
-## Key Features
+**Version:** 0.0.1-dev  
+**Status:** Active Development (Infrastructure Phase)  
+**Code Quality:**
+- 75 automated tests (all passing)
+- TypeScript strict mode
+- GitHub Actions CI/CD (auto-runs on every push)
+- Vite build system (fast rebuild)
 
-**Staff Management**
-- Create and manage a roster of museum staff members
-- Assign specialized skills to each staff member with varying expertise levels
-- Track staff types (Experts in various fields, Assistants, Janitors, Security Guards)
-- Persistent storage of your staff data across sessions
+## Features
 
-**Expedition Planning**
-- Browse all available expeditions with detailed information
-- Automatic feasibility analysis showing which expeditions are:
-  - Possible (all requirements met)
-  - Partial (some requirements missing)
-  - Impossible (insufficient staff)
-- View expedition-specific staff and skill requirements
-- Check available rewards for each expedition
+**Current:**
+- 159 playable expeditions (CSV-based database)
+- Staff management system (13 staff types)
+- Skill requirement matching
+- Reward type tracking
+- Real-time validation
 
-**Intelligent Filtering**
-- Filter expeditions by status (Possible, Partial, Impossible)
-- Filter by museum map/location
-- Filter by reward types and specific items
-- Expandable filter categories for granular control
+**Coming Soon:**
+- Staff optimizer (Phase 2)
+- Expedition planning tools (Phase 3)
+- Event effect simulation
 
-**User-Friendly Interface**
-- Pin your favorite expeditions for quick reference
-- Ignore expeditions you don't want to see
-- View duplicate rewards across expeditions
-- Fully responsive design for desktop, tablet, and mobile devices
+## Technical Stack
 
-Two Point Museum Planner is your essential companion for strategic expedition planning and resource allocation.
+**Frontend:**
+- React 18.2.0
+- TypeScript 5.2.2 (strict mode)
+- CSS 3 + Vite
+- Vercel Analytics
+
+**Testing & Quality:**
+- Jest 30.2.0 (75 tests)
+- React Testing Library
+- ts-jest + ts-node
+- TypeScript compilation checks
+- GitHub Actions CI/CD
+
+**Data System:**
+- CSV-based expeditions database
+- Dynamic loading with validation
+- 5 CSV files (Expeditions, Skills, Staff, Events, Rewards)
+
+**Build & Deployment:**
+- Vite 5.4.21 (2.95s build time)
+- GitHub Actions (automated testing on push)
+- Production build verified before deployment
+
+## Roadmap Highlights
+
+**Completed (Phase 1.1-1.4):**
+- ✅ CSV data migration (159 expeditions)
+- ✅ Centralized game rules configuration
+- ✅ Jest test framework (75 tests)
+- ✅ GitHub Actions CI/CD pipeline
+
+**In Progress (Phase 1.5):**
+- ⏳ Icon/image data structure review
+
+**Coming Soon (Phase 2+):**
+- Staff optimizer algorithm
+- Expedition planning interface
+- Multi-expedition analysis
+
+See [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md) for detailed timeline and phase breakdown.
