@@ -85,7 +85,7 @@ export const skillIcons: Record<Skill, string> = {
 
 // Rewards where the filename doesn't match the name exactly
 export const rewardSpecialCases: Record<string, string> = {
-  'War Turf': 'war-turf-29.webp',
+  'War Turf': 'war-turf.webp',
   "Douse 'n Dose": 'douse-n-dose.webp',
   'Robo Janitor': 'robo-janitor-project.webp',
   'Robo Security Guard': 'robo-security-guard-project.webp',
