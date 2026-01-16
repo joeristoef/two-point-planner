@@ -2,8 +2,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "installCommand": "npm install",
-  "public": true,
-  "env": {
-    "NEXT_PUBLIC_IS_PRODUCTION": "true"
-  }
+  "framework": "vite",
+  "public": true
 }
