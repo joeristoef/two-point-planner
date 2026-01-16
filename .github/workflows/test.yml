@@ -1,0 +1,51 @@
+name: Tests & Build
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    # Step 1: Check out your code from GitHub
+    - uses: actions/checkout@v4
+
+    # Step 2: Set up Node.js environment
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: npm ci
+
+    # Step 4: Run TypeScript compiler check
+    - name: Check TypeScript compilation
+      run: npx tsc --noEmit
+
+    # Step 5: Run the test suite
+    - name: Run tests
+      run: npm test -- --coverage
+
+    # Step 6: Verify the build works
+    - name: Build the application
+      run: npm run build
+
+    # Step 7: Upload test coverage (optional - for visibility)
+    - name: Upload coverage reports
+      if: always()
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage/coverage-final.json
+        flags: unittests
+        name: codecov-umbrella
