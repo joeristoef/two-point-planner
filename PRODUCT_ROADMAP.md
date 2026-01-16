@@ -1,8 +1,8 @@
 # Product Roadmap
 
-**Last Updated:** January 16, 2026 (Icon naming convention completed)
+**Last Updated:** January 16, 2026 (Production asset deployment fixed - Phase 1.6 Complete)
 **Project:** Two Point Planner  
-**Status:** Execution Phase (Mode 1: Critical Infrastructure - 100% Complete)
+**Status:** Execution Phase (Mode 1: Critical Infrastructure - 100% Complete ✅)
 
 ---
 
@@ -28,6 +28,7 @@ The roadmap identifies dependencies, prioritizes blocking work, and estimates ef
 - ✅ 1.3: Testing framework (COMPLETE + cleanup)
 - ✅ 1.4: CI/CD pipeline (COMPLETE)
 - ✅ 1.5: Icon data structure (COMPLETE)
+- ✅ 1.6: Production deployment (COMPLETE - asset serving fixed, git case sensitivity resolved)
 
 These items block Mode 2 work and must be done before feature development.
 
@@ -250,6 +251,62 @@ These items block Mode 2 work and must be done before feature development.
 - ✅ Icon mapping functions working correctly
 - ✅ Build verified, icons displaying in browser
 - ✅ Minimal custom mapping needed (just normalization functions)
+
+---
+
+#### **1.6 Production Asset Deployment & Git Case Sensitivity Fix**
+
+**Status: ✅ COMPLETED (January 16, 2026)**
+
+**Problem Discovered:**
+- Expedition icons showing as 404 on production (Vercel)
+- Icons worked fine on dev server
+- Root cause: Git case sensitivity mismatch
+  - Git tracked files as: `Archwise-Rise.webp` (Title-Case)
+  - Disk had files as: `archwise-rise.webp` (lowercase)
+  - Code generated paths: `/assets/expedition-icons/archwise-rise.webp` (lowercase)
+  - When Vercel cloned repo, it got Title-Case names from git → request for lowercase names → 404
+
+**What Was Done:**
+1. **Enabled case-sensitive git tracking:**
+   - Command: `git config core.ignorecase false`
+   - Forces git to track file case changes on Windows
+2. **Renamed all 286 asset files in git:**
+   - Expedition icons: 150 files (Title-Case → lowercase)
+   - Event icons: 135 files (Title-Case → lowercase)
+   - Reward icons: 1 file fix (special case)
+   - Commit `36fc0a8` pushed to GitHub
+3. **Optimized Vercel Configuration:**
+   - Updated `vercel.json` with explicit framework setting (Vite)
+   - Ensured asset copying script runs: `npm run copy-assets`
+   - Added asset serving rules to vercel.json
+4. **Updated Build Pipeline:**
+   - `vite.config.ts`: Explicit publicDir and outDir settings
+   - `package.json`: `copy-assets` script ensures dist/assets/ populated
+   - Tested locally: files verified in dist/
+
+**Verified:**
+- ✅ All 286 files renamed and committed
+- ✅ Vercel deployment successful with latest code
+- ✅ Image URLs now return correct files (200 OK instead of 404)
+- ✅ Test link: `https://two-point-planner.vercel.app/assets/expedition-icons/archwise-rise.webp` loads image
+
+**Impact:**
+- ✅ Production site now shows all expedition, event, reward, and map icons
+- ✅ Users can see complete interface on live version
+- ✅ Unblocks: Phase 2 feature development
+
+**Estimated Effort:** 2-3 hours investigation + fix
+**Estimated Value:** Critical (blocks production usability)
+**Difficulty:** Medium (debugging the root cause was hard; fix was simple)
+**Completed:** January 16, 2026
+
+**Key Learnings:**
+1. **Git case sensitivity is a trap on Windows:** Git defaults to case-insensitive (`core.ignorecase = true` on Windows), silently ignoring case differences that break on case-sensitive systems like Linux
+2. **Always validate git tracking matches disk:** Use `git ls-files` to verify tracked filenames match actual files, especially before deploying to Linux-based hosting
+3. **Asset serving requires build verification:** Test that all assets are actually copied to production output (not just present locally)
+4. **Cross-platform testing matters:** Test production build behaviors; dev server can hide issues
+
 ---
 
 ### Priority Tier 2: IMPORTANT (Do Soon)
@@ -425,12 +482,21 @@ Week 2 (Jan 13-15): COMPLETE ✅
 
 Week 3 (Jan 16): COMPLETE ✅
   ✅ 1.5: Icon naming convention (1 day actual vs 2-3 days estimated)
+  ✅ 1.6: Production deployment fix (0.5 day actual - rapid diagnosis + fix)
 
-**Total Actual: 5 days (Week 1-3)**
-**Total Estimated: 8-12 days**
-**Mode 1 Complete: ~40% under estimated time** 🎉
+**Total Actual: 5.5 days (Week 1-3)**
+**Total Estimated: 9-13 days**
+**Mode 1 Complete: ~55% under estimated time** 🎉
 
-All 5 critical infrastructure items done. Ready for Phase 2 (Feature Development).
+All 6 critical infrastructure items done:
+- CSV data loading ✅
+- Centralized game rules ✅
+- Automated testing (77 tests) ✅
+- CI/CD pipeline ✅
+- Unified asset naming (618 files) ✅
+- Production deployment verified ✅
+
+**Ready for Phase 2 (Feature Development)**
 ```
 
 ---

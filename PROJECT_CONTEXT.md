@@ -1,6 +1,6 @@
 # PROJECT CONTEXT - Two Point Planner
 
-**Last Updated:** January 16, 2026 (Icon naming convention completed)
+**Last Updated:** January 16, 2026 (Production asset deployment fixed - git case sensitivity issue resolved)
 **For:** GitHub Copilot / AI Assistant  
 **Purpose:** Complete project context to avoid re-explaining things each session
 
@@ -30,9 +30,11 @@
 - Save rosters to localStorage
 
 **Code Quality Status:**
-- ✅ Jest testing framework in place (75 tests, all passing)
+- ✅ Jest testing framework in place (77 tests, all passing)
 - ✅ Core game rules consolidated and tested
 - ✅ "General Staff" misconception removed (code now only contains 13 real staff types)
+- ✅ Icon assets unified to consistent naming (618 files, lowercase-with-hyphens format)
+- ✅ Production asset serving verified (Vercel deployment working correctly)
 - ✅ No hardcoded data (all from CSVs)
 - ✅ GitHub Actions CI/CD pipeline (auto-tests on every push)
 - ✅ Build & dev server stable
@@ -376,6 +378,17 @@ Put Happy Thoughts on Janitor (spare slots, situational use) instead of Prehisto
 - Root directory: DELETED (obsolete legacy files, kept causing confusion)
 - Production: `/dist/` folder (auto-built from `/public/` during `npm run build`)
 
+**⚠️ CRITICAL ASSET DEPLOYMENT FIX (January 16, 2026):**
+Production asset serving was broken due to **git case sensitivity mismatch**:
+- **Root Cause:** Git tracked files as `Archwise-Rise.webp` (Title-Case) but disk had `archwise-rise.webp` (lowercase)
+- **Impact:** When Vercel cloned repo, it got Title-Case names from git; code requested lowercase names → 404 errors on all images
+- **Solution Applied:**
+  1. Enabled case-sensitive git tracking: `git config core.ignorecase false`
+  2. Renamed 286 asset files in git from Title-Case to lowercase (150 expeditions + 135 events + 1 reward fix)
+  3. Verified all files now match: git tracking = disk filenames = code requests
+  4. Updated Vercel configuration with explicit build/output settings
+- **Lesson Learned:** Always ensure git tracking matches actual filenames. Windows git is case-insensitive by default, causing hidden mismatches that break on Linux (Vercel).
+
 **⚠️ CRITICAL RULE:**
 When editing expedition data, ALWAYS edit the CSV files in the `/public/` folder:
 - `/public/Expeditions.csv`
@@ -629,6 +642,10 @@ Unlike skill restrictions (hard rules), utilities are flexible preferences:
 1. ✅ **CSV Data Loading (1.1)** - All expeditions, events, rewards load from CSV
 2. ✅ **gameRules.ts (1.2)** - Single source of truth for all game rules
 3. ✅ **Type Safety** - Event and EventCounter types added to Expedition
+4. ✅ **Testing Framework (1.3)** - Jest with 77 tests, all passing
+5. ✅ **CI/CD Pipeline (1.4)** - GitHub Actions auto-tests on every push
+6. ✅ **Icon Data Structure (1.5)** - Unified naming convention (618 files, lowercase-with-hyphens)
+7. ✅ **Production Deployment (1.6)** - Asset serving fixed, git case sensitivity resolved
 
 ### Immediate Blockers (Remaining)
 (All Phase 1 blockers now complete! ✅)
@@ -770,6 +787,6 @@ Do NOT guess or assume. Always clarify.
 ---
 
 **Document Status:** Active (Read Before Each Session)  
-**Last Updated:** January 16, 2026 (Phase 1.4 Complete)  
-**Verified Working:** CSV loading in production ✅, gameRules.ts live ✅, 159 expeditions loading ✅, Jest testing framework ✅ (75 tests passing), GitHub Actions CI/CD ✅ (all checks passing)  
+**Last Updated:** January 16, 2026 (Phase 1.6 Complete - Production Deployment Fixed)  
+**Verified Working:** CSV loading in production ✅, gameRules.ts live ✅, 159 expeditions loading ✅, Jest testing framework ✅ (77 tests passing), GitHub Actions CI/CD ✅ (all checks passing), Icon assets serving ✅ (all 618 files accessible in production)  
 **Next Review:** Before Phase 2 feature development (Event Filtering - Phase 3.2)
