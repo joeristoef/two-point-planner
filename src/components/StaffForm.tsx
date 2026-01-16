@@ -59,9 +59,9 @@ export const StaffForm: React.FC<StaffFormProps> = ({ onAddStaff }) => {
         {STAFF_TYPES.map((type) => (
           <button
             key={type}
-            onClick={() => {
+            onClick={(e) => {
               if (type === 'Fantasy Expert') {
-                handleFantasyExpertClick(event as any);
+                handleFantasyExpertClick(e);
               } else {
                 handleAddStaffType(type);
               }
