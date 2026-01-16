@@ -20,6 +20,27 @@ export const STAFF_SYSTEM = {
 // SKILL CATEGORIES
 // ============================================================================
 
+// Staff subtypes that belong to a parent type for matching purposes
+// Subtypes are hired as distinct options but match as their parent type for expeditions
+export const STAFF_SUBTYPES: Record<StaffType, StaffType | null> = {
+  'Prehistory Expert': null,
+  'Botany Expert': null,
+  'Fantasy Expert': null,
+  'Marine Life Expert': null,
+  'Wildlife Expert': null,
+  'Digital Expert': null,
+  'Supernatural Expert': null,
+  'Science Expert': null,
+  'Space Expert': null,
+  'Janitor': null,
+  'Security Guard': null,
+  'Assistant': null,
+  'Barbarian': 'Fantasy Expert',
+  'Bard': 'Fantasy Expert',
+  'Rogue': 'Fantasy Expert',
+  'Wizard': 'Fantasy Expert',
+};
+
 export const SKILL_CATEGORIES = {
   universal: [
     'Aerodynamics',
@@ -132,21 +153,25 @@ export const SKILL_RESTRICTIONS: Record<StaffType, Set<Skill>> = {
   'Barbarian': new Set([
     ...SKILL_CATEGORIES.universal as any,
     ...SKILL_CATEGORIES.expertOnly as any,
+    'Potion Master',
   ]),
 
   'Bard': new Set([
     ...SKILL_CATEGORIES.universal as any,
     ...SKILL_CATEGORIES.expertOnly as any,
+    'Potion Master',
   ]),
 
   'Rogue': new Set([
     ...SKILL_CATEGORIES.universal as any,
     ...SKILL_CATEGORIES.expertOnly as any,
+    'Potion Master',
   ]),
 
   'Wizard': new Set([
     ...SKILL_CATEGORIES.universal as any,
     ...SKILL_CATEGORIES.expertOnly as any,
+    'Potion Master',
   ]),
 };
 

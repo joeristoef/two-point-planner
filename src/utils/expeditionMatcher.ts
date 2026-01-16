@@ -1,5 +1,5 @@
 import { StaffMember, Expedition, ExpeditionFeasibility } from '../types/index';
-import { isExpert } from '../config/gameRules';
+import { isExpert, STAFF_SUBTYPES } from '../config/gameRules';
 
 // Generate all combinations of size k from array
 function* combinations<T>(arr: T[], k: number): Generator<T[]> {
@@ -22,7 +22,19 @@ function getAvailableStaffForType(reqType: string, staffByType: Map<string, Staf
   } else if (reqType === 'ANY Expert') {
     return allStaff.filter((s) => isExpert(s.type));
   } else {
-    return staffByType.get(reqType) || [];
+    // Direct match
+    const directMatch = staffByType.get(reqType) || [];
+    
+    // Also include subtypes if this is a parent type
+    const withSubtypes = [...directMatch];
+    for (const [staffType, parentType] of Object.entries(STAFF_SUBTYPES)) {
+      if (parentType === reqType) {
+        const subtypeStaff = staffByType.get(staffType) || [];
+        withSubtypes.push(...subtypeStaff);
+      }
+    }
+    
+    return withSubtypes;
   }
 }
 
