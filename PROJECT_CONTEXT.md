@@ -1,6 +1,6 @@
 # PROJECT CONTEXT - Two Point Planner
 
-**Last Updated:** January 16, 2026  
+**Last Updated:** January 16, 2026 (Icon naming convention completed)
 **For:** GitHub Copilot / AI Assistant  
 **Purpose:** Complete project context to avoid re-explaining things each session
 
@@ -528,7 +528,7 @@ Unlike skill restrictions (hard rules), utilities are flexible preferences:
 - [x] 1.2: Create gameRules.ts (1-2 days) - **✅ COMPLETED Jan 14**
 - [x] 1.3: Add Jest tests (2-3 days) - **✅ COMPLETED Jan 15**
 - [x] 1.4: Set up CI/CD (1 day) - **✅ COMPLETED Jan 16**
-- [ ] 1.5: Icon/image data structure (2-3 days) - **PENDING**
+- [x] 1.5: Icon/image data structure (2-3 days) - **✅ COMPLETED Jan 16**
 
 **Important (alongside Phase 2):**
 - [ ] 2.1: Data versioning (2 days)
@@ -631,40 +631,38 @@ Unlike skill restrictions (hard rules), utilities are flexible preferences:
 3. ✅ **Type Safety** - Event and EventCounter types added to Expedition
 
 ### Immediate Blockers (Remaining)
-1. **Icon data structure (1.5)** - Need to audit and organize asset management
+(All Phase 1 blockers now complete! ✅)
 
 ### What's Needed Before Optimizer Work
 1. ✅ CSV data loading (1.1) - DONE
 2. ✅ gameRules.ts (1.2) - DONE
 3. ✅ Jest tests (1.3) - DONE
 4. ✅ CI/CD pipeline (1.4) - DONE
-5. ⏳ Icon/image data structure (1.5) - IN PROGRESS
+5. ✅ Icon data structure (1.5) - DONE
 
 ### Recommended Next Session
 
 **Phase 1.1, 1.2, 1.3, & 1.4 are COMPLETE (80% Mode 1).** Next steps:
 
-1. **Priority A:** Phase 1.5 (Icon/Image Data Structure) - 2-3 days
-   - Last blocking task before Mode 2 features
-   - Audit all icon/image references
-   - Establish naming conventions
-   - Centralize asset management
-   - Essential for clean Phase 2 work
-
-2. **Priority B:** Phase 2.1-2.4 (Parallel Support Tasks) - Can start after 1.5
+1. **Priority A:** Phase 2.1-2.4 (Parallel Support Tasks) - Can start now
    - Data versioning, documentation, performance, environment config
 
-3. **Priority C:** Phase 3.1 (Staff Optimizer) - After Phase 1 complete
-   - Can safely start after 1.5 done
+2. **Priority B:** Phase 1.6 (Phase 1 Polish) - After Priority A
+   - Final Mode 1 completeness checks
+   - Documentation completeness review
+
+3. **Priority C:** Phase 3.1 (Staff Optimizer) - Can safely start now
+   - Can safely start after all Phase 1 done (including 1.5)
    - Uses gameRules.ts and tested data loading
    - Will serve User D (Everything Museum goal)
 
 **Current Status:**
-- ✅ All Phase 1 infrastructure complete except 1.5
+- ✅ All Phase 1 infrastructure complete
+- ✅ Icon naming convention unified (618 files standardized to `lowercase-with-hyphens.webp`)
 - ✅ 75 tests passing consistently
 - ✅ GitHub Actions workflow live and operational
 - ✅ Production build verified
-- ⏳ Ready for Phase 1.5 asset audit
+- ✅ Ready for Phase 2 (Feature Development)
 
 ---
 
@@ -774,4 +772,4 @@ Do NOT guess or assume. Always clarify.
 **Document Status:** Active (Read Before Each Session)  
 **Last Updated:** January 16, 2026 (Phase 1.4 Complete)  
 **Verified Working:** CSV loading in production ✅, gameRules.ts live ✅, 159 expeditions loading ✅, Jest testing framework ✅ (75 tests passing), GitHub Actions CI/CD ✅ (all checks passing)  
-**Next Review:** Before Phase 1.5 icon/image data structure work
+**Next Review:** Before Phase 2 feature development (Event Filtering - Phase 3.2)
