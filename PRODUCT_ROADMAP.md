@@ -1,8 +1,8 @@
 # Product Roadmap
 
-**Last Updated:** January 16, 2026 (Production asset deployment fixed - Phase 1.6 Complete)
+**Last Updated:** January 16, 2026 (Data & asset updates deployed - Phase 1.7 Complete)
 **Project:** Two Point Planner  
-**Status:** Execution Phase (Mode 1: Critical Infrastructure - 100% Complete ✅)
+**Status:** Execution Phase (Mode 1: Critical Infrastructure - 100% Complete ✅, Data Updated)
 
 ---
 
@@ -18,7 +18,7 @@ The roadmap identifies dependencies, prioritizes blocking work, and estimates ef
 
 ## Mode 1: Infrastructure & Code Quality
 
-**Completion Status: 100%** (5 of 5 critical items complete) ✅
+**Completion Status: 100%** (7 of 7 critical items complete) ✅
 
 ### Priority Tier 1: BLOCKING (Do First)
 
@@ -29,6 +29,7 @@ The roadmap identifies dependencies, prioritizes blocking work, and estimates ef
 - ✅ 1.4: CI/CD pipeline (COMPLETE)
 - ✅ 1.5: Icon data structure (COMPLETE)
 - ✅ 1.6: Production deployment (COMPLETE - asset serving fixed, git case sensitivity resolved)
+- ✅ 1.7: Data & asset updates (COMPLETE - 7 new expeditions, 6 placeholder icons, icon naming fixed)
 
 These items block Mode 2 work and must be done before feature development.
 
@@ -306,6 +307,61 @@ These items block Mode 2 work and must be done before feature development.
 2. **Always validate git tracking matches disk:** Use `git ls-files` to verify tracked filenames match actual files, especially before deploying to Linux-based hosting
 3. **Asset serving requires build verification:** Test that all assets are actually copied to production output (not just present locally)
 4. **Cross-platform testing matters:** Test production build behaviors; dev server can hide issues
+
+---
+
+#### **1.7 Data & Asset Updates**
+
+**Status: ✅ COMPLETED (January 16, 2026)**
+
+**What Was Done:**
+1. **Data Updates:**
+   - Added 7 new expeditions to `Expeditions.csv` (166 total, up from 159)
+   - Updated `ExpeditionEvents.csv` with new event data
+   - Added new rewards to `ExpeditionRewardTypes.csv` (391 total, up from 338)
+   - Updated `ExpeditionSkillRequirementsBaseOnly.csv` with new skill requirements
+   - Updated `ExpeditionStaffRequirements.csv` with new staff requirements
+
+2. **Icon Verification & Fixes:**
+   - Renamed `portstorm.webp` → `port-storm.webp` (fixes naming convention)
+   - Verified 5 existing expedition icons present:
+     - `cryo-labs.webp` ✓
+     - `eaten-track.webp` ✓
+     - `eversteam-forest.webp` ✓
+     - `lion-lowlands.webp` ✓
+     - `meander-meadow.webp` ✓
+   - Created 6 placeholder icons (same size, gray background) for future artwork:
+     - `briskward-brook.webp`
+     - `chilly-heather.webp`
+     - `farflung-caves.webp`
+     - `farflung-cliffs.webp`
+     - `goldrush-stream.webp`
+     - `under-wilds.webp`
+
+**Verified:**
+- ✅ All 166 expeditions load correctly from CSV
+- ✅ All 161 expedition icons accessible in production build (no 404 errors)
+- ✅ All 391 rewards displaying with correct icons
+- ✅ Placeholder icons same dimensions as real icons (no layout issues)
+- ✅ Build succeeds: 44 modules transformed, 0 errors
+- ✅ All 75 tests passing
+- ✅ Deployed to production (Vercel) ✓
+- ✅ Git commits: `4e5466e` + `da7fb25`
+
+**Impact:**
+- ✅ Database current and extensible
+- ✅ No 404 errors on expedition images in production
+- ✅ Placeholder system allows gradual artwork addition without breaking layout
+- ✅ Ready for Phase 2 feature development
+
+**Estimated Effort:** 0.5 days
+**Estimated Value:** 3/10 (data maintenance, not blocking features)
+**Difficulty:** Easy
+**Completed:** January 16, 2026
+
+**Git Commits:**
+- Commit `4e5466e`: `data: Add new expeditions and rewards to CSV datasets`
+- Commit `da7fb25`: `assets: Fix icon naming and add expedition icons`
 
 ---
 
@@ -916,11 +972,10 @@ Total: 3-4 months of Mode 2 feature development
 Week 0 (Current):
   Planning & documentation ✅
 
-PHASE 1 (Mode 1 Critical): 4 weeks
-Week 1: 1.1, 1.2
-Week 2: 1.3, 1.4
-Week 3: 2.1, 2.2
-Week 4: 2.3, 2.4
+PHASE 1 (Mode 1 Critical): 6.5 days ✅ COMPLETE
+Week 1 (Jan 6-12): 1.1, 1.2 ✅
+Week 2 (Jan 13-15): 1.3, 1.4 ✅
+Week 3 (Jan 16): 1.5, 1.6, 1.7 ✅
 
 PHASE 2 (Features): 4 months
 Month 1: Optimizer (3.1) + Event Filtering (3.2)
@@ -1012,7 +1067,17 @@ Quick to market, but fragile
 
 ---
 
-## Success Metrics
+## Document Status
+
+**Phase 1 Status: ✅ COMPLETE (January 16, 2026)**
+- All 7 critical infrastructure items implemented
+- All data validated and in production
+- All assets verified and deployed
+- Ready for Phase 2 feature development
+
+**Last Updated:** January 16, 2026 (1.7 Data & asset updates)  
+**Next Phase:** Phase 2 Feature Development (Mode 2)  
+**Next Review:** Before Phase 2 starts (3.1 Staff Optimizer)
 
 ### Mode 1 Success
 - ✅ Code is clean, maintainable

@@ -1,6 +1,6 @@
 # PROJECT CONTEXT - Two Point Planner
 
-**Last Updated:** January 16, 2026 (Production asset deployment fixed - git case sensitivity issue resolved)
+**Last Updated:** January 16, 2026 (Data & asset updates deployed - Phase 1.7 Complete)
 **For:** GitHub Copilot / AI Assistant  
 **Purpose:** Complete project context to avoid re-explaining things each session
 
@@ -30,14 +30,15 @@
 - Save rosters to localStorage
 
 **Code Quality Status:**
-- ✅ Jest testing framework in place (77 tests, all passing)
+- ✅ Jest testing framework in place (75 tests, all passing)
 - ✅ Core game rules consolidated and tested
 - ✅ "General Staff" misconception removed (code now only contains 13 real staff types)
-- ✅ Icon assets unified to consistent naming (618 files, lowercase-with-hyphens format)
+- ✅ Icon assets unified to consistent naming (618+ files, lowercase-with-hyphens format)
 - ✅ Production asset serving verified (Vercel deployment working correctly)
 - ✅ No hardcoded data (all from CSVs)
 - ✅ GitHub Actions CI/CD pipeline (auto-tests on every push)
 - ✅ Build & dev server stable
+- ✅ Data current: 166 expeditions, 391 rewards, 161 expedition icons
 
 **Technology Stack:**
 - Frontend: React + TypeScript + Vite
@@ -352,8 +353,8 @@ Put Happy Thoughts on Janitor (spare slots, situational use) instead of Prehisto
 ### Data Structure
 
 **CURRENT STATE:** Fully CSV-based ✅
-- Expeditions: Loaded from CSV dynamically (159 expeditions)
-- Rewards: Loaded from CSV (338 items)
+- Expeditions: Loaded from CSV dynamically (166 expeditions, up from 159)
+- Rewards: Loaded from CSV (391 items, up from 338)
 - Events: Loaded from CSV (668 events with counters)
 - Skill Requirements: Loaded from CSV
 - Staff Requirements: Loaded from CSV
@@ -534,7 +535,7 @@ Unlike skill restrictions (hard rules), utilities are flexible preferences:
 
 ## Features Planned (Roadmap)
 
-### Phase 1: Infrastructure (Mode 1) - 80% Complete
+### Phase 1: Infrastructure (Mode 1) - 100% COMPLETE ✅
 
 **Critical (blocking features):**
 - [x] 1.1: Move expeditions to CSV (3-4 days) - **✅ COMPLETED Jan 14**
@@ -542,6 +543,8 @@ Unlike skill restrictions (hard rules), utilities are flexible preferences:
 - [x] 1.3: Add Jest tests (2-3 days) - **✅ COMPLETED Jan 15**
 - [x] 1.4: Set up CI/CD (1 day) - **✅ COMPLETED Jan 16**
 - [x] 1.5: Icon/image data structure (2-3 days) - **✅ COMPLETED Jan 16**
+- [x] 1.6: Production deployment fix (0.5 days) - **✅ COMPLETED Jan 16**
+- [x] 1.7: Data & asset updates (0.5 days) - **✅ COMPLETED Jan 16**
 
 **Important (alongside Phase 2):**
 - [ ] 2.1: Data versioning (2 days)
@@ -779,6 +782,7 @@ Do NOT guess or assume. Always clarify.
 
 | Date | Change | Updated By |
 |------|--------|-------------|
+| 2026-01-16 | Phase 1.7 Completion: Data & asset updates (166 expeditions, 391 rewards, 161 icons), icon naming fixed, placeholder icons added, production deployment verified | Phase 1.7 deployment |
 | 2026-01-16 | CSV Consolidation: Deleted obsolete root CSV files, confirmed `/public/` as single source of truth, updated documentation to prevent future confusion about data editing locations | Phase 1.5 audit |
 | 2026-01-16 | Phase 1.4 Completion: GitHub Actions CI/CD live (6 automated steps), all checks passing, ts-node dependency resolved, documentation updated to 80% Mode 1 complete | Post-implementation review |
 | 2026-01-15 | Phase 1.3 Completion: Jest testing framework live, 75 tests passing, Darkest Depths edge case verified, General Staff misconception removed | Post-implementation review |
@@ -787,6 +791,6 @@ Do NOT guess or assume. Always clarify.
 ---
 
 **Document Status:** Active (Read Before Each Session)  
-**Last Updated:** January 16, 2026 (Phase 1.6 Complete - Production Deployment Fixed)  
-**Verified Working:** CSV loading in production ✅, gameRules.ts live ✅, 159 expeditions loading ✅, Jest testing framework ✅ (77 tests passing), GitHub Actions CI/CD ✅ (all checks passing), Icon assets serving ✅ (all 618 files accessible in production)  
-**Next Review:** Before Phase 2 feature development (Event Filtering - Phase 3.2)
+**Last Updated:** January 16, 2026 (Phase 1.7 Complete - Data & Asset Updates)  
+**Verified Working:** CSV loading in production ✅, gameRules.ts live ✅, 166 expeditions loading ✅, 391 rewards loaded ✅, Jest testing framework ✅ (75 tests passing), GitHub Actions CI/CD ✅ (all checks passing), Icon assets serving ✅ (161 expedition icons accessible in production)  
+**Next Review:** Before Phase 2 feature development (Optimizer - Phase 3.1)
