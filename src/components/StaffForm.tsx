@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StaffMember, StaffType } from '../types/index';
 import { getStaffTypeIcon } from '../utils/iconMaps';
 
@@ -21,12 +21,16 @@ const STAFF_TYPES: StaffType[] = [
   'Security Guard',
 ];
 
+const FANTASY_SUBTYPES: StaffType[] = ['Barbarian', 'Bard', 'Rogue', 'Wizard'];
+
 // Counter for auto-generating unique IDs
 const staffIdCounter: Map<StaffType, number> = new Map();
 
 STAFF_TYPES.forEach(type => staffIdCounter.set(type, 0));
 
 export const StaffForm: React.FC<StaffFormProps> = ({ onAddStaff }) => {
+  const [fantasySubtypeMenu, setFantasySubtypeMenu] = useState<{ x: number; y: number } | null>(null);
+
   const handleAddStaffType = (type: StaffType) => {
     const id = `${type}-${Date.now()}`; // Use unique ID instead of counter for name
     
@@ -38,6 +42,16 @@ export const StaffForm: React.FC<StaffFormProps> = ({ onAddStaff }) => {
     });
   };
 
+  const handleFantasyExpertClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setFantasySubtypeMenu({ x: rect.left, y: rect.bottom + 5 });
+  };
+
+  const handleFantasySubtypeSelect = (subtype: StaffType) => {
+    handleAddStaffType(subtype);
+    setFantasySubtypeMenu(null);
+  };
+
   return (
     <div style={{ padding: '20px', backgroundColor: '#f8f9fa', borderBottom: '1px solid #dee2e6' }}>
       <h3 style={{ margin: '0 0 15px 0', color: '#1a1a1a' }}>Add Staff Member</h3>
@@ -45,7 +59,13 @@ export const StaffForm: React.FC<StaffFormProps> = ({ onAddStaff }) => {
         {STAFF_TYPES.map((type) => (
           <button
             key={type}
-            onClick={() => handleAddStaffType(type)}
+            onClick={() => {
+              if (type === 'Fantasy Expert') {
+                handleFantasyExpertClick(event as any);
+              } else {
+                handleAddStaffType(type);
+              }
+            }}
             style={{
               padding: '10px',
               backgroundColor: '#1971c2',
@@ -82,6 +102,81 @@ export const StaffForm: React.FC<StaffFormProps> = ({ onAddStaff }) => {
           </button>
         ))}
       </div>
+
+      {/* Fantasy Expert Subtype Menu */}
+      {fantasySubtypeMenu && (
+        <>
+          {/* Backdrop to close menu */}
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 999,
+            }}
+            onClick={() => setFantasySubtypeMenu(null)}
+          />
+          
+          {/* Popup Menu */}
+          <div
+            style={{
+              position: 'fixed',
+              left: `${fantasySubtypeMenu.x}px`,
+              top: `${fantasySubtypeMenu.y}px`,
+              backgroundColor: '#ffffff',
+              border: '1px solid #dee2e6',
+              borderRadius: '4px',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+              zIndex: 1000,
+              padding: '8px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '4px',
+              minWidth: '160px',
+            }}
+          >
+            {FANTASY_SUBTYPES.map((subtype) => (
+              <button
+                key={subtype}
+                onClick={() => handleFantasySubtypeSelect(subtype)}
+                style={{
+                  padding: '10px 12px',
+                  backgroundColor: '#1971c2',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  fontSize: '0.85em',
+                  transition: 'background-color 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  justifyContent: 'flex-start',
+                }}
+                onMouseEnter={(e) => {
+                  (e.target as HTMLButtonElement).style.backgroundColor = '#1864ab';
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLButtonElement).style.backgroundColor = '#1971c2';
+                }}
+              >
+                <img
+                  src={getStaffTypeIcon(subtype)}
+                  alt={subtype}
+                  style={{ width: '24px', height: '24px', objectFit: 'cover', borderRadius: '2px' }}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+                {subtype}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };
