@@ -5,6 +5,7 @@ import { StaffForm } from './components/StaffForm';
 import { StaffList } from './components/StaffList';
 import { ExpeditionList } from './components/ExpeditionList';
 import { SkillSelector } from './components/SkillSelector';
+import { EventWarningPopup } from './components/EventWarningPopup';
 import { checkAllExpeditions } from './utils/expeditionMatcher';
 import { getRewardIcon, getRewardCategoryIcon, getStaffTypeIcon, getMapIcon } from './utils/iconMaps';
 import './App.css';
@@ -448,6 +449,9 @@ function App() {
 
   return (
     <div style={{ display: 'flex', height: '100vh', backgroundColor: '#f8f9fa', flexDirection: 'column' }}>
+      {/* Event Warning Popup */}
+      <EventWarningPopup />
+
       {/* Mobile Panel Toggle - Always visible on mobile */}
       <div className="mobile-toggle" style={{ display: 'none', gap: '10px', padding: '10px 20px', backgroundColor: '#f8f9fa', borderBottom: '1px solid #dee2e6' }}>
         <button
