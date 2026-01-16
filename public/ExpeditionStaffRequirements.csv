@@ -1,4 +1,5 @@
 ﻿Expedition,StaffType,Count
+After-Life Academy,ANY Staff,1
 Grave Shallows,ANY Staff,1
 Malicious Dungeon,ANY Staff,2
 Space Gibbon Circuit,ANY Staff,2
@@ -27,6 +28,7 @@ Shag Summit,Prehistory Expert,1
 Bone Bank,Prehistory Expert,1
 Soggy Grotto,Prehistory Expert,1
 Volcanic Springs,Prehistory Expert,1
+Primordial Soup Kitchen,Prehistory Expert,1
 Bigfoot Gardens,Botany Expert,1
 Primal Frontier,Botany Expert,1
 Chomper Jungle,Botany Expert,1
@@ -71,6 +73,7 @@ Gale Cliffs,Marine Life Expert,1
 Stellar Basin,Marine Life Expert,1
 Portstorm,Marine Life Expert,1
 Jagged Jaunt,Marine Life Expert,1
+Treading Waters,Marine Life Expert,1
 Withering Way,Supernatural Expert,1
 S.S. Silverbottom,Supernatural Expert,1
 Silverbottom Salvage,Supernatural Expert,1
@@ -108,6 +111,7 @@ Medical Labs,Science Expert,2
 Charge Labs,Science Expert,1
 Lower Antique Archives,Science Expert,1
 Cryo Labs,Science Expert,1
+Invention Records,Science Expert,1
 Two Point Orbit,Space Expert,1
 The Moon,Space Expert,1
 Mozzastella,Space Expert,1
@@ -121,6 +125,8 @@ Hyperway Services,Space Expert,1
 Satelilly Pad,Space Expert,1
 Hayley's Comet,Space Expert,1
 Anomalonian Archives,Space Expert,2
+Space Station,Space Expert,1
+Black Hole,ANY Staff,1
 Meat Wizard,Digital Expert,1
 Meat Wizard 2,Digital Expert,1
 Meat Wizard 3D,Digital Expert,1
@@ -128,6 +134,9 @@ Data Stream,Digital Expert,1
 The Marrows,Digital Expert,1
 Gale Cliffs,Digital Expert,1
 Stellar Basin,Digital Expert,1
+The Marrows (Night),Digital Expert,1
+Gale Cliffs (Night),Digital Expert,1
+Stellar Basin (Night),Digital Expert,1
 Mad Forest,Digital Expert,1
 Inlaid Library,Digital Expert,1
 Cappella Magna,Digital Expert,1
@@ -141,22 +150,22 @@ Wishfell Village,Fantasy Expert,2
 Fairydale,Fantasy Expert,2
 Fairydale (Destroyed),Fantasy Expert,3
 Rainor Shrine,Fantasy Expert,2
-Archwise Rise,Fantasy Expert,1
-Portstorm,Fantasy Expert,1
+Archwise Rise,Wizard,1
+Port Storm,Fantasy Expert,1
 Troll Bridge,Fantasy Expert,4
 Battlefelled,Fantasy Expert,2
 Mines of Adnausea,Fantasy Expert,2
 Great Dwharf,Fantasy Expert,3
-Furious Forge,Fantasy Expert,1
+Furious Forge,Barbarian,1
 Cog Tower,Fantasy Expert,3
 Folktown,Fantasy Expert,2
-The Woblin' Goblin,Fantasy Expert,1
+The Woblin' Goblin,Bard,1
 Jagged Jaunt,Fantasy Expert,1
 Obscure City,Fantasy Expert,2
 Cumulus Woods,Fantasy Expert,2
 Upside Town,Fantasy Expert,3
 Halvenhaf Castle,Fantasy Expert,3
-Longrange Inn,Fantasy Expert,1
+Longrange Inn,Rogue,1
 Bizarre Market,Fantasy Expert,3
 Flue Pastures,Fantasy Expert,4
 Wyvern Way,Fantasy Expert,4

@@ -25,6 +25,7 @@ Treacle Ponds,Ambered Egg,Prehistory,Preserved History
 Treacle Ponds,Right Footprint Fossil,Prehistory,Fossils
 Hermit Hills,Shell Phone,Prehistory,Ancient Inventions
 Hermit Hills,Ol' Smack-a-Vole,Prehistory,Ancient Inventions
+Primordial Soup Kitchen,Bonus XP,Other,
 Must End,Smorgasbordasaurus Skeleton,Prehistory,Dinosaur Bones
 Must End,Unihornus Skeleton,Prehistory,Dinosaur Bones
 Carrion Trail,Phlapadactyl Skeleton,Prehistory,Dinosaur Bones
@@ -66,6 +67,8 @@ Tide Mountain,Bull Shark,Marine Life,Temperate Fish
 Tide Mountain,Painted Portside Fish,Marine Life,Temperate Fish
 Marina Junction,Lionhead Fish,Marine Life,Tropical Fish
 Marina Junction,Hermit Turtle,Marine Life,Tropical Fish
+Treading Waters,Bonus XP,Other,
+Treading Waters,Bonus XP,Other,
 S.S. Silverbottom,Pirate,Supernatural,Sunken Spirits
 S.S. Silverbottom,Captain Dreadge,Supernatural,Famous Spirits
 Silverbottom Salvage,Bish Silverbottom,Supernatural,Famous Spirits
@@ -104,6 +107,9 @@ Darkest Depths,Frozen Lantern Fish,Prehistory,Frozen Finds
 Darkest Depths,Frozen Fridge,Prehistory,Frozen Finds
 Darkest Depths,Swim Reaper,Marine Life,Coldwater Fish
 Wetlantean Underwater,Sleight Whale,Marine Life,Coldwater Fish
+Wetlantean Underwater,Bonus XP,Other,
+Wetlantean Underwater,Bonus XP,Other,
+Wetlantean Underwater,Bonus XP,Other,
 Infernal Station,Haunted Mannequin,Supernatural,Cursed Objects
 Infernal Station,Haunted Doll,Supernatural,Cursed Objects
 Infernal Station,Faulty Phone,Supernatural,Cursed Objects
@@ -139,6 +145,12 @@ The Resting Place,Ghost Thruster,Supernatural,Ghost Dusting Equipment
 The Resting Place,Bashful Bust,Supernatural,Cursed Objects
 Alternate Yesterday,Captain Alternate Yesterday,Supernatural,Famous Spirits
 Alternate Yesterday,Time Portal,Prehistory,Prehistory Mysteries
+Malicious Dungeon,Wide Watch,Other,Perks
+Malicious Dungeon,High Alert,Other,Perks
+Malicious Dungeon,Haunt Halter,Other,Perks
+Malicious Dungeon,Big Knowledge Boost,Other,Perks
+Malicious Dungeon,Bonus XP,Other,Bonus XP
+Malicious Dungeon,Money,Other,Money
 Reaper Furrow,Peasant,Supernatural,Dark Age Spirits
 Reaper Furrow,Haunted Horse,Supernatural,Cursed Objects
 Reaper Furrow,Haemogobbler Plant,Botany,Man-Eating Plants
@@ -151,6 +163,7 @@ Familiar Falls,Haunted Toilet,Supernatural,Cursed Objects
 Paranormal Detection Agency,Gentlefolk,Supernatural,Industrial Age Spirits
 Paranormal Detection Agency,Ghost Duster 1.0,Supernatural,Ghost Dusting Equipment
 Paranormal Detection Agency,Ghost Guster,Supernatural,Ghost Dusting Equipment
+After-Life Academy,Bonus XP,Other,Bonus XP
 Fog Moors,Cave Person,Supernatural,Natural Spirits
 Fog Moors,Ghost Net,Supernatural,Ghost Dusting Equipment
 Fog Moors,Ghost Plant,Botany,Mountainous Plants
@@ -162,6 +175,7 @@ Allotment Labs,Sickly Pear,Botany,Edible Plants
 Cryo Labs,Chilly Plant,Botany,Mountainous Plants
 Upper Antique Archives,Flying Machine,Science,Classic Contraptions
 Upper Antique Archives,Jab Maestro,Science,Classic Contraptions
+Invention Records,Bonus XP,Other,Bonus XP
 Lower Antique Archives,Bandage Basket,Science,Classic Contraptions
 Lower Antique Archives,Locomotive,Science,Classic Contraptions
 Lower Antique Archives,Printing Press,Science,Classic Contraptions
@@ -170,16 +184,43 @@ Surplus Supplies,Whirlicog,Science,Science Materials
 Golden Mine,Golden Truffle,Science,Science Materials
 Crystal Caves,Crystal Moss,Science,Science Materials
 Bungle Burrows,Sprinkler Pump,Science,Workshop Projects
+Bungle Burrows,Buzz Boost,Other,Perks
+Bungle Burrows,Built-in Speaker,Other,Perks
+Bungle Burrows,Anti-Rust,Other,Perks
 Laser Labs,Beautification Beam,Science,Workshop Projects
+Laser Labs,Decoration Boost,Other,Perks
+Laser Labs,Decoration & Entertainment Boost,Other,Perks
+Laser Labs,Limited Edition,Other,Perks
 Security Labs,Panoptic Pillar,Science,Workshop Projects
+Security Labs,Limited Edition,Other,Perks
+Security Labs,Built-in Speaker,Other,Perks
+Security Labs,Anti-Rust,Other,Perks
 Chemical Labs,Judgement Clouder,Science,Workshop Projects
+Chemical Labs,Duration Boost,Other,Perks
+Chemical Labs,Energy Boost,Other,Perks
+Chemical Labs,Entertainment Boost,Other,Perks
 Robot Labs,Robo Janitor,Science,Workshop Projects
+Robot Labs,Batery Saver,Other,Perks
+Robot Labs,Cheap Charge,Other,Perks
 Modification Labs,Robo Mod-Stop,Science,Workshop Projects
+Modification Labs,Cheap Charge,Other,Perks
+Modification Labs,Fast Charge,Other,Perks
+Modification Labs,Chrome Cover,Other,Perks
 Shock Labs,Jolt Converter,Science,Workshop Projects
+Shock Labs,Easy Fixture,Other,Perks
+Shock Labs,Knowledge Boost,Other,Perks
 Memory Labs,Memory Bank,Science,Workshop Projects
+Memory Labs,Buzz & Duration Boost,Other,Perks
 Counter Intelligence Labs,Robo Security Guard,Science,Workshop Projects
+Counter Intelligence Labs,Fast Charge,Other,Perks
+Counter Intelligence Labs,Chrome Cover,Other,Perks
 Medical Labs,Douse 'n Dose,Science,Workshop Projects
+Medical Labs,Supportive Soil,Other,Perks
+Medical Labs,Energy Boost,Other,Perks
 Charge Labs,Robo Charge-Master,Science,Workshop Projects
+Charge Labs,Battery Saver,Other,Perks
+Charge Labs,Anti-Rust,Other,Perks
+Charge Labs,Limited Edition,Other,Perks
 Cryo Labs,Air Commissioner,Science,Workshop Projects
 Cryo Labs,Biff Silverbottom,Supernatural,Famous Spirits
 Two Point Orbit,Celestial Cell (Circle),Space,Astral Anomalies
@@ -188,6 +229,7 @@ Two Point Orbit,Cybegonia Flower,Space,Astral Anomalies
 The Moon,Theoretical Extrapolator,Space,Astral Anomalies
 The Moon,Celestial Cell (Square),Space,Astral Anomalies
 The Moon,Claimed Space Rock,Space,Space Junk
+Space Station,Bonus XP,Other,Bonus XP
 Mozzastella,Cheese Press,Space,Cheese-Moonger Artefacts
 Mozzastella,Cheese Refiner,Space,Cheese-Moonger Artefacts
 Mozzastella,Slug Statue,Space,Cheese-Moonger Artefacts
@@ -202,6 +244,11 @@ Gibbon Moon Two,Lavatory Laboratory,Space,Astral Anomalies
 Gibbon Moon One,Space Car Bed,Space,Space Gibbon Artefacts
 Gibbon Moon One,Space Mower,Space,Space Gibbon Artefacts
 Gibbon Moon One,Culinary Compounder,Space,Astral Anomalies
+Space Gibbon Circuit,Buzz & Entertainment Boost,Other,Perks
+Space Gibbon Circuit,Buzz & Energy Boost,Other,Perks
+Space Gibbon Circuit,Entertainment Boost,Other,Perks
+Space Gibbon Circuit,Buzz Boost,Other,Perks
+Space Gibbon Circuit,Money,Other,Money
 Gibbon Moon Three,Bottled Spaceship,Space,Space Gibbon Artefacts
 Gibbon Moon Three,Aligner Recliner,Space,Astral Anomalies
 Ribbletonia,Frogborne Nursery,Space,Frogborne Artefacts
@@ -218,6 +265,7 @@ Hayley's Comet,Pedi-Pond,Space,Astral Anomalies
 Hayley's Comet,Suspended Space Rock,Space,Space Junk
 Anomalonian Archives,Astral Archway,Space,Astral Anomalies
 Anomalonian Archives,Perception Desk,Space,Astral Anomalies
+Black Hole,Bonus XP,Other,Bonus XP
 Shag Summit,Ice Crystal,Prehistory,Frozen Finds
 Temple of the Blobs,Blob Fish,Marine Life,Temperate Fish
 Silverback Swamp,Silverback Monobeast,Wildlife,Insecta
@@ -230,14 +278,14 @@ Meat Wizard 3D,Meat Wizard,Digital,Meat Wizard
 Data Stream,Plaiceholder Fish,Marine Life,Temperate Fish
 The Marrows,Cod,Marine Life,Temperate Fish
 The Marrows,Blue Mackerel,Marine Life,Temperate Fish
-The Marrows,Three-Headed Cod,Marine Life,Sea Monsters
-The Marrows,Grotesque Mackerel,Marine Life,Sea Monsters
+The Marrows (Night),Three-Headed Cod,Marine Life,Sea Monsters
+The Marrows (Night),Grotesque Mackerel,Marine Life,Sea Monsters
 Gale Cliffs,Oceanic Perch,Marine Life,Temperate Fish
-Gale Cliffs,Gnashing Perch,Marine Life,Sea Monsters
+Gale Cliffs (Night),Gnashing Perch,Marine Life,Sea Monsters
 Stellar Basin,Anglerfish,Marine Life,Temperate Fish
 Stellar Basin,Barreleye,Marine Life,Temperate Fish
-Stellar Basin,Bursting Anglerfish,Marine Life,Sea Monsters
-Stellar Basin,Voideye,Marine Life,Sea Monsters
+Stellar Basin (Night),Bursting Anglerfish,Marine Life,Sea Monsters
+Stellar Basin (Night),Voideye,Marine Life,Sea Monsters
 Mad Forest,Clover,Fantasy,Mythical Gear
 Mad Forest,Garlic,Fantasy,Mythical Gear
 Inlaid Library,Stone Mask,Fantasy,Mythical Gear
@@ -259,7 +307,8 @@ Fairydale (Destroyed),War Turf,Fantasy,Canon Fodder
 Rainor Shrine,Poultry Pole,Fantasy,Enchanting Items
 Rainor Shrine,Devilish Door,Fantasy,Canon Fodder
 Archwise Rise,Wizard's-Chat,Fantasy,Mythical Gear
-Portstorm,Sword Fish,Marine Life,Temperate Fish
+Archwise Rise,Bonus XP,Other,Bonus XP
+Port Storm,Sword Fish,Marine Life,Temperate Fish
 Troll Bridge,Stone Trolls,Fantasy,Canon Fodder
 Troll Bridge,One-Eyed Lid,Fantasy,Mythical Gear
 Battlefelled,Goblin,Supernatural,Natural Spirits
@@ -270,12 +319,14 @@ Great Dwharf,Smelting Device,Fantasy,Dwarven Devices
 Great Dwharf,Geode Device,Fantasy,Dwarven Devices
 Great Dwharf,Gas Device,Fantasy,Dwarven Devices
 Furious Forge,Nor's Hammer,Fantasy,Mythical Gear
+Furious Forge,Bonus XP,Other,Bonus XP
 Cog Tower,Fire Device,Fantasy,Dwarven Devices
 Cog Tower,Wind Device,Fantasy,Dwarven Devices
 Folktown,Catvalry Statue,Fantasy,Canon Fodder
 Folktown,Golden Goblin Statue,Fantasy,Enchanting Items
 Folktown,Coin of Two Sides,Fantasy,Enchanting Items
 The Woblin' Goblin,Loot Lute,Fantasy,Mythical Gear
+The Woblin' Goblin,Bonus XP,Other,Bonus XP
 Jagged Jaunt,Fish Person,Marine Life,Sea Monsters
 Obscure City,Dungeon Manual,Fantasy,Canon Fodder
 Obscure City,Ringed Table,Fantasy,Canon Fodder
@@ -287,6 +338,7 @@ Upside Town,Ironic Throne,Fantasy,Canon Fodder
 Halvenhaf Castle,Fantasy Armour,Fantasy,Canon Fodder
 Halvenhaf Castle,Halvenhaf Tapestry,Fantasy,Canon Fodder
 Longrange Inn,Plot Armour,Fantasy,Mythical Gear
+Longrange Inn,Bonus XP,Other,Bonus XP
 Bizarre Market,Flying Carpet,Fantasy,Enchanting Items
 Bizarre Market,Draconic Scales,Fantasy,Canon Fodder
 Bizarre Market,Novel Wardrobe,Fantasy,Canon Fodder
@@ -304,6 +356,7 @@ Eversteam Forest,Chamoodleon,Wildlife,Reptilia
 Eaten Track,Cat-Faced Tree Bear,Wildlife,Ursidae
 Eaten Track,Trance Tiger,Wildlife,Felidae
 Bumbling Bush,Painted Panda,Wildlife,Ursidae
+Bumbling Bush,Bonus XP,Other,Bonus XP
 The Heat Line,Spyglass Giraffe,Wildlife,Mammalia Majoris
 The Heat Line,Zig-Zebra,Wildlife,Mammalia Majoris
 Lion Lowlands,Dandy Lion,Wildlife,Felidae
