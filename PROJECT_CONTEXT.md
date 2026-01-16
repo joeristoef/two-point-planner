@@ -1,6 +1,6 @@
 # PROJECT CONTEXT - Two Point Planner
 
-**Last Updated:** January 15, 2026  
+**Last Updated:** January 16, 2026  
 **For:** GitHub Copilot / AI Assistant  
 **Purpose:** Complete project context to avoid re-explaining things each session
 
@@ -34,6 +34,7 @@
 - ✅ Core game rules consolidated and tested
 - ✅ "General Staff" misconception removed (code now only contains 13 real staff types)
 - ✅ No hardcoded data (all from CSVs)
+- ✅ GitHub Actions CI/CD pipeline (auto-tests on every push)
 - ✅ Build & dev server stable
 
 **Technology Stack:**
@@ -41,8 +42,8 @@
 - Styling: CSS (custom)
 - Data: CSV files (dynamic loading, no hardcoded data)
 - Storage: localStorage (browser)
-- Testing: None yet
-- CI/CD: None yet
+- Testing: Jest 30.2.0 (75 tests, all passing) ✅
+- CI/CD: GitHub Actions (Ubuntu, Node 18.x) ✅
 
 **Core Problem Being Solved:**
 Currently hardcoded "lump sum" requirements (to handle ALL events). Users want flexibility to:
@@ -488,29 +489,37 @@ Unlike skill restrictions (hard rules), utilities are flexible preferences:
 
 **What it does:**
 - Runs tests on every push
-- Lints code
+- TypeScript compilation check
 - Builds verification
-- Shows ✅/❌ on GitHub
+- Shows ✅/❌ on GitHub commits
+
+**Implementation (Jan 16, 2026):**
+- Created `.github/workflows/test.yml` (52 lines)
+- 6 automated steps: checkout, Node setup, install, TypeScript check, run tests, build
+- Fixed ts-node dependency issue
+- All checks now passing ✅
 
 **Rationale:**
 - Catches bugs before merge
 - Safe for future contributors
 - Professional quality bar
+- Works on Windows (local) and Ubuntu (GitHub)
 - Depends on Phase 1.3 (tests must exist first)
 
-**Status:** Not yet implemented (Phase 1.4, pending after 1.3)
+**Status:** ✅ COMPLETED (Phase 1.4, January 16, 2026)
 
 ---
 
 ## Features Planned (Roadmap)
 
-### Phase 1: Infrastructure (Mode 1) - 4 weeks
+### Phase 1: Infrastructure (Mode 1) - 80% Complete
 
 **Critical (blocking features):**
 - [x] 1.1: Move expeditions to CSV (3-4 days) - **✅ COMPLETED Jan 14**
 - [x] 1.2: Create gameRules.ts (1-2 days) - **✅ COMPLETED Jan 14**
 - [x] 1.3: Add Jest tests (2-3 days) - **✅ COMPLETED Jan 15**
-- [ ] 1.4: Set up CI/CD (1 day) - **PENDING** (after 1.3)
+- [x] 1.4: Set up CI/CD (1 day) - **✅ COMPLETED Jan 16**
+- [ ] 1.5: Icon/image data structure (2-3 days) - **PENDING**
 
 **Important (alongside Phase 2):**
 - [ ] 2.1: Data versioning (2 days)
@@ -613,38 +622,40 @@ Unlike skill restrictions (hard rules), utilities are flexible preferences:
 3. ✅ **Type Safety** - Event and EventCounter types added to Expedition
 
 ### Immediate Blockers (Remaining)
-1. **No tests** - Can't safely optimize or make changes
-2. **No CI/CD** - Can't verify builds or catch regressions
+1. **Icon data structure (1.5)** - Need to audit and organize asset management
 
 ### What's Needed Before Optimizer Work
 1. ✅ CSV data loading (1.1) - DONE
 2. ✅ gameRules.ts (1.2) - DONE
-3. Jest tests (1.3) - PENDING (2-3 days)
-4. CI/CD pipeline (1.4) - PENDING (1 day, after 1.3)
+3. ✅ Jest tests (1.3) - DONE
+4. ✅ CI/CD pipeline (1.4) - DONE
+5. ⏳ Icon/image data structure (1.5) - IN PROGRESS
 
 ### Recommended Next Session
 
-**Phase 1.1 & 1.2 are COMPLETE.** Next steps:
+**Phase 1.1, 1.2, 1.3, & 1.4 are COMPLETE (80% Mode 1).** Next steps:
 
-1. **Priority A:** Phase 1.3 (Jest testing) - 2-3 days
-   - Essential before optimizer work
-   - Tests: expeditionMatcher, gameRules, CSV loading
-   - Will make future changes safer
+1. **Priority A:** Phase 1.5 (Icon/Image Data Structure) - 2-3 days
+   - Last blocking task before Mode 2 features
+   - Audit all icon/image references
+   - Establish naming conventions
+   - Centralize asset management
+   - Essential for clean Phase 2 work
 
-2. **Priority B:** Phase 1.4 (CI/CD) - 1 day (after 1.3)
-   - GitHub Actions for test automation
-   - Prevents regressions
-   - Professional quality bar
+2. **Priority B:** Phase 2.1-2.4 (Parallel Support Tasks) - Can start after 1.5
+   - Data versioning, documentation, performance, environment config
 
-3. **After Phase 1:** Phase 3.1 (Staff Optimizer)
-   - Can safely start after 1.3 & 1.4 complete
+3. **Priority C:** Phase 3.1 (Staff Optimizer) - After Phase 1 complete
+   - Can safely start after 1.5 done
    - Uses gameRules.ts and tested data loading
    - Will serve User D (Everything Museum goal)
 
-**Decide:**
-1. Do you want to continue with Phase 1.3 testing?
-2. Timeline for optimizer work?
-3. Any issues with current Phase 1.1/1.2 implementation?
+**Current Status:**
+- ✅ All Phase 1 infrastructure complete except 1.5
+- ✅ 75 tests passing consistently
+- ✅ GitHub Actions workflow live and operational
+- ✅ Production build verified
+- ⏳ Ready for Phase 1.5 asset audit
 
 ---
 
@@ -673,6 +684,12 @@ Unlike skill restrictions (hard rules), utilities are flexible preferences:
    - gameRules.ts makes balance tweaks obvious
    - CSV data is accessible to non-programmers
    - IMPLEMENTATION_LOG.md documents decisions
+
+6. **Automated quality gate:** GitHub Actions CI/CD ✅ IMPLEMENTED (Jan 16)
+   - Every push verified (TypeScript + Tests + Build)
+   - Shows ✅/❌ on commits
+   - Prevents broken code from main branch
+   - Safe foundation for team collaboration
 
 ---
 
@@ -738,12 +755,13 @@ Do NOT guess or assume. Always clarify.
 
 | Date | Change | Updated By |
 |------|--------|-------------|
-| 2026-01-15 | Phase 1.3 Completion: Jest testing framework live, 77 tests passing, Darkest Depths edge case verified | Post-implementation review |
+| 2026-01-16 | Phase 1.4 Completion: GitHub Actions CI/CD live (6 automated steps), all checks passing, ts-node dependency resolved, documentation updated to 80% Mode 1 complete | Post-implementation review |
+| 2026-01-15 | Phase 1.3 Completion: Jest testing framework live, 75 tests passing, Darkest Depths edge case verified, General Staff misconception removed | Post-implementation review |
 | 2026-01-14 | Phase 1.1 & 1.2 Completion: CSV loading live, gameRules.ts created, obsolete references removed | Post-implementation review |
 
 ---
 
 **Document Status:** Active (Read Before Each Session)  
-**Last Updated:** January 15, 2026 (Phase 1.3 Complete)  
-**Verified Working:** CSV loading in production ✅, gameRules.ts live ✅, 159 expeditions loading ✅, Jest testing framework ✅ (77 tests passing)  
-**Next Review:** Before Phase 1.4 CI/CD setup
+**Last Updated:** January 16, 2026 (Phase 1.4 Complete)  
+**Verified Working:** CSV loading in production ✅, gameRules.ts live ✅, 159 expeditions loading ✅, Jest testing framework ✅ (75 tests passing), GitHub Actions CI/CD ✅ (all checks passing)  
+**Next Review:** Before Phase 1.5 icon/image data structure work
