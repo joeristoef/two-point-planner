@@ -107,16 +107,20 @@ export const mapIcons: Record<string, string> = {
 };
 
 // ============================================================================
-// ASSET PATH CONSTANTS
+// ASSET PATH CONSTANTS - For reference only
 // ============================================================================
 
-export const ASSET_PATHS = {
-  EXPEDITION_ICONS: '/expedition-icons/',
-  EVENT_ICONS: '/event-icons/',
-  REWARD_ICONS: '/reward-icons-2/',
-  SKILL_ICONS: '/skill-icons/',
-  STAFF_TYPE_ICONS: '/staff-type-icons/',
-  MAP_ICONS: '/map-icons/',
+// Note: Assets are served as /assets/{category}/{filename}
+// - Dev: Vite serves /public/assets/ as /assets/
+// - Prod: /dist/assets/ is served as /assets/
+
+export const ASSET_CATEGORIES = {
+  EXPEDITION_ICONS: 'expedition-icons',
+  EVENT_ICONS: 'event-icons',
+  REWARD_ICONS: 'reward-icons-2',
+  SKILL_ICONS: 'skill-icons',
+  STAFF_TYPE_ICONS: 'staff-type-icons',
+  MAP_ICONS: 'map-icons',
 } as const;
 
 // ============================================================================
@@ -188,7 +192,7 @@ export const getIconCount = (): {
 /**
  * List all registered icons in a category
  */
-export const listRegisteredIcons = (category: keyof typeof ASSET_PATHS): string[] => {
+export const listRegisteredIcons = (category: keyof typeof ASSET_CATEGORIES): string[] => {
   switch (category) {
     case 'STAFF_TYPE_ICONS':
       return Object.keys(staffTypeIcons);

@@ -1,8 +1,8 @@
 /**
- * Icon Map Utilities - Get absolute icon paths for all asset types
+ * Icon Map Utilities - Get icon paths for all asset types
  * 
  * Uses assetRegistry.ts as the centralized source of truth for all mappings.
- * Returns absolute paths (/asset-name) that work in both dev and production.
+ * Returns paths that work in both dev (Vite) and production (static serving).
  */
 
 import {
@@ -11,11 +11,25 @@ import {
   skillIcons,
   rewardSpecialCases,
   mapIcons,
-  ASSET_PATHS,
   normalizeExpeditionName,
   normalizeRewardName,
 } from '../config/assetRegistry';
 import { StaffType, Skill } from '../types/index';
+
+// ============================================================================
+// ASSET PATH CONSTRUCTION
+// ============================================================================
+
+/**
+ * In Vite + static assets:
+ * - During dev: /public/assets/ is served from root as /assets/
+ * - During production: /public/assets/ is copied to /dist/assets/ and served as /assets/
+ * 
+ * So we construct paths as /assets/{category}/{filename}
+ */
+const getAssetPath = (category: string, filename: string): string => {
+  return `/assets/${category}/${filename}`;
+};
 
 // ============================================================================
 // STAFF TYPE ICONS
@@ -25,12 +39,12 @@ export const getStaffTypeIcon = (staffType: string): string => {
   // Check special cases first (ANY Expert, ANY Staff)
   if (staffType in specialStaffTypeIcons) {
     const filename = specialStaffTypeIcons[staffType];
-    return `${ASSET_PATHS.STAFF_TYPE_ICONS}${filename}`;
+    return getAssetPath('staff-type-icons', filename);
   }
 
   // Check regular staff types
   const iconFile = staffTypeIcons[staffType as StaffType] || 'default.webp';
-  return `${ASSET_PATHS.STAFF_TYPE_ICONS}${iconFile}`;
+  return getAssetPath('staff-type-icons', iconFile);
 };
 
 // ============================================================================
@@ -39,7 +53,7 @@ export const getStaffTypeIcon = (staffType: string): string => {
 
 export const getSkillIcon = (skill: Skill): string => {
   const iconFile = skillIcons[skill] || 'default.webp';
-  return `${ASSET_PATHS.SKILL_ICONS}${iconFile}`;
+  return getAssetPath('skill-icons', iconFile);
 };
 
 // ============================================================================
@@ -48,7 +62,7 @@ export const getSkillIcon = (skill: Skill): string => {
 
 export const getExpeditionIcon = (expeditionName: string): string => {
   const filename = normalizeExpeditionName(expeditionName);
-  return `${ASSET_PATHS.EXPEDITION_ICONS}${filename}`;
+  return getAssetPath('expedition-icons', filename);
 };
 
 // ============================================================================
@@ -58,12 +72,12 @@ export const getExpeditionIcon = (expeditionName: string): string => {
 export const getRewardIcon = (rewardName: string): string => {
   // Check special cases first
   if (rewardName in rewardSpecialCases) {
-    return `${ASSET_PATHS.REWARD_ICONS}${rewardSpecialCases[rewardName]}`;
+    return getAssetPath('reward-icons-2', rewardSpecialCases[rewardName]);
   }
 
   // Use standard normalization
   const filename = normalizeRewardName(rewardName);
-  return `${ASSET_PATHS.REWARD_ICONS}${filename}`;
+  return getAssetPath('reward-icons-2', filename);
 };
 
 // ============================================================================
@@ -73,7 +87,7 @@ export const getRewardIcon = (rewardName: string): string => {
 export const getMapIcon = (mapName: string): string => {
   const iconFile = mapIcons[mapName];
   if (!iconFile) return '';
-  return `${ASSET_PATHS.MAP_ICONS}${iconFile}`;
+  return getAssetPath('map-icons', iconFile);
 };
 
 // ============================================================================

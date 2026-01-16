@@ -22,7 +22,7 @@ import {
   skillIcons,
   rewardSpecialCases,
   mapIcons,
-  ASSET_PATHS,
+  ASSET_CATEGORIES,
 } from '../config/assetRegistry';
 
 // ============================================================================
@@ -99,7 +99,7 @@ export const validateAllAssets = async (): Promise<ValidationResult> => {
   // Staff Type Icons
   Object.entries(staffTypeIcons).forEach(([name, file]) => {
     checks.push({
-      path: `${ASSET_PATHS.STAFF_TYPE_ICONS}${file}`,
+      path: `/assets/${ASSET_CATEGORIES.STAFF_TYPE_ICONS}/${file}`,
       category: 'Staff Type',
       name,
     });
@@ -108,7 +108,7 @@ export const validateAllAssets = async (): Promise<ValidationResult> => {
   // Special Staff Type Icons
   Object.entries(specialStaffTypeIcons).forEach(([name, file]) => {
     checks.push({
-      path: `${ASSET_PATHS.STAFF_TYPE_ICONS}${file}`,
+      path: `/assets/${ASSET_CATEGORIES.STAFF_TYPE_ICONS}/${file}`,
       category: 'Special Staff Type',
       name,
     });
@@ -117,7 +117,7 @@ export const validateAllAssets = async (): Promise<ValidationResult> => {
   // Skill Icons
   Object.entries(skillIcons).forEach(([name, file]) => {
     checks.push({
-      path: `${ASSET_PATHS.SKILL_ICONS}${file}`,
+      path: `/assets/${ASSET_CATEGORIES.SKILL_ICONS}/${file}`,
       category: 'Skill',
       name,
     });
@@ -126,7 +126,7 @@ export const validateAllAssets = async (): Promise<ValidationResult> => {
   // Map Icons
   Object.entries(mapIcons).forEach(([name, file]) => {
     checks.push({
-      path: `${ASSET_PATHS.MAP_ICONS}${file}`,
+      path: `/assets/${ASSET_CATEGORIES.MAP_ICONS}/${file}`,
       category: 'Map',
       name,
     });
@@ -135,7 +135,7 @@ export const validateAllAssets = async (): Promise<ValidationResult> => {
   // Reward Special Cases
   Object.entries(rewardSpecialCases).forEach(([name, file]) => {
     checks.push({
-      path: `${ASSET_PATHS.REWARD_ICONS}${file}`,
+      path: `/assets/${ASSET_CATEGORIES.REWARD_ICONS}/${file}`,
       category: 'Reward (Special)',
       name,
     });
@@ -177,7 +177,7 @@ export const validateAllAssets = async (): Promise<ValidationResult> => {
  */
 export const validateStaffTypeIcons = async (): Promise<ValidationResult> => {
   const checks = Object.entries(staffTypeIcons).map(([name, file]) => ({
-    path: `${ASSET_PATHS.STAFF_TYPE_ICONS}${file}`,
+    path: `/assets/${ASSET_CATEGORIES.STAFF_TYPE_ICONS}/${file}`,
     category: 'Staff Type',
     name,
   }));
@@ -205,7 +205,7 @@ export const validateStaffTypeIcons = async (): Promise<ValidationResult> => {
  */
 export const validateSkillIcons = async (): Promise<ValidationResult> => {
   const checks = Object.entries(skillIcons).map(([name, file]) => ({
-    path: `${ASSET_PATHS.SKILL_ICONS}${file}`,
+    path: `/assets/${ASSET_CATEGORIES.SKILL_ICONS}/${file}`,
     category: 'Skill',
     name,
   }));
@@ -233,7 +233,7 @@ export const validateSkillIcons = async (): Promise<ValidationResult> => {
  */
 export const validateMapIcons = async (): Promise<ValidationResult> => {
   const checks = Object.entries(mapIcons).map(([name, file]) => ({
-    path: `${ASSET_PATHS.MAP_ICONS}${file}`,
+    path: `/assets/${ASSET_CATEGORIES.MAP_ICONS}/${file}`,
     category: 'Map',
     name,
   }));
