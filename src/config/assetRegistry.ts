@@ -156,14 +156,16 @@ export const normalizeExpeditionName = (name: string): string => {
  * Normalize reward name to filename format
  * Convention: lowercase-with-hyphens.webp
  * Example: "Meaty Sword 3D" -> "meaty-sword-3d.webp"
+ * Example: "Buzz & Energy Boost" -> "buzz-n-energy-boost.webp"
  */
 export const normalizeRewardName = (name: string): string => {
   return (
     name
       .toLowerCase() // convert to lowercase
       .replace(/'/g, '') // remove apostrophes
+      .replace(/&/g, 'n') // replace ampersand with 'n'
       .replace(/\s+/g, '-') // replace spaces with hyphens
-      .replace(/[()&]/g, '') // remove parentheses and ampersand
+      .replace(/[()]/g, '') // remove parentheses
       + '.webp'
   );
 };
