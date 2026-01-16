@@ -563,6 +563,74 @@ All 6 critical infrastructure items done:
 
 Features that unlock major value for users.
 
+**Decision (January 16, 2026):** Starting with 3.2 Event Filtering before 3.1 Staff Optimizer. Approach: small incremental steps to add functionality safely.
+
+---
+
+#### **3.2 Event Filtering System**
+
+**Current State:**
+- ExpeditionEvents.csv exists but unused
+- Users can't customize what events matter to them
+- Hardcoded "lump sum" requirements
+
+**Planned Approach: Small Incremental Steps**
+
+**Phase A: Display Events (1-2 days)**
+- Parse ExpeditionEvents.csv completely
+- Display events in expedition detail view
+- Show event types and descriptions
+- No filtering yet - just visibility
+
+**Phase B: Add Event Icons & Descriptions (1 day)**
+- Load event icons from event-type-icons folder
+- Display alongside event names
+- Add tooltips/descriptions for each event type
+- Visual clarity on what events do
+
+**Phase C: Split Calculation Logic (2 days)**
+- Create new calculation function for flexible requirements
+- Calculate two versions: "with all events" vs. "with selected events"
+- Don't integrate yet - just ensure logic is correct
+- Add tests for both calculation modes
+
+**Phase D: Integrate Filters (2-3 days)**
+- Build filter UI (checkboxes for event types)
+- Wire up to use flexible calculation
+- Update matcher to respect event filters
+- Re-evaluate expeditions dynamically
+- Ensure backward compatibility
+
+**Why This Approach:**
+- Each step is shippable
+- Can pause/resume easily
+- Each phase validates independently
+- Reduces risk of integration errors
+
+**Why It Matters:**
+- Enables different playstyles (risk-takers vs. safe)
+- Reduces training requirements for careful players
+- Adds strategic depth to planning
+- Prepares foundation for optimizer
+
+**Dependencies:**
+- 1.1 (need events data loaded) ✅
+
+**Blocks:**
+- Staff Optimizer (should integrate with event filtering)
+
+**Total Estimated Effort:** 6-8 days (broken into manageable phases)
+**Estimated Value:** 7/10 (enables flexibility)
+**Difficulty:** Medium
+
+**Success Criteria:**
+- ✅ Events displayed in UI
+- ✅ Event icons and descriptions visible
+- ✅ Flexible requirement calculation works
+- ✅ Filters implemented and functional
+- ✅ Requirements update dynamically
+- ✅ Backward compatible (all events selected = old behavior)
+
 ---
 
 #### **3.1 Staff Optimizer (Phases A-C)**
@@ -603,9 +671,10 @@ Features that unlock major value for users.
 - Directly addresses user needs
 
 **Dependencies:**
-- 1.1 (clean data)
-- 1.2 (gameRules)
-- 1.3 (tests to prove correctness)
+- 1.1 (clean data) ✅
+- 1.2 (gameRules) ✅
+- 1.3 (tests to prove correctness) ✅
+- 3.2 (should integrate with event filtering)
 
 **Blocks:**
 - Multi-expedition planning
@@ -628,43 +697,6 @@ Features that unlock major value for users.
 **Current State:**
 - ExpeditionEvents.csv exists but unused
 - Users can't customize what events matter to them
-- Hardcoded "lump sum" requirements
-
-**What to Do:**
-- Parse ExpeditionEvents.csv fully
-- Build event filter UI
-  - Checkboxes for event types (Positive, Negative, Injury, MIA, etc.)
-  - Checkboxes for event subtypes
-  - Default: all selected (current behavior)
-- Calculate flexible requirements
-  - Only consider selected events
-  - Drop requirements for skipped events
-- Update matcher to use filtered requirements
-- Re-evaluate expeditions dynamically
-
-**Why It Matters:**
-- Enables different playstyles (risk-takers vs. safe)
-- Reduces training requirements for careful players
-- Critical for User D's optimization choices
-- Adds strategic depth
-
-**Dependencies:**
-- 1.1 (need events data loaded)
-- 3.1 (optimizer should respect event filtering)
-
-**Blocks:**
-- Advanced risk-based optimization
-
-**Estimated Effort:** 5-6 days
-**Estimated Value:** 7/10 (enables flexibility)
-**Difficulty:** Medium-Hard
-
-**Success Criteria:**
-- ✅ Event filter UI works
-- ✅ Requirements updated dynamically
-- ✅ Expeditions re-evaluate when filters change
-- ✅ Backward compatible (all events selected = old behavior)
-
 ---
 
 #### **3.3 Multi-Expedition Features**
@@ -696,6 +728,7 @@ Features that unlock major value for users.
 
 **Dependencies:**
 - 3.1 (optimizer should integrate with this)
+- 3.2 (event filtering should work with multi-expedition)
 - Staff assignment feature (from project analysis)
 
 **Blocks:**

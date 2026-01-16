@@ -1,6 +1,6 @@
 # PROJECT CONTEXT - Two Point Planner
 
-**Last Updated:** January 16, 2026 (Data & asset updates deployed - Phase 1.7 Complete)
+**Last Updated:** January 16, 2026 (End of session - Mode 1 complete, Mode 2 priorities set)
 **For:** GitHub Copilot / AI Assistant  
 **Purpose:** Complete project context to avoid re-explaining things each session
 
@@ -28,17 +28,19 @@
 - See which expeditions are possible/partial/impossible
 - Filter expeditions by map/reward/status
 - Save rosters to localStorage
+- Select from 4 fantasy specialist subtypes (Barbarian, Bard, Rogue, Wizard) instead of generic Fantasy Expert
 
 **Code Quality Status:**
 - ✅ Jest testing framework in place (75 tests, all passing)
 - ✅ Core game rules consolidated and tested
-- ✅ "General Staff" misconception removed (code now only contains 13 real staff types)
+- ✅ Fantasy specialists implemented as subtypes with proper matching
 - ✅ Icon assets unified to consistent naming (618+ files, lowercase-with-hyphens format)
 - ✅ Production asset serving verified (Vercel deployment working correctly)
 - ✅ No hardcoded data (all from CSVs)
 - ✅ GitHub Actions CI/CD pipeline (auto-tests on every push)
 - ✅ Build & dev server stable
 - ✅ Data current: 166 expeditions, 391 rewards, 161 expedition icons
+- ✅ All perk icons working (including those with & in names)
 
 **Technology Stack:**
 - Frontend: React + TypeScript + Vite
@@ -47,6 +49,9 @@
 - Storage: localStorage (browser)
 - Testing: Jest 30.2.0 (75 tests, all passing) ✅
 - CI/CD: GitHub Actions (Ubuntu, Node 18.x) ✅
+
+**Mode 1 Status:** ✅ 100% COMPLETE
+**Mode 2 Next Step:** 3.2 Event Filtering System (starting next session)
 
 **Core Problem Being Solved:**
 Currently hardcoded "lump sum" requirements (to handle ALL events). Users want flexibility to:
