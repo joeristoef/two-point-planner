@@ -887,7 +887,7 @@ function App() {
                                         <img
                                           src={categoryIcon}
                                           alt={subtype}
-                                          style={{ width: '31px', height: '31px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
+                                          style={{ width: '24px', height: '24px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
                                           onError={(e) => {
                                             (e.target as HTMLImageElement).style.display = 'none';
                                           }}
