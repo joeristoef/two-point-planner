@@ -14,6 +14,10 @@ const VALID_STAFF_TYPES: Set<string> = new Set([
   'Assistant',
   'Janitor',
   'Security Guard',
+  'Barbarian',
+  'Bard',
+  'Rogue',
+  'Wizard',
   'ANY Staff',
   'ANY Expert',
 ]);

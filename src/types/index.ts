@@ -10,7 +10,11 @@ export type StaffType =
   | 'Space Expert'
   | 'Assistant'
   | 'Janitor'
-  | 'Security Guard';
+  | 'Security Guard'
+  | 'Barbarian'
+  | 'Bard'
+  | 'Rogue'
+  | 'Wizard';
 
 export type Skill =
   | 'Aerodynamics'

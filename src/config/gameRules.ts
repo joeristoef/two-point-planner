@@ -44,6 +44,10 @@ export const SKILL_CATEGORIES = {
     'Janitor': ['Fire-Resistance', 'Ghost Capture', 'Mechanics', 'Workshop'],
     'Security Guard': ['Camera Room', 'Strolling Surveillance'],
     'Assistant': ['Accomplished Admission', 'Customer Service', 'Marketing'],
+    'Barbarian': [],
+    'Bard': [],
+    'Rogue': [],
+    'Wizard': [],
   } as const,
 } as const;
 
@@ -123,6 +127,26 @@ export const SKILL_RESTRICTIONS: Record<StaffType, Set<Skill>> = {
     ...SKILL_CATEGORIES.universal as any,
     'Camera Room',
     'Strolling Surveillance',
+  ]),
+
+  'Barbarian': new Set([
+    ...SKILL_CATEGORIES.universal as any,
+    ...SKILL_CATEGORIES.expertOnly as any,
+  ]),
+
+  'Bard': new Set([
+    ...SKILL_CATEGORIES.universal as any,
+    ...SKILL_CATEGORIES.expertOnly as any,
+  ]),
+
+  'Rogue': new Set([
+    ...SKILL_CATEGORIES.universal as any,
+    ...SKILL_CATEGORIES.expertOnly as any,
+  ]),
+
+  'Wizard': new Set([
+    ...SKILL_CATEGORIES.universal as any,
+    ...SKILL_CATEGORIES.expertOnly as any,
   ]),
 };
 

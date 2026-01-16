@@ -40,6 +40,10 @@ export const staffTypeIcons: Record<StaffType, string> = {
   'Assistant': 'assistant.webp',
   'Janitor': 'janitor.webp',
   'Security Guard': 'security-guard.webp',
+  'Barbarian': 'fantasy-expert-barbarian.webp',
+  'Bard': 'fantasy-expert-bard.webp',
+  'Rogue': 'fantasy-expert-rogue.webp',
+  'Wizard': 'fantasy-expert-wizard.webp',
 };
 
 // Special staff type icons (not tied to StaffType enum)
