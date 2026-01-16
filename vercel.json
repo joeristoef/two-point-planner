@@ -4,6 +4,7 @@
   "installCommand": "npm install",
   "framework": "vite",
   "public": true,
+  "buildCache": "disabled",
   "rewrites": [
     { "source": "/assets/(.*)", "destination": "/assets/$1" }
   ],
