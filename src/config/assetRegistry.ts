@@ -85,10 +85,10 @@ export const skillIcons: Record<Skill, string> = {
 
 // Rewards where the filename doesn't match the name exactly
 export const rewardSpecialCases: Record<string, string> = {
-  'War Turf': 'War-Turf-29-Icon.webp',
-  "Douse 'n Dose": 'Douse-n-Dose-Icon.webp',
-  'Robo Janitor': 'Robo-Janitor-Project-Icon.webp',
-  'Robo Security Guard': 'Robo-Security-Guard-Project-Icon.webp',
+  'War Turf': 'war-turf-29.webp',
+  "Douse 'n Dose": 'douse-n-dose.webp',
+  'Robo Janitor': 'robo-janitor-project.webp',
+  'Robo Security Guard': 'robo-security-guard-project.webp',
 };
 
 // ============================================================================
@@ -96,14 +96,14 @@ export const rewardSpecialCases: Record<string, string> = {
 // ============================================================================
 
 export const mapIcons: Record<string, string> = {
-  'Bone Belt': 'Bone-Belt-Icon.webp',
-  'Two Point Sea': 'Two-Point-Sea-Icon.webp',
-  'Bungle Burrows': 'Bungle-Burrows-Icon.webp',
-  'Known Universe': 'Known-Universe-Icon.webp',
-  'Netherworld': 'Netherworld-Icon.webp',
-  'Farflung Isles': 'Farflung-Isles-Icon.webp',
-  'Scorched Earth': 'Scorched-Earth-Icon.webp',
-  'Digiverse': 'Digiverse-Icon.webp',
+  'Bone Belt': 'bone-belt.webp',
+  'Two Point Sea': 'two-point-sea.webp',
+  'Bungle Burrows': 'bungle-burrows.webp',
+  'Known Universe': 'known-universe.webp',
+  'Netherworld': 'netherworld.webp',
+  'Farflung Isles': 'farflung-isles.webp',
+  'Scorched Earth': 'scorched-earth.webp',
+  'Digiverse': 'digiverse.webp',
 };
 
 // ============================================================================
@@ -129,11 +129,13 @@ export const ASSET_CATEGORIES = {
 
 /**
  * Normalize expedition name to filename format
- * Example: "Stop Beaton & Deadhorse" -> "Stop-Beaton-n-Deadhorse.webp"
+ * Convention: lowercase-with-hyphens.webp
+ * Example: "Stop Beaton & Deadhorse" -> "stop-beaton-n-deadhorse.webp"
  */
 export const normalizeExpeditionName = (name: string): string => {
   return (
     name
+      .toLowerCase() // convert to lowercase
       .replace(/\s+/g, '-') // spaces to hyphens
       .replace(/'/g, '') // remove apostrophes
       .replace(/&/g, 'n') + '.webp' // ampersand to 'n'
@@ -142,34 +144,34 @@ export const normalizeExpeditionName = (name: string): string => {
 
 /**
  * Normalize reward name to filename format
- * Example: "Meaty Sword 3D" -> "Meaty-Sword-3D-Icon.webp"
+ * Convention: lowercase-with-hyphens.webp
+ * Example: "Meaty Sword 3D" -> "meaty-sword-3d.webp"
  */
 export const normalizeRewardName = (name: string): string => {
-  const smallWords = new Set([
-    'a', 'an', 'and', 'or', 'of', 'the', 'in', 'at', 'by', 'for',
-  ]);
+  return (
+    name
+      .toLowerCase() // convert to lowercase
+      .replace(/'/g, '') // remove apostrophes
+      .replace(/\s+/g, '-') // replace spaces with hyphens
+      .replace(/[()&]/g, '') // remove parentheses and ampersand
+      + '.webp'
+  );
+};
 
-  const normalized = name
-    .replace(/'/g, '') // remove apostrophes
-    .replace(/\s+/g, '-') // replace spaces with hyphens
-    .replace(/[()&]/g, '') // remove parentheses and ampersand
-    .split('-')
-    .map((word, index) => {
-      // Don't capitalize small words, except the first word
-      if (index > 0 && smallWords.has(word.toLowerCase())) {
-        return word.toLowerCase();
-      }
-      // Capitalize first letter if it's a letter, keep rest as-is
-      if (word.length === 0) return word;
-      const firstChar = word.charAt(0);
-      if (/[a-z]/.test(firstChar)) {
-        return firstChar.toUpperCase() + word.slice(1);
-      }
-      return word;
-    })
-    .join('-');
-
-  return `${normalized}-Icon.webp`;
+/**
+ * Normalize event name to filename format
+ * Convention: lowercase-with-hyphens.webp
+ * Example: "Aberrant Waterspout" -> "aberrant-waterspout.webp"
+ */
+export const normalizeEventName = (name: string): string => {
+  return (
+    name
+      .toLowerCase() // convert to lowercase
+      .replace(/'/g, '') // remove apostrophes
+      .replace(/\s+/g, '-') // spaces to hyphens
+      .replace(/!/g, '') // remove exclamation marks
+      + '.webp'
+  );
 };
 
 // ============================================================================

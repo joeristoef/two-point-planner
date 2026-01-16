@@ -12,6 +12,7 @@ import {
   rewardSpecialCases,
   mapIcons,
   normalizeExpeditionName,
+  normalizeEventName,
   normalizeRewardName,
 } from '../config/assetRegistry';
 import { StaffType, Skill } from '../types/index';
@@ -63,6 +64,15 @@ export const getSkillIcon = (skill: Skill): string => {
 export const getExpeditionIcon = (expeditionName: string): string => {
   const filename = normalizeExpeditionName(expeditionName);
   return getAssetPath('expedition-icons', filename);
+};
+
+// ============================================================================
+// EVENT ICONS
+// ============================================================================
+
+export const getEventIcon = (eventName: string): string => {
+  const filename = normalizeEventName(eventName);
+  return getAssetPath('event-icons', filename);
 };
 
 // ============================================================================
