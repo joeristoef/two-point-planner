@@ -86,8 +86,8 @@ const PERK_NAMES = new Set([
   'Buzz Boost', 'Built-in Speaker', 'Anti-Rust',
   'Decoration Boost', 'Decoration & Entertainment Boost', 'Limited Edition',
   'Duration Boost', 'Energy Boost', 'Entertainment Boost',
-  'Batery Saver', 'Cheap Charge', 'Fast Charge', 'Chrome Cover',
-  'Buzz Duration Boost', 'Buzz Energy Boost', 'Buzz Entertainment Boost',
+  'Battery Saver', 'Cheap Charge', 'Fast Charge', 'Chrome Cover',
+  'Buzz & Duration Boost', 'Buzz & Energy Boost', 'Buzz & Entertainment Boost',
   'Supportive Soil', 'Knowledge Boost', 'Easy Fixture'
 ]);
 
