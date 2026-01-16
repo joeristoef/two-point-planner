@@ -870,6 +870,31 @@ function App() {
                                 const allNamesSelected = rewardNamesForSubtype.every((name) => filterRewardNames.has(name));
                                 const someNamesSelected = rewardNamesForSubtype.some((name) => filterRewardNames.has(name));
                                 const isIndeterminate = someNamesSelected && !allNamesSelected;
+                                
+                                // If subtype only contains one reward with the same name, render it as a simple item
+                                if (rewardNamesForSubtype.length === 1 && rewardNamesForSubtype[0] === subtype) {
+                                  const rewardName = rewardNamesForSubtype[0];
+                                  return (
+                                    <label key={subtype} style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.85em', paddingLeft: '20px' }}>
+                                      <input
+                                        type="checkbox"
+                                        checked={filterRewardNames.has(rewardName)}
+                                        onChange={() => toggleRewardNameFilter(rewardName)}
+                                        style={{ cursor: 'pointer', marginRight: '2px' }}
+                                      />
+                                      <img
+                                        src={getRewardIcon(rewardName)}
+                                        alt={rewardName}
+                                        style={{ width: '31px', height: '31px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
+                                        onError={(e) => {
+                                          (e.target as HTMLImageElement).style.display = 'none';
+                                        }}
+                                      />
+                                      <span>{rewardName}</span>
+                                    </label>
+                                  );
+                                }
+                                
                                 return (
                                   <div key={subtype}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
