@@ -372,12 +372,21 @@ Put Happy Thoughts on Janitor (spare slots, situational use) instead of Prehisto
 - `ExpeditionRewardTypes.csv` (expedition, reward, type, subtype)
 
 **CSV File Locations:**
-- Development: Root directory (for dev access)
-- Web serving: `/public/` folder (served by Vite to browser)
-- Production: `/dist/` folder (built into static site)
-- Note: All 5 CSVs must exist in ALL THREE locations
+- **Source of Truth:** `/public/` folder ONLY (all data edits must be made here)
+- Root directory: DELETED (obsolete legacy files, kept causing confusion)
+- Production: `/dist/` folder (auto-built from `/public/` during `npm run build`)
 
-**Status:** ✅ COMPLETED (Phase 1.1) - Implemented January 14, 2026
+**⚠️ CRITICAL RULE:**
+When editing expedition data, ALWAYS edit the CSV files in the `/public/` folder:
+- `/public/Expeditions.csv`
+- `/public/ExpeditionSkillRequirementsBaseOnly.csv`
+- `/public/ExpeditionStaffRequirements.csv`
+- `/public/ExpeditionEvents.csv`
+- `/public/ExpeditionRewardTypes.csv`
+
+The dev server and production build both serve from `/public/`. Root folder CSV files do not exist (as of January 16, 2026).
+
+**Status:** ✅ COMPLETED (Phase 1.1) - Implemented January 14, 2026 | ✅ Clarified single source of truth January 16, 2026
 
 ---
 
@@ -755,6 +764,7 @@ Do NOT guess or assume. Always clarify.
 
 | Date | Change | Updated By |
 |------|--------|-------------|
+| 2026-01-16 | CSV Consolidation: Deleted obsolete root CSV files, confirmed `/public/` as single source of truth, updated documentation to prevent future confusion about data editing locations | Phase 1.5 audit |
 | 2026-01-16 | Phase 1.4 Completion: GitHub Actions CI/CD live (6 automated steps), all checks passing, ts-node dependency resolved, documentation updated to 80% Mode 1 complete | Post-implementation review |
 | 2026-01-15 | Phase 1.3 Completion: Jest testing framework live, 75 tests passing, Darkest Depths edge case verified, General Staff misconception removed | Post-implementation review |
 | 2026-01-14 | Phase 1.1 & 1.2 Completion: CSV loading live, gameRules.ts created, obsolete references removed | Post-implementation review |
