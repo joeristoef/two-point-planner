@@ -1,3 +1,0 @@
-# Don't ignore dist folder on Vercel
-# (even though it's in .gitignore for local development)
-!dist
