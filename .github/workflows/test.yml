@@ -41,11 +41,3 @@ jobs:
     - name: Build the application
       run: npm run build
 
-    # Step 7: Upload test coverage (optional - for visibility)
-    - name: Upload coverage reports
-      if: always()
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage/coverage-final.json
-        flags: unittests
-        name: codecov-umbrella
