@@ -367,6 +367,52 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                       </ul>
                     </div>
                   )}
+                  {feasibility.expedition.events && feasibility.expedition.events.length > 0 && (
+                    <div style={{ marginBottom: '10px', color: '#1a1a1a', backgroundColor: 'rgba(100, 150, 200, 0.1)', padding: '8px', borderRadius: '4px', border: '1px solid #6496c8' }}>
+                      <strong style={{ fontSize: '1.05em' }}>Possible Events:</strong>
+                      <div style={{ margin: '8px 0 0 0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {feasibility.expedition.events.map((event) => {
+                          const getEventTypeColor = (type: string): { bg: string; text: string } => {
+                            switch (type) {
+                              case 'Positive':
+                                return { bg: 'rgba(76, 175, 80, 0.2)', text: '#2e7d32' };
+                              case 'Negative':
+                                return { bg: 'rgba(244, 67, 54, 0.2)', text: '#c62828' };
+                              case 'Injury':
+                                return { bg: 'rgba(255, 152, 0, 0.2)', text: '#e65100' };
+                              case 'Illness':
+                                return { bg: 'rgba(233, 30, 99, 0.2)', text: '#880e4f' };
+                              case 'MIA':
+                                return { bg: 'rgba(244, 67, 54, 0.3)', text: '#b71c1c' };
+                              case 'Curse':
+                                return { bg: 'rgba(156, 39, 176, 0.2)', text: '#4a148c' };
+                              default:
+                                return { bg: 'rgba(158, 158, 158, 0.2)', text: '#424242' };
+                            }
+                          };
+                          
+                          const colors = getEventTypeColor(event.type);
+                          
+                          return (
+                            <div key={event.id} style={{ backgroundColor: colors.bg, padding: '8px', borderRadius: '4px', border: `1px solid ${colors.text}`, color: colors.text }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                                <strong style={{ fontSize: '0.95em' }}>{event.name}</strong>
+                                <span style={{ backgroundColor: colors.text, color: '#fff', padding: '2px 6px', borderRadius: '3px', fontSize: '0.75em', fontWeight: 'bold' }}>
+                                  {event.type}{event.subtype ? ` - ${event.subtype}` : ''}
+                                </span>
+                              </div>
+                              <p style={{ margin: '4px 0', fontSize: '0.9em', fontStyle: 'italic' }}>
+                                {event.description}
+                              </p>
+                              <p style={{ margin: '4px 0 0 0', fontSize: '0.85em', borderTop: `1px solid ${colors.text}`, paddingTop: '4px' }}>
+                                <strong>Counter:</strong> {event.unlockDescription}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
