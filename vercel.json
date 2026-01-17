@@ -5,7 +5,6 @@
   "framework": "vite",
   "public": true,
   "regions": ["iad1"],
-  "includeFiles": "dist/assets/**",
   "headers": [
     {
       "source": "/assets/(.*)",
