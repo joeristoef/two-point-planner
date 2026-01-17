@@ -28,6 +28,10 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
   expeditions.forEach((feasibility) => {
     expeditionMaps.set(feasibility.expedition.name, feasibility.expedition.map);
   });
+
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  const filtered = expeditions.filter((exp) => {
     if (!filterByStatuses.has(exp.status)) return false;
     if (filterByMaps.size > 0 && !filterByMaps.has(exp.expedition.map)) return false;
     
