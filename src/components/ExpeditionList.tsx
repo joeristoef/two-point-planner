@@ -23,9 +23,11 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
   ignoredExpeditions = new Set(),
   onToggleIgnore,
 }) => {
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-
-  const filtered = expeditions.filter((exp) => {
+  // Create a map of expedition names to maps for duplicate display
+  const expeditionMaps = new Map<string, string>();
+  expeditions.forEach((feasibility) => {
+    expeditionMaps.set(feasibility.expedition.name, feasibility.expedition.map);
+  });
     if (!filterByStatuses.has(exp.status)) return false;
     if (filterByMaps.size > 0 && !filterByMaps.has(exp.expedition.map)) return false;
     
@@ -376,8 +378,14 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                                 </div>
                                 <span style={{ fontSize: '0.8em', color: '#666' }}>{reward.subtype}</span>
                                 {duplicateRewardsPerExpedition.has(feasibility.expedition.name) && duplicateRewardsPerExpedition.get(feasibility.expedition.name)!.has(reward.name) && (
-                                  <p style={{ margin: '6px 0 0 0', fontSize: '0.8em', borderTop: `1px solid ${colors.border}`, paddingTop: '4px', color: colors.border, fontWeight: '500' }}>
-                                    Also in: {duplicateRewardsPerExpedition.get(feasibility.expedition.name)!.get(reward.name)!.join(', ')}
+                                  <p style={{ margin: '6px 0 0 0', fontSize: '0.8em', borderTop: `1px solid ${colors.border}`, paddingTop: '4px' }}>
+                                    <strong style={{ color: '#000' }}>Also in:</strong>{' '}
+                                    {duplicateRewardsPerExpedition.get(feasibility.expedition.name)!.get(reward.name)!.map((expName, idx) => (
+                                      <span key={idx}>
+                                        {idx > 0 && ', '}
+                                        <span style={{ color: '#666' }}>{expName} - {expeditionMaps.get(expName)}</span>
+                                      </span>
+                                    ))}
                                   </p>
                                 )}
                               </div>
