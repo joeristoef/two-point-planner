@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ExpeditionFeasibility } from '../types/index';
-import { getStaffTypeIcon, getSkillIcon, getExpeditionIcon, getRewardIcon, getMapIcon } from '../utils/iconMaps';
+import { getStaffTypeIcon, getSkillIcon, getExpeditionIcon, getRewardIcon, getMapIcon, getEventIcon } from '../utils/iconMaps';
 
 interface ExpeditionListProps {
   expeditions: ExpeditionFeasibility[];
@@ -394,19 +394,30 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                           const colors = getEventTypeColor(event.type);
                           
                           return (
-                            <div key={event.id} style={{ backgroundColor: colors.bg, padding: '8px', borderRadius: '4px', border: `1px solid ${colors.text}`, color: colors.text }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                                <strong style={{ fontSize: '0.95em' }}>{event.name}</strong>
-                                <span style={{ backgroundColor: colors.text, color: '#fff', padding: '2px 6px', borderRadius: '3px', fontSize: '0.75em', fontWeight: 'bold' }}>
-                                  {event.type}{event.subtype ? ` - ${event.subtype}` : ''}
-                                </span>
+                            <div key={event.id} style={{ backgroundColor: colors.bg, padding: '8px', borderRadius: '4px', border: `1px solid ${colors.text}`, color: colors.text, display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                              <img
+                                src={getEventIcon(event.name)}
+                                alt={event.name}
+                                style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '3px', flexShrink: 0, backgroundColor: '#f0f0f0', border: `1px solid ${colors.text}` }}
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
+                                  (e.target as HTMLImageElement).style.opacity = '0.3';
+                                }}
+                              />
+                              <div style={{ flex: 1 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                                  <strong style={{ fontSize: '0.95em' }}>{event.name}</strong>
+                                  <span style={{ backgroundColor: colors.text, color: '#fff', padding: '2px 6px', borderRadius: '3px', fontSize: '0.75em', fontWeight: 'bold' }}>
+                                    {event.type}{event.subtype ? ` - ${event.subtype}` : ''}
+                                  </span>
+                                </div>
+                                <p style={{ margin: '4px 0', fontSize: '0.9em', fontStyle: 'italic' }}>
+                                  {event.description}
+                                </p>
+                                <p style={{ margin: '4px 0 0 0', fontSize: '0.85em', borderTop: `1px solid ${colors.text}`, paddingTop: '4px' }}>
+                                  <strong>Counter:</strong> {event.unlockDescription}
+                                </p>
                               </div>
-                              <p style={{ margin: '4px 0', fontSize: '0.9em', fontStyle: 'italic' }}>
-                                {event.description}
-                              </p>
-                              <p style={{ margin: '4px 0 0 0', fontSize: '0.85em', borderTop: `1px solid ${colors.text}`, paddingTop: '4px' }}>
-                                <strong>Counter:</strong> {event.unlockDescription}
-                              </p>
                             </div>
                           );
                         })}
