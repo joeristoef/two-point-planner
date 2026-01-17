@@ -373,7 +373,7 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                               <img
                                 src={getRewardIcon(reward.name)}
                                 alt={reward.name}
-                                style={{ width: '68px', height: '68px', objectFit: 'cover', borderRadius: '3px', flexShrink: 0, backgroundColor: '#f0f0f0', border: `1px solid ${colors.border}` }}
+                                style={{ width: '66px', height: '66px', objectFit: 'cover', borderRadius: '3px', flexShrink: 0, backgroundColor: '#f0f0f0', border: `2px solid ${colors.border}` }}
                                 onError={(e) => {
                                   (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
                                   (e.target as HTMLImageElement).style.opacity = '0.3';
@@ -438,7 +438,7 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                               <img
                                 src={getEventIcon(event.name)}
                                 alt={event.name}
-                                style={{ width: '68px', height: '68px', objectFit: 'cover', borderRadius: '3px', flexShrink: 0, backgroundColor: '#f0f0f0', border: `2px solid ${colors.text}` }}
+                                style={{ width: '64px', height: '64px', objectFit: 'cover', borderRadius: '3px', flexShrink: 0, backgroundColor: '#f0f0f0', border: `4px solid ${colors.text}` }}
                                 onError={(e) => {
                                   (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
                                   (e.target as HTMLImageElement).style.opacity = '0.3';
