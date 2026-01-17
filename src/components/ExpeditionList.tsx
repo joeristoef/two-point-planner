@@ -413,17 +413,19 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                           const getEventTypeColor = (type: string): { bg: string; text: string } => {
                             switch (type) {
                               case 'Positive':
-                                return { bg: 'rgba(76, 175, 80, 0.2)', text: '#2e7d32' };
+                                return { bg: 'rgba(107, 215, 23, 0.2)', text: '#6bd717' };
                               case 'Negative':
-                                return { bg: 'rgba(244, 67, 54, 0.2)', text: '#c62828' };
+                                return { bg: 'rgba(255, 92, 0, 0.2)', text: '#ff5c00' };
                               case 'Injury':
-                                return { bg: 'rgba(255, 152, 0, 0.2)', text: '#e65100' };
+                                return { bg: 'rgba(255, 74, 43, 0.2)', text: '#ff4a2b' };
                               case 'Illness':
-                                return { bg: 'rgba(233, 30, 99, 0.2)', text: '#880e4f' };
+                                return { bg: 'rgba(0, 191, 218, 0.2)', text: '#00bfda' };
                               case 'MIA':
-                                return { bg: 'rgba(244, 67, 54, 0.3)', text: '#b71c1c' };
+                                return { bg: 'rgba(250, 37, 33, 0.2)', text: '#fa2521' };
                               case 'Curse':
-                                return { bg: 'rgba(156, 39, 176, 0.2)', text: '#4a148c' };
+                                return { bg: 'rgba(158, 0, 255, 0.2)', text: '#9e00ff' };
+                              case 'Neutral':
+                                return { bg: 'rgba(239, 184, 43, 0.2)', text: '#efb82b' };
                               default:
                                 return { bg: 'rgba(158, 158, 158, 0.2)', text: '#424242' };
                             }
