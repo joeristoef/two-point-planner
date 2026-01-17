@@ -1,16 +1,20 @@
 # Planned Features
 
+## Planned for Version 1.4
+
+- Fantasy staff stat requirements
+- Splitting requirements between positive, negative, curse, injury, illness and MIA
+
 ## Planned for Version 1.3
 
-- Dark mode theme
+(Currently in development)
 
 ## Investigating
 
+- Dark mode theme
 - Export staff loadouts to share with others
 - Advanced skill combination suggestions
 - Multi-language support
-- Fantasy staff stat requirements
-- Splitting requirements between positive, negative, curse, injury, illness and MIA
 
 ## Suggestions Not Currently Planned
 
