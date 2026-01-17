@@ -157,7 +157,7 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                     backgroundColor: pinnedExpeditions.has(feasibility.expedition.name) ? '#ffd700' : '#ddd',
                     color: pinnedExpeditions.has(feasibility.expedition.name) ? '#000' : '#666',
                     border: 'none',
-                    padding: '4px 8px',
+                    padding: '4px 4px',
                     borderRadius: '4px',
                     cursor: 'pointer',
                     fontSize: '12px',
@@ -175,7 +175,7 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                     backgroundColor: ignoredExpeditions.has(feasibility.expedition.name) ? '#c92a2a' : '#ddd',
                     color: ignoredExpeditions.has(feasibility.expedition.name) ? '#fff' : '#666',
                     border: 'none',
-                    padding: '4px 8px',
+                    padding: '4px 4px',
                     borderRadius: '4px',
                     cursor: 'pointer',
                     fontSize: '12px',
@@ -190,7 +190,7 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                   <img
                     src={getExpeditionIcon(feasibility.expedition.name)}
                     alt={feasibility.expedition.name}
-                    style={{ width: '50px', height: '50px', objectFit: 'contain', objectPosition: 'center', borderRadius: '2px', flexShrink: 0, backgroundColor: '#f0f0f0', border: '1px solid #ddd' }}
+                    style={{ width: '60px', height: '60px', objectFit: 'contain', objectPosition: 'center', borderRadius: '2px', flexShrink: 0, backgroundColor: '#f0f0f0', border: '1px solid #ddd' }}
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
                       (e.target as HTMLImageElement).style.opacity = '0';
