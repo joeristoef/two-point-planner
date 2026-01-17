@@ -346,25 +346,48 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                     </div>
                   )}
                   {feasibility.expedition.rewards && feasibility.expedition.rewards.length > 0 && (
-                    <div style={{ marginBottom: '10px', color: '#1a1a1a', backgroundColor: 'rgba(76, 175, 80, 0.1)', padding: '8px', borderRadius: '4px' }}>
-                      <strong>Possible Rewards:</strong>
-                      <ul style={{ margin: '5px 0 0 20px', listStyle: 'none', paddingLeft: '0' }}>
-                        {feasibility.expedition.rewards.map((reward, idx) => (
-                          <li key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                            <span style={{ fontSize: '1.1em' }}>•</span>
-                            <img
-                              src={getRewardIcon(reward.name)}
-                              alt={reward.name}
-                              style={{ width: '68px', height: '68px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).style.display = 'none';
-                              }}
-                            />
-                            <span>{reward.name}</span>
-                            <span style={{ fontSize: '0.85em', color: '#666' }}>({reward.type} - {reward.subtype})</span>
-                          </li>
-                        ))}
-                      </ul>
+                    <div style={{ marginBottom: '10px', color: '#1a1a1a', backgroundColor: 'rgba(100, 150, 200, 0.1)', padding: '8px', borderRadius: '4px', border: '1px solid #6496c8' }}>
+                      <strong style={{ fontSize: '1.05em' }}>Possible Rewards:</strong>
+                      <div style={{ margin: '8px 0 0 0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {feasibility.expedition.rewards.map((reward, idx) => {
+                          const getRewardTypeColor = (type: string): { bg: string; border: string } => {
+                            const colorMap: Record<string, { bg: string; border: string }> = {
+                              'Prehistory': { bg: 'rgba(219, 111, 9, 0.15)', border: '#db6f09' },
+                              'Botany': { bg: 'rgba(109, 159, 0, 0.15)', border: '#6d9f00' },
+                              'Marine Life': { bg: 'rgba(4, 128, 219, 0.15)', border: '#0480db' },
+                              'Supernatural': { bg: 'rgba(63, 103, 93, 0.15)', border: '#3f675d' },
+                              'Science': { bg: 'rgba(0, 144, 119, 0.15)', border: '#009077' },
+                              'Space': { bg: 'rgba(144, 81, 224, 0.15)', border: '#9051e0' },
+                              'Digital': { bg: 'rgba(195, 67, 158, 0.15)', border: '#c3439e' },
+                              'Fantasy': { bg: 'rgba(53, 62, 200, 0.15)', border: '#353ec8' },
+                              'Wildlife': { bg: 'rgba(153, 196, 26, 0.15)', border: '#99c41a' },
+                              'Other': { bg: 'rgba(28, 94, 4, 0.15)', border: '#1c5e04' },
+                            };
+                            return colorMap[type] || { bg: 'rgba(158, 158, 158, 0.15)', border: '#9e9e9e' };
+                          };
+                          
+                          const colors = getRewardTypeColor(reward.type);
+                          
+                          return (
+                            <div key={idx} style={{ backgroundColor: colors.bg, padding: '8px', borderRadius: '4px', border: `2px solid ${colors.border}`, display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                              <img
+                                src={getRewardIcon(reward.name)}
+                                alt={reward.name}
+                                style={{ width: '68px', height: '68px', objectFit: 'cover', borderRadius: '3px', flexShrink: 0, backgroundColor: '#f0f0f0', border: `1px solid ${colors.border}` }}
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
+                                  (e.target as HTMLImageElement).style.opacity = '0.3';
+                                }}
+                              />
+                              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                <strong style={{ fontSize: '0.95em', color: colors.border }}>{reward.name}</strong>
+                                <span style={{ fontSize: '0.85em', color: colors.border, marginTop: '2px' }}>{reward.type}</span>
+                                <span style={{ fontSize: '0.8em', color: '#666', marginTop: '2px' }}>{reward.subtype}</span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   )}
                   {feasibility.expedition.events && feasibility.expedition.events.length > 0 && (
