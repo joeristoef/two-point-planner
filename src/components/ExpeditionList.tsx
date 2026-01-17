@@ -185,7 +185,7 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                   ✖
                 </button>
               </div>
-              <div className="expedition-content" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'stretch', paddingLeft: '40px', gap: '8px' }}>
+              <div className="expedition-content" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'stretch', paddingLeft: '25px', gap: '8px' }}>
                 <div style={{ flex: 1, display: 'flex', gap: '8px', alignItems: 'stretch' }}>
                   <img
                     src={getExpeditionIcon(feasibility.expedition.name)}
