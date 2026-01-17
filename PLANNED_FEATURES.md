@@ -5,10 +5,6 @@
 - Fantasy staff stat requirements
 - Splitting requirements between positive, negative, curse, injury, illness and MIA
 
-## Planned for Version 1.3
-
-(Currently in development)
-
 ## Investigating
 
 - Dark mode theme
