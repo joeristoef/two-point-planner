@@ -380,9 +380,13 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                                 }}
                               />
                               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                <strong style={{ fontSize: '0.95em', color: colors.border }}>{reward.name}</strong>
-                                <span style={{ fontSize: '0.85em', color: colors.border, marginTop: '2px' }}>{reward.type}</span>
-                                <span style={{ fontSize: '0.8em', color: '#666', marginTop: '2px' }}>{reward.subtype}</span>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                                  <strong style={{ fontSize: '0.95em', color: '#000' }}>{reward.name}</strong>
+                                  <span style={{ backgroundColor: colors.border, color: '#fff', padding: '2px 6px', borderRadius: '3px', fontSize: '0.75em', fontWeight: 'bold' }}>
+                                    {reward.type}
+                                  </span>
+                                </div>
+                                <span style={{ fontSize: '0.8em', color: '#666' }}>{reward.subtype}</span>
                               </div>
                             </div>
                           );
