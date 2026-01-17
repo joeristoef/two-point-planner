@@ -456,7 +456,7 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                                 </p>
                                 {event.unlockDescription && (
                                 <p style={{ margin: '4px 0 0 0', fontSize: '0.85em', borderTop: `1px solid ${colors.text}`, paddingTop: '4px' }}>
-                                  <strong>{event.type === 'Positive' || event.type === 'Neutral' ? 'Unlock:' : 'Counter:'}
+                                  <strong>{event.unlockDescription.trim().endsWith('Season') ? 'Seasonal:' : event.type === 'Positive' || event.type === 'Neutral' ? 'Unlock:' : 'Counter:'}
 </strong> {event.unlockDescription}
                                 </p>
                                 )}
