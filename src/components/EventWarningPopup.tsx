@@ -57,14 +57,14 @@ export const EventWarningPopup: React.FC<EventWarningPopupProps> = ({ onDismiss 
 
         {/* Message */}
         <p style={{ color: '#495057', fontSize: '16px', lineHeight: '1.6', margin: '0 0 15px 0' }}>
-          <strong>Current expedition requirements do not account for events.</strong>
+          <strong>Events are now visible, but their requirements aren't calculated yet.</strong>
         </p>
 
         <p style={{ color: '#495057', fontSize: '14px', lineHeight: '1.6', margin: '0 0 15px 0' }}>
-          The skill and staff requirements shown are based on base expeditions only. When expeditions 
-          occur, various events can trigger additional requirements (injuries, stat changes, skill 
-          unlocks, etc.). We're currently integrating event filtering to show flexible requirements 
-          based on which events you want to handle.
+          You can now see all possible events for each expedition with their icons, types, and descriptions. 
+          However, the expedition feasibility is still based on base skill and staff requirements only. 
+          Soon, you'll be able to filter by event types and the calculator will account for event-specific 
+          requirements (skills, items, ranks, and stats) to give you a complete picture of what's needed.
         </p>
 
         <p style={{ color: '#ff9800', fontSize: '14px', fontWeight: 'bold', margin: '0 0 20px 0' }}>
