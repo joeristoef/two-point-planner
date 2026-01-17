@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ExpeditionFeasibility } from '../types/index';
-import { getStaffTypeIcon, getSkillIcon, getExpeditionIcon, getRewardIcon, getMapIcon, getEventIcon } from '../utils/iconMaps';
+import { getStaffTypeIcon, getSkillIcon, getExpeditionIcon, getRewardIcon, getMapIcon, getEventIcon, getEventTypeIcon } from '../utils/iconMaps';
 
 interface ExpeditionListProps {
   expeditions: ExpeditionFeasibility[];
@@ -435,15 +435,25 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                           
                           return (
                             <div key={event.id} style={{ backgroundColor: colors.bg, padding: '8px', borderRadius: '4px', border: `1px solid ${colors.text}`, color: colors.text, display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                              <img
-                                src={getEventIcon(event.name)}
-                                alt={event.name}
-                                style={{ width: '64px', height: '64px', objectFit: 'cover', borderRadius: '3px', flexShrink: 0, backgroundColor: '#f0f0f0', border: `4px solid ${colors.text}` }}
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
-                                  (e.target as HTMLImageElement).style.opacity = '0.3';
-                                }}
-                              />
+                              <div style={{ position: 'relative', width: '72px', height: '72px', flexShrink: 0 }}>
+                                <img
+                                  src={getEventIcon(event.name)}
+                                  alt={event.name}
+                                  style={{ width: '64px', height: '64px', objectFit: 'cover', borderRadius: '3px', backgroundColor: '#f0f0f0', border: `4px solid ${colors.text}`, display: 'block' }}
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
+                                    (e.target as HTMLImageElement).style.opacity = '0.3';
+                                  }}
+                                />
+                                <img
+                                  src={getEventTypeIcon(event.type)}
+                                  alt={event.type}
+                                  style={{ position: 'absolute', top: '-4px', left: '-4px', width: '28px', height: '28px', objectFit: 'contain', borderRadius: '2px', backgroundColor: '#fff', border: `1px solid ${colors.text}` }}
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).style.display = 'none';
+                                  }}
+                                />
+                              </div>
                               <div style={{ flex: 1 }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                                   <strong style={{ fontSize: '0.95em' }}>{event.name}</strong>

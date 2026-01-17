@@ -143,6 +143,24 @@ export const getRewardCategoryIcon = (categoryName: string): string => {
 };
 
 // ============================================================================
+// EVENT TYPE ICONS
+// ============================================================================
+
+export const getEventTypeIcon = (eventType: string): string => {
+  const typeMap: Record<string, string> = {
+    'Positive': 'positive.webp',
+    'Negative': 'negative.webp',
+    'Injury': 'injury.webp',
+    'Illness': 'illness.webp',
+    'MIA': 'mia.webp',
+    'Curse': 'curse.webp',
+    'Neutral': 'neutral.webp',
+  };
+  const filename = typeMap[eventType] || 'neutral.webp';
+  return getAssetPath('event-type-icons', filename);
+};
+
+// ============================================================================
 // DEPRECATED EXPORTS (for backwards compatibility)
 // ============================================================================
 
