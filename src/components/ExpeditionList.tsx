@@ -66,6 +66,9 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
   const rewardToExpeditions = new Map<string, string[]>();
   nonIgnoredFiltered.forEach((feasibility) => {
     feasibility.expedition.rewards?.forEach((reward) => {
+      // Exclude Bonus XP from duplicate tracking
+      if (reward.name === 'Bonus XP') return;
+      
       const key = reward.name;
       if (!rewardToExpeditions.has(key)) {
         rewardToExpeditions.set(key, []);
@@ -78,6 +81,9 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
   nonIgnoredFiltered.forEach((feasibility) => {
     const duplicates = new Map<string, string[]>();
     feasibility.expedition.rewards?.forEach((reward) => {
+      // Exclude Bonus XP from duplicate tracking
+      if (reward.name === 'Bonus XP') return;
+      
       const appearances = rewardToExpeditions.get(reward.name) || [];
       if (appearances.length > 1) {
         duplicates.set(reward.name, appearances.filter((name) => name !== feasibility.expedition.name));
