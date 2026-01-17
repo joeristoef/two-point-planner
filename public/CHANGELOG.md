@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 1.3
+
+January 17, 2026
+
+- Added events for all expeditions
+- Split fantasy staff in their respective types
+- Event display with icons, types, and descriptions
+- Event type indicator stamps on event images
+
 ## Version 1.2
 
 January 11, 2026
