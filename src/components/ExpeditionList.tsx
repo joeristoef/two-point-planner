@@ -369,7 +369,7 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                           const colors = getRewardTypeColor(reward.type);
                           
                           return (
-                            <div key={idx} style={{ backgroundColor: colors.bg, padding: '8px', borderRadius: '4px', border: `2px solid ${colors.border}`, display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                            <div key={idx} style={{ backgroundColor: colors.bg, padding: '8px', borderRadius: '4px', border: `1px solid ${colors.border}`, display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
                               <img
                                 src={getRewardIcon(reward.name)}
                                 alt={reward.name}
