@@ -4,6 +4,7 @@
   "installCommand": "npm install",
   "framework": "vite",
   "public": true,
+  "regions": ["iad1"],
   "rewrites": [
     { "source": "/assets/(.*)", "destination": "/assets/$1" }
   ],
