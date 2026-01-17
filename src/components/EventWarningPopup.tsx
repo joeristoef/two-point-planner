@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface EventWarningPopupProps {
   onDismiss?: () => void;
 }
 
 export const EventWarningPopup: React.FC<EventWarningPopupProps> = ({ onDismiss }) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Check if user has already seen this message
+    const hasSeenMessage = localStorage.getItem('seenv14ThankYouMessage');
+    if (!hasSeenMessage) {
+      setIsVisible(true);
+    }
+  }, []);
 
   const handleDismiss = () => {
     setIsVisible(false);
+    // Store that user has seen this message
+    localStorage.setItem('seenv14ThankYouMessage', 'true');
     onDismiss?.();
   };
 
@@ -46,29 +56,33 @@ export const EventWarningPopup: React.FC<EventWarningPopupProps> = ({ onDismiss 
           padding: '30px',
           maxWidth: '500px',
           width: '90%',
-          border: '3px solid #ff9800',
+          border: '3px solid #4c6ef5',
         }}
       >
-        {/* Warning Icon & Title */}
+        {/* Thank You Icon & Title */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-          <span style={{ fontSize: '32px' }}>⚠️</span>
-          <h2 style={{ margin: 0, color: '#1a1a1a', fontSize: '24px' }}>Important Notice</h2>
+          <span style={{ fontSize: '32px' }}>✨</span>
+          <h2 style={{ margin: 0, color: '#1a1a1a', fontSize: '24px' }}>Thank You for Using v1.4!</h2>
         </div>
 
         {/* Message */}
         <p style={{ color: '#495057', fontSize: '16px', lineHeight: '1.6', margin: '0 0 15px 0' }}>
-          <strong>Events are now visible, but their requirements aren't calculated yet.</strong>
+          <strong>We've added comprehensive event filtering and improved requirement calculations!</strong>
         </p>
 
         <p style={{ color: '#495057', fontSize: '14px', lineHeight: '1.6', margin: '0 0 15px 0' }}>
-          You can now see all possible events for each expedition with their icons, types, and descriptions. 
-          However, the expedition feasibility is still based on base skill and staff requirements only. 
-          Soon, you'll be able to filter by event types and the calculator will account for event-specific 
-          requirements (skills, items, ranks, and stats) to give you a complete picture of what's needed.
+          Version 1.4 now includes:
         </p>
 
-        <p style={{ color: '#ff9800', fontSize: '14px', fontWeight: 'bold', margin: '0 0 20px 0' }}>
-          🔄 Expected completion: January 18, 2026 (end of this week)
+        <ul style={{ color: '#495057', fontSize: '14px', lineHeight: '1.8', margin: '0 0 15px 0', paddingLeft: '20px' }}>
+          <li>Separate event type and subtype filtering for better control</li>
+          <li>Corrected requirement calculations for all event types</li>
+          <li>Chosen staff display within expeditions</li>
+          <li>Enhanced roster management with save/load functionality</li>
+        </ul>
+
+        <p style={{ color: '#495057', fontSize: '14px', lineHeight: '1.6', margin: '0 0 20px 0' }}>
+          Our next focus is building a <strong>staff roster solver</strong> to help you optimize team compositions. Have suggestions or feedback? Use the <strong>Feedback button</strong> to share your ideas!
         </p>
 
         {/* Button */}
@@ -76,7 +90,7 @@ export const EventWarningPopup: React.FC<EventWarningPopupProps> = ({ onDismiss 
           onClick={handleDismiss}
           style={{
             padding: '10px 20px',
-            backgroundColor: '#ff9800',
+            backgroundColor: '#4c6ef5',
             color: '#ffffff',
             border: 'none',
             borderRadius: '4px',
@@ -86,13 +100,13 @@ export const EventWarningPopup: React.FC<EventWarningPopupProps> = ({ onDismiss 
             width: '100%',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#e68900';
+            e.currentTarget.style.backgroundColor = '#364fc7';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#ff9800';
+            e.currentTarget.style.backgroundColor = '#4c6ef5';
           }}
         >
-          Got it, dismiss
+          Thanks! Let's go planning
         </button>
       </div>
     </>
