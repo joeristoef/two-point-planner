@@ -6,8 +6,6 @@ export default defineConfig({
   base: '/',
   publicDir: 'public',
   build: {
-    // Ensure all assets in public/assets/ are copied to dist/assets/
-    copyPublicDir: true,
     outDir: 'dist',
   },
 })

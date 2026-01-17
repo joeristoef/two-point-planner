@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && npm run copy-assets",
+    "build": "tsc && vite build",
     "copy-assets": "node -e \"const fs = require('fs'); const path = require('path'); const src = path.join(process.cwd(), 'public/assets'); const dst = path.join(process.cwd(), 'dist/assets'); try { if(!fs.existsSync(dst)) fs.mkdirSync(dst, {recursive:true}); fs.cpSync(src, dst, {recursive:true, force:true}); console.log('✓ Assets copied:', src, '->', dst); } catch(e) { console.error('✗ Copy failed:', e.message); process.exit(1); }\"",
     "preview": "vite preview",
     "test": "jest",
