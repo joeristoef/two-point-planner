@@ -333,18 +333,6 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                       </ul>
                     </div>
                   )}
-                  {duplicateRewardsPerExpedition.has(feasibility.expedition.name) && (
-                    <div style={{ marginBottom: '10px', color: '#856404', backgroundColor: 'rgba(255, 243, 191, 0.5)', padding: '8px', borderRadius: '4px', border: '1px solid #ffe066' }}>
-                      <strong>Duplicate Rewards:</strong>
-                      <ul style={{ margin: '5px 0 0 20px' }}>
-                        {Array.from(duplicateRewardsPerExpedition.get(feasibility.expedition.name)!).map(([rewardName, otherExpeditions]) => (
-                          <li key={rewardName}>
-                            <strong>{rewardName}</strong> also in: {otherExpeditions.join(', ')}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
                   {feasibility.expedition.rewards && feasibility.expedition.rewards.length > 0 && (
                     <div style={{ marginBottom: '10px', color: '#1a1a1a', backgroundColor: 'rgba(100, 150, 200, 0.1)', padding: '8px', borderRadius: '4px', border: '1px solid #6496c8' }}>
                       <strong style={{ fontSize: '1.05em' }}>Possible Rewards:</strong>
@@ -387,6 +375,11 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                                   </span>
                                 </div>
                                 <span style={{ fontSize: '0.8em', color: '#666' }}>{reward.subtype}</span>
+                                {duplicateRewardsPerExpedition.has(feasibility.expedition.name) && duplicateRewardsPerExpedition.get(feasibility.expedition.name)!.has(reward.name) && (
+                                  <p style={{ margin: '6px 0 0 0', fontSize: '0.8em', borderTop: `1px solid ${colors.border}`, paddingTop: '4px', color: colors.border, fontWeight: '500' }}>
+                                    Also in: {duplicateRewardsPerExpedition.get(feasibility.expedition.name)!.get(reward.name)!.join(', ')}
+                                  </p>
+                                )}
                               </div>
                             </div>
                           );
