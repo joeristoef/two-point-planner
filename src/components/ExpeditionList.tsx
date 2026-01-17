@@ -438,7 +438,7 @@ export const ExpeditionList: React.FC<ExpeditionListProps> = ({
                               <img
                                 src={getEventIcon(event.name)}
                                 alt={event.name}
-                                style={{ width: '62px', height: '62px', objectFit: 'cover', borderRadius: '3px', flexShrink: 0, backgroundColor: '#f0f0f0', border: `4px solid ${colors.text}` }}
+                                style={{ width: '68px', height: '68px', objectFit: 'cover', borderRadius: '3px', flexShrink: 0, backgroundColor: '#f0f0f0', border: `2px solid ${colors.text}` }}
                                 onError={(e) => {
                                   (e.target as HTMLImageElement).style.backgroundColor = '#f0f0f0';
                                   (e.target as HTMLImageElement).style.opacity = '0.3';
