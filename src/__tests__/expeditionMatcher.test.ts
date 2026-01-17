@@ -20,6 +20,7 @@ function createStaff(
     id: name.toLowerCase().replace(/\s+/g, '-'),
     name,
     type,
+    level: 1,
     skills: new Map(),
   };
 }

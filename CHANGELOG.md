@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 1.4
+
+January 17, 2026
+
+- Added fantasy staff Stats
+- Filtering in events now possible
+- Matcher shows chosen staff in expeditions
+- Misc improvements (rename, collapse and reorder staff, save and load filters and rosters)
+
 ## Version 1.3
 
 January 17, 2026

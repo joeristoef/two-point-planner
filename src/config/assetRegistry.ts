@@ -99,6 +99,10 @@ export const rewardSpecialCases: Record<string, string> = {
 export const rewardSpecialIconFolders: Record<string, { folder: string; filename: string }> = {
   'Bonus XP': { folder: 'misc-icons', filename: 'xp.webp' },
   'Money': { folder: 'misc-icons', filename: 'currency.webp' },
+  'Clover': { folder: 'reward-icons-2', filename: 'clover.webp' },
+  'Garlic': { folder: 'reward-icons-2', filename: 'garlic.webp' },
+  'Santa Water': { folder: 'reward-icons-2', filename: 'santa-water.webp' },
+  'Stone Mask': { folder: 'reward-icons-2', filename: 'stone-mask.webp' },
 };
 
 // ============================================================================

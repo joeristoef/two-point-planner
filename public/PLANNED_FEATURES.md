@@ -1,9 +1,10 @@
 # Planned Features
 
-## Planned for Version 1.4
+## Planned
 
-- Fantasy staff stat requirements
-- Splitting requirements between positive, negative, curse, injury, illness and MIA
+- Integrate equipment for fantasy staff
+- Add seasonal only expeditions
+- Integrate staff roster solver
 
 ## Investigating
 

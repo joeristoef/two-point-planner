@@ -6,8 +6,11 @@ import { StaffList } from './components/StaffList';
 import { ExpeditionList } from './components/ExpeditionList';
 import { SkillSelector } from './components/SkillSelector';
 import { EventWarningPopup } from './components/EventWarningPopup';
+import { SaveSetupModal } from './components/SaveSetupModal';
+import { LoadSetupModal } from './components/LoadSetupModal';
 import { checkAllExpeditions } from './utils/expeditionMatcher';
-import { getRewardIcon, getRewardCategoryIcon, getStaffTypeIcon, getMapIcon } from './utils/iconMaps';
+import { getRewardIcon, getRewardCategoryIcon, getStaffTypeIcon, getMapIcon, getEventTypeIcon, getItemIcon } from './utils/iconMaps';
+import { FANTASY_EXPERT_BASE_STATS } from './config/gameRules';
 import './App.css';
 
 function App() {
@@ -18,6 +21,9 @@ function App() {
   );
   const [filterMaps, setFilterMaps] = useState<Set<string>>(new Set());
   const [filterRewardNames, setFilterRewardNames] = useState<Set<string>>(new Set());
+  const [filterAvailableItems, setFilterAvailableItems] = useState<Set<string>>(new Set());
+  const [filterByEventTypes, setFilterByEventTypes] = useState<Set<string>>(new Set());
+  const [filterByEventSubtypes, setFilterByEventSubtypes] = useState<Set<string>>(new Set());
   const [filtersExpanded, setFiltersExpanded] = useState(true);
   const [expandedThemes, setExpandedThemes] = useState<Set<string>>(new Set());
   const [expandedSubthemes, setExpandedSubthemes] = useState<Set<string>>(new Set());
@@ -34,6 +40,12 @@ function App() {
   const [hasNewVersion, setHasNewVersion] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [mobileActivePanel, setMobileActivePanel] = useState<'staff' | 'expeditions'>('staff');
+  const [savedRosters, setSavedRosters] = useState<Array<{ name: string; timestamp: number }>>([]);
+  const [savedFilters, setSavedFilters] = useState<Array<{ name: string; timestamp: number }>>([]);
+  const [showSaveRosterModal, setShowSaveRosterModal] = useState(false);
+  const [showLoadRosterModal, setShowLoadRosterModal] = useState(false);
+  const [showSaveFiltersModal, setShowSaveFiltersModal] = useState(false);
+  const [showLoadFiltersModal, setShowLoadFiltersModal] = useState(false);
 
   // Load expeditions from CSV on mount
   useEffect(() => {
@@ -80,6 +92,9 @@ function App() {
     const savedFilterStatuses = localStorage.getItem('filterStatuses');
     const savedFilterMaps = localStorage.getItem('filterMaps');
     const savedFilterRewardNames = localStorage.getItem('filterRewardNames');
+    const savedFilterAvailableItems = localStorage.getItem('filterAvailableItems');
+    const savedFilterByEventTypes = localStorage.getItem('filterByEventTypes');
+    const savedFilterByEventSubtypes = localStorage.getItem('filterByEventSubtypes');
     const savedPinnedExpeditions = localStorage.getItem('pinnedExpeditions');
     const savedIgnoredExpeditions = localStorage.getItem('ignoredExpeditions');
 
@@ -119,6 +134,30 @@ function App() {
       }
     }
 
+    if (savedFilterAvailableItems) {
+      try {
+        setFilterAvailableItems(new Set(JSON.parse(savedFilterAvailableItems)));
+      } catch (e) {
+        console.error('Error loading filter available items', e);
+      }
+    }
+
+    if (savedFilterByEventTypes) {
+      try {
+        setFilterByEventTypes(new Set(JSON.parse(savedFilterByEventTypes)));
+      } catch (e) {
+        console.error('Error loading filter by event types', e);
+      }
+    }
+
+    if (savedFilterByEventSubtypes) {
+      try {
+        setFilterByEventSubtypes(new Set(JSON.parse(savedFilterByEventSubtypes)));
+      } catch (e) {
+        console.error('Error loading filter by event subtypes', e);
+      }
+    }
+
     if (savedPinnedExpeditions) {
       try {
         setPinnedExpeditions(new Set(JSON.parse(savedPinnedExpeditions)));
@@ -132,6 +171,25 @@ function App() {
         setIgnoredExpeditions(new Set(JSON.parse(savedIgnoredExpeditions)));
       } catch (e) {
         console.error('Error loading ignored expeditions', e);
+      }
+    }
+
+    // Load saved rosters and filters metadata
+    const savedRostersMetadata = localStorage.getItem('savedRostersMetadata');
+    if (savedRostersMetadata) {
+      try {
+        setSavedRosters(JSON.parse(savedRostersMetadata));
+      } catch (e) {
+        console.error('Error loading saved rosters metadata', e);
+      }
+    }
+
+    const savedFiltersMetadata = localStorage.getItem('savedFiltersMetadata');
+    if (savedFiltersMetadata) {
+      try {
+        setSavedFilters(JSON.parse(savedFiltersMetadata));
+      } catch (e) {
+        console.error('Error loading saved filters metadata', e);
       }
     }
 
@@ -167,6 +225,21 @@ function App() {
 
   useEffect(() => {
     if (!hasLoaded) return;
+    localStorage.setItem('filterAvailableItems', JSON.stringify(Array.from(filterAvailableItems)));
+  }, [filterAvailableItems, hasLoaded]);
+
+  useEffect(() => {
+    if (!hasLoaded) return;
+    localStorage.setItem('filterByEventTypes', JSON.stringify(Array.from(filterByEventTypes)));
+  }, [filterByEventTypes, hasLoaded]);
+
+  useEffect(() => {
+    if (!hasLoaded) return;
+    localStorage.setItem('filterByEventSubtypes', JSON.stringify(Array.from(filterByEventSubtypes)));
+  }, [filterByEventSubtypes, hasLoaded]);
+
+  useEffect(() => {
+    if (!hasLoaded) return;
     localStorage.setItem('pinnedExpeditions', JSON.stringify(Array.from(pinnedExpeditions)));
   }, [pinnedExpeditions, hasLoaded]);
 
@@ -181,6 +254,106 @@ function App() {
 
   const handleRemoveStaff = (id: string) => {
     setStaff(staff.filter((s) => s.id !== id));
+  };
+
+  const handleRenameStaff = (id: string, newName: string) => {
+    setStaff(
+      staff.map((member) => {
+        if (member.id === id) {
+          return { ...member, name: newName };
+        }
+        return member;
+      })
+    );
+  };
+
+  const handleReorderStaff = (staffIds: string[]) => {
+    const staffMap = new Map(staff.map(s => [s.id, s]));
+    const reorderedStaff = staffIds
+      .map(id => staffMap.get(id))
+      .filter((s): s is StaffMember => s !== undefined);
+    setStaff(reorderedStaff);
+  };
+
+  // Roster Save/Load Functions
+  const handleSaveRoster = (name: string) => {
+    const rosterData = {
+      staff: staff.map(member => ({
+        ...member,
+        skills: Array.from(member.skills.entries()),
+      })),
+    };
+    localStorage.setItem(`roster_${name}`, JSON.stringify(rosterData));
+    const updatedMetadata = [...savedRosters, { name, timestamp: Date.now() }];
+    setSavedRosters(updatedMetadata);
+    localStorage.setItem('savedRostersMetadata', JSON.stringify(updatedMetadata));
+    setShowSaveRosterModal(false);
+  };
+
+  const handleLoadRoster = (name: string) => {
+    const rosterData = localStorage.getItem(`roster_${name}`);
+    if (rosterData) {
+      try {
+        const parsed = JSON.parse(rosterData);
+        const loadedStaff = parsed.staff.map((member: any) => ({
+          ...member,
+          skills: new Map(member.skills),
+        }));
+        setStaff(loadedStaff);
+        setShowLoadRosterModal(false);
+      } catch (e) {
+        console.error('Error loading roster', e);
+      }
+    }
+  };
+
+  const handleDeleteRoster = (name: string) => {
+    localStorage.removeItem(`roster_${name}`);
+    const updatedMetadata = savedRosters.filter(r => r.name !== name);
+    setSavedRosters(updatedMetadata);
+    localStorage.setItem('savedRostersMetadata', JSON.stringify(updatedMetadata));
+  };
+
+  // Filters Save/Load Functions
+  const handleSaveFilters = (name: string) => {
+    const filtersData = {
+      filterStatuses: Array.from(filterStatuses),
+      filterMaps: Array.from(filterMaps),
+      filterRewardNames: Array.from(filterRewardNames),
+      filterAvailableItems: Array.from(filterAvailableItems),
+      filterByEventTypes: Array.from(filterByEventTypes),
+      filterByEventSubtypes: Array.from(filterByEventSubtypes),
+    };
+    localStorage.setItem(`filters_${name}`, JSON.stringify(filtersData));
+    const updatedMetadata = [...savedFilters, { name, timestamp: Date.now() }];
+    setSavedFilters(updatedMetadata);
+    localStorage.setItem('savedFiltersMetadata', JSON.stringify(updatedMetadata));
+    setShowSaveFiltersModal(false);
+  };
+
+  const handleLoadFilters = (name: string) => {
+    const filtersData = localStorage.getItem(`filters_${name}`);
+    if (filtersData) {
+      try {
+        const parsed = JSON.parse(filtersData);
+        setFilterStatuses(new Set(parsed.filterStatuses));
+        setFilterMaps(new Set(parsed.filterMaps));
+        setFilterRewardNames(new Set(parsed.filterRewardNames));
+        setFilterAvailableItems(new Set(parsed.filterAvailableItems));
+        setFilterByEventTypes(new Set(parsed.filterByEventTypes));
+        setFilterByEventSubtypes(new Set(parsed.filterByEventSubtypes));
+        setShowLoadFiltersModal(false);
+      } catch (e) {
+        console.error('Error loading filters', e);
+      }
+    }
+  };
+
+  const handleDeleteFilters = (name: string) => {
+    localStorage.removeItem(`filters_${name}`);
+    const updatedMetadata = savedFilters.filter(f => f.name !== name);
+    setSavedFilters(updatedMetadata);
+    localStorage.setItem('savedFiltersMetadata', JSON.stringify(updatedMetadata));
   };
 
   const handleSkillSlotClick = (staffId: string, _slotIndex: number) => {
@@ -225,20 +398,52 @@ function App() {
     );
   };
 
-  const handleSkillSelectorClose = () => {
-    setSelectedStaffId(null);
+  const handleStaffLevelChange = (staffId: string, delta: number) => {
+    setStaff(
+      staff.map((member) => {
+        if (member.id === staffId) {
+          const newLevel = Math.max(1, Math.min(20, member.level + delta));
+          return { ...member, level: newLevel };
+        }
+        return member;
+      })
+    );
   };
 
-  const toggleStatusFilter = (status: 'possible' | 'partial' | 'impossible') => {
-    setFilterStatuses((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(status)) {
-        newSet.delete(status);
-      } else {
-        newSet.add(status);
-      }
-      return newSet;
-    });
+  const handleStaffStatChange = (staffId: string, stat: 'strength' | 'dexterity' | 'intelligence' | 'luck', delta: number) => {
+    setStaff(
+      staff.map((member) => {
+        if (member.id === staffId && member.stats) {
+          const baseStats = FANTASY_EXPERT_BASE_STATS[member.type];
+          
+          if (!baseStats) return member;
+          
+          const baseStat = baseStats[stat];
+          const newValue = member.stats[stat] + delta;
+          
+          // Cannot decrease below base stat
+          if (newValue < baseStat) return member;
+          
+          // Calculate total bonus points spent (current total - base total)
+          const totalBase = (Object.values(baseStats) as number[]).reduce((a, b) => a + b, 0);
+          const currentTotal = (Object.values(member.stats) as number[]).reduce((a, b) => a + b, 0);
+          const bonusPointsSpent = currentTotal - totalBase;
+          const availableBonusPoints = member.level - 1;
+          
+          // Cannot spend more bonus points than available
+          if (delta > 0 && bonusPointsSpent >= availableBonusPoints) return member;
+          
+          const newStats = { ...member.stats };
+          newStats[stat] = newValue;
+          return { ...member, stats: newStats };
+        }
+        return member;
+      })
+    );
+  };
+
+    const handleSkillSelectorClose = () => {
+    setSelectedStaffId(null);
   };
 
   const toggleMapFilter = (map: string) => {
@@ -309,6 +514,60 @@ function App() {
     });
   };
 
+  const toggleEventTypeFilter = (eventType: string) => {
+    setFilterByEventTypes((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(eventType)) {
+        newSet.delete(eventType);
+      } else {
+        newSet.add(eventType);
+      }
+      return newSet;
+    });
+    
+    // Also toggle all subtypes for this event type
+    setFilterByEventSubtypes((prev) => {
+      const newSet = new Set(prev);
+      const subtypesForType = Array.from(eventTypeSubtypeMap.get(eventType) || []);
+      
+      // Check if all subtypes are currently selected
+      const allSubtypesSelected = subtypesForType.every((subtype) => newSet.has(subtype));
+      
+      if (allSubtypesSelected) {
+        // Deselect all subtypes for this event type
+        subtypesForType.forEach((subtype) => newSet.delete(subtype));
+      } else {
+        // Select all subtypes for this event type
+        subtypesForType.forEach((subtype) => newSet.add(subtype));
+      }
+      return newSet;
+    });
+  };
+
+  const toggleEventSubtypeFilter = (eventSubtype: string) => {
+    setFilterByEventSubtypes((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(eventSubtype)) {
+        newSet.delete(eventSubtype);
+      } else {
+        newSet.add(eventSubtype);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleAvailableItem = (itemName: string) => {
+    setFilterAvailableItems((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(itemName)) {
+        newSet.delete(itemName);
+      } else {
+        newSet.add(itemName);
+      }
+      return newSet;
+    });
+  };
+
   const toggleThemeExpanded = (theme: string) => {
     setExpandedThemes((prev) => {
       const newSet = new Set(prev);
@@ -357,7 +616,7 @@ function App() {
     });
   };
 
-  const feasibilities = checkAllExpeditions(staff, expeditions);
+  const feasibilities = checkAllExpeditions(staff, expeditions, filterAvailableItems);
   
   // Order maps as specified
   const mapOrder = ['Bone Belt', 'Two Point Sea', 'Bungle Burrows', 'Known Universe', 'Netherworld', 'Farflung Isles', 'Scorched Earth', 'Digiverse'];
@@ -397,6 +656,65 @@ function App() {
     if (indexB === -1) return -1; // b not in order, comes after
     return indexA - indexB; // Both in order, sort by order
   });
+  
+  // Get unique event types and subtypes
+  const eventTypeSubtypeMap = new Map<string, Set<string>>();
+  expeditions.forEach((exp) => {
+    exp.events?.forEach((event) => {
+      if (!eventTypeSubtypeMap.has(event.type)) {
+        eventTypeSubtypeMap.set(event.type, new Set());
+      }
+      eventTypeSubtypeMap.get(event.type)!.add(event.subtype);
+    });
+  });
+
+  // Order event types: Positive, Negative, Injury, Illness, MIA, Curse, Neutral
+  const eventTypeOrder = ['Positive', 'Negative', 'Injury', 'Illness', 'MIA', 'Curse', 'Neutral'];
+  const uniqueEventTypes = Array.from(eventTypeSubtypeMap.keys()).sort((a, b) => {
+    const indexA = eventTypeOrder.indexOf(a);
+    const indexB = eventTypeOrder.indexOf(b);
+    if (indexA === -1 && indexB === -1) return a.localeCompare(b); // Both not in order, sort alphabetically
+    if (indexA === -1) return 1; // a not in order, comes after
+    if (indexB === -1) return -1; // b not in order, comes after
+    return indexA - indexB; // Both in order, sort by order
+  });
+
+  // Get unique item names from all expedition requirements
+  const allItemNames = new Set<string>();
+  feasibilities.forEach((feasibility) => {
+    if (feasibility.expedition.events) {
+      feasibility.expedition.events.forEach((event: any) => {
+        if (event.requirements) {
+          event.requirements.forEach((req: any) => {
+            if (req.type === 'Item') {
+              allItemNames.add(req.name);
+            }
+          });
+        }
+      });
+    }
+  });
+  const uniqueItemNames = Array.from(allItemNames).sort();
+  
+  // Initialize maps and event types filters with all items if they were never set
+  if (filterMaps.size === 0 && uniqueMaps.length > 0) {
+    setFilterMaps(new Set(uniqueMaps));
+  }
+  
+  if (filterByEventTypes.size === 0 && uniqueEventTypes.length > 0) {
+    setFilterByEventTypes(new Set(uniqueEventTypes));
+  }
+  
+  // Initialize event subtypes filter with all subtypes if it was never set
+  if (filterByEventSubtypes.size === 0 && eventTypeSubtypeMap.size > 0) {
+    const allEventSubtypes = new Set<string>();
+    eventTypeSubtypeMap.forEach((subtypes) => {
+      subtypes.forEach((subtype) => allEventSubtypes.add(subtype));
+    });
+    if (allEventSubtypes.size > 0) {
+      setFilterByEventSubtypes(allEventSubtypes);
+    }
+  }
   
   // Apply same filtering logic to stats as in ExpeditionList
   const filteredForStats = feasibilities.filter((exp) => {
@@ -440,6 +758,9 @@ function App() {
       setFilterStatuses(new Set(['possible', 'partial', 'impossible']));
       setFilterMaps(new Set());
       setFilterRewardNames(new Set());
+      setFilterAvailableItems(new Set());
+      setFilterByEventTypes(new Set());
+      setFilterByEventSubtypes(new Set());
       setExpandedThemes(new Set());
       setExpandedSubthemes(new Set());
       setPinnedExpeditions(new Set());
@@ -627,7 +948,51 @@ function App() {
             </button>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: '10px', padding: '0 20px 15px 20px', borderBottom: '1px solid #dee2e6', flexShrink: 0 }}>
+        <div style={{ display: 'flex', gap: '10px', padding: '0 20px 15px 20px', flexShrink: 0 }}>
+          <button
+            onClick={() => setShowSaveRosterModal(true)}
+            style={{
+              flex: 1,
+              padding: '8px 12px',
+              backgroundColor: '#4c6ef5',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '13px',
+              fontWeight: '500',
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = '#364fc7';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = '#4c6ef5';
+            }}
+          >
+            Save Roster
+          </button>
+          <button
+            onClick={() => setShowLoadRosterModal(true)}
+            style={{
+              flex: 1,
+              padding: '8px 12px',
+              backgroundColor: '#5c7cfa',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '13px',
+              fontWeight: '500',
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = '#4c6ef5';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = '#5c7cfa';
+            }}
+          >
+            Load Roster
+          </button>
           <button
             onClick={resetStaff}
             style={{
@@ -648,34 +1013,12 @@ function App() {
               e.currentTarget.style.backgroundColor = '#ff6b6b';
             }}
           >
-            Reset Staff
-          </button>
-          <button
-            onClick={resetFilters}
-            style={{
-              flex: 1,
-              padding: '8px 12px',
-              backgroundColor: '#ffa94d',
-              color: '#ffffff',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '13px',
-              fontWeight: '500',
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.backgroundColor = '#fd7e14';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.backgroundColor = '#ffa94d';
-            }}
-          >
-            Reset Filters
+            Reset Roster
           </button>
         </div>
         <div style={{ overflowY: 'auto', flex: 1, paddingBottom: '100px' }}>
-          <StaffForm onAddStaff={handleAddStaff} />
-          <StaffList staff={staff} onRemoveStaff={handleRemoveStaff} onSkillSlotClick={handleSkillSlotClick} onSkillLevelChange={handleSkillLevelChange} />
+          <StaffForm onAddStaff={handleAddStaff} staff={staff} />
+          <StaffList staff={staff} onRemoveStaff={handleRemoveStaff} onRenameStaff={handleRenameStaff} onSkillSlotClick={handleSkillSlotClick} onSkillLevelChange={handleSkillLevelChange} onStaffLevelChange={handleStaffLevelChange} onStaffStatChange={handleStaffStatChange} onReorderStaff={handleReorderStaff} />
         </div>
       </div>
 
@@ -735,47 +1078,77 @@ function App() {
             </button>
 
             {filtersExpanded && (
-              <div className="filters-grid" style={{ padding: '15px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
-                {/* Left Column: Status */}
-                <div>
-                  {/* Status Section */}
-                  <div>
-                    <p style={{ margin: '0 0 10px 0', color: '#1a1a1a', fontWeight: 'bold' }}>Status:</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      {(['possible', 'partial', 'impossible'] as const).map((status) => {
-                        const statusConfig = {
-                          possible: { icon: '✓', color: '#28a745', symbol: 'checkmark' },
-                          partial: { icon: '≈', color: '#ffc107', symbol: 'tilde' },
-                          impossible: { icon: '✕', color: '#dc3545', symbol: 'cross' },
-                        };
-                        const config = statusConfig[status];
-                        return (
-                          <label key={status} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#1a1a1a', cursor: 'pointer' }}>
-                            <input
-                              type="checkbox"
-                              checked={filterStatuses.has(status)}
-                              onChange={() => toggleStatusFilter(status)}
-                              style={{ cursor: 'pointer' }}
-                            />
-                            <span style={{
-                              fontSize: '1.2em',
-                              fontWeight: 'bold',
-                              color: config.color,
-                              width: '20px',
-                              textAlign: 'center',
-                              lineHeight: '1',
-                            }}>
-                              {config.icon}
-                            </span>
-                            <span style={{ textTransform: 'capitalize' }}>{status}</span>
-                          </label>
-                        );
-                      })}
-                    </div>
-                  </div>
+              <>
+                <div style={{ display: 'flex', gap: '10px', padding: '12px 15px 0 15px', borderBottom: '1px solid #dee2e6' }}>
+                  <button
+                    onClick={() => setShowSaveFiltersModal(true)}
+                    style={{
+                      flex: 1,
+                      padding: '6px 12px',
+                      backgroundColor: '#4c6ef5',
+                      color: '#ffffff',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: '500',
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = '#364fc7';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = '#4c6ef5';
+                    }}
+                  >
+                    Save Filters
+                  </button>
+                  <button
+                    onClick={() => setShowLoadFiltersModal(true)}
+                    style={{
+                      flex: 1,
+                      padding: '6px 12px',
+                      backgroundColor: '#5c7cfa',
+                      color: '#ffffff',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: '500',
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = '#4c6ef5';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = '#5c7cfa';
+                    }}
+                  >
+                    Load Filters
+                  </button>
+                  <button
+                    onClick={resetFilters}
+                    style={{
+                      flex: 1,
+                      padding: '6px 12px',
+                      backgroundColor: '#ff6b6b',
+                      color: '#ffffff',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: '500',
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = '#ee5a52';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = '#ff6b6b';
+                    }}
+                  >
+                    Reset Filters
+                  </button>
                 </div>
-
-                {/* Middle Column: Maps */}
+                <div className="filters-grid" style={{ padding: '15px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '20px' }}>
+                {/* Column 1: Maps */}
                 <div>
                   {/* Maps Section */}
                   <div>
@@ -804,7 +1177,7 @@ function App() {
                   </div>
                 </div>
 
-                {/* Right Column: Reward Filters */}
+                {/* Column 2: Reward Types */}
                 <div>
                   <p style={{ margin: '0 0 10px 0', color: '#1a1a1a', fontWeight: 'bold' }}>Reward Types:</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -979,15 +1352,137 @@ function App() {
                     })}
                   </div>
                 </div>
+
+                {/* Column 3: Event Types */}
+                <div>
+                  <p style={{ margin: '0 0 10px 0', color: '#1a1a1a', fontWeight: 'bold' }}>Event Types:</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {uniqueEventTypes.map((eventType) => {
+                      const subtypesForType = Array.from(eventTypeSubtypeMap.get(eventType) || []).sort();
+                      const isTypeExpanded = expandedThemes.has(`event-${eventType}`);
+                      const isExpandable = !['Injury', 'Illness', 'MIA', 'Curse'].includes(eventType);
+                      
+                      // Calculate indeterminate state for parent checkbox
+                      const allSubtypesSelected = isExpandable && subtypesForType.length > 0 && subtypesForType.every((subtype) => filterByEventSubtypes.has(subtype));
+                      const someSubtypesSelected = isExpandable && subtypesForType.some((subtype) => filterByEventSubtypes.has(subtype));
+                      const isIndeterminate = someSubtypesSelected && !allSubtypesSelected;
+                      
+                      return (
+                        <div key={eventType}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            {isExpandable && (
+                              <button
+                                onClick={() => toggleThemeExpanded(`event-${eventType}`)}
+                                style={{
+                                  background: 'none',
+                                  border: 'none',
+                                  cursor: 'pointer',
+                                  padding: '0',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  color: '#1a1a1a',
+                                  fontSize: '0.8em',
+                                  width: '20px',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                {isTypeExpanded ? '▼' : '▶'}
+                              </button>
+                            )}
+                            {!isExpandable && <div style={{ width: '20px' }} />}
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: 'bold', flex: 1, marginBottom: 0 }}>
+                              <input
+                                type="checkbox"
+                                checked={filterByEventTypes.has(eventType) || allSubtypesSelected}
+                                onChange={() => toggleEventTypeFilter(eventType)}
+                                ref={(input) => {
+                                  if (input) input.indeterminate = isIndeterminate;
+                                }}
+                                style={{ cursor: 'pointer' }}
+                              />
+                              {/* Event type icon */}
+                              <img
+                                src={getEventTypeIcon(eventType)}
+                                alt={eventType}
+                                style={{ width: '24px', height: '24px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display = 'none';
+                                }}
+                              />
+                              <span>{eventType}</span>
+                            </label>
+                          </div>
+                          {/* Subtypes for this event type - only show if expandable and expanded */}
+                          {isExpandable && isTypeExpanded && (
+                            <div style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '5px', marginTop: '5px' }}>
+                              {subtypesForType.map((subtype) => (
+                                <div key={subtype}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <div style={{ width: '20px' }} />
+                                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.9em', flex: 1, marginBottom: 0 }}>
+                                      <input
+                                        type="checkbox"
+                                        checked={filterByEventSubtypes.has(subtype)}
+                                        onChange={() => toggleEventSubtypeFilter(subtype)}
+                                        style={{ cursor: 'pointer' }}
+                                      />
+                                      <span>{subtype}</span>
+                                    </label>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Column 4: Available Items */}
+                <div>
+                  {uniqueItemNames.length > 0 && (
+                    <div>
+                      <p style={{ margin: '0 0 10px 0', color: '#1a1a1a', fontWeight: 'bold' }}>Available Items:</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {uniqueItemNames.map((itemName) => (
+                          <label key={itemName} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', color: '#1a1a1a' }}>
+                            <input
+                              type="checkbox"
+                              checked={filterAvailableItems.has(itemName)}
+                              onChange={() => toggleAvailableItem(itemName)}
+                              style={{ cursor: 'pointer' }}
+                            />
+                            <img
+                              src={getItemIcon(itemName)}
+                              alt={itemName}
+                              style={{ width: '24px', height: '24px', objectFit: 'cover', borderRadius: '2px', flexShrink: 0 }}
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).style.display = 'none';
+                              }}
+                            />
+                            <span>{itemName}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
+              </>
             )}
           </div>
 
           <ExpeditionList
             expeditions={feasibilities}
+            staff={staff}
             filterByStatuses={filterStatuses}
             filterByMaps={filterMaps}
             filterByRewardNames={filterRewardNames}
+            filterAvailableItems={filterAvailableItems}
+            onToggleAvailableItem={toggleAvailableItem}
+            filterByEventTypes={filterByEventTypes}
+            filterByEventSubtypes={filterByEventSubtypes}
             pinnedExpeditions={pinnedExpeditions}
             onTogglePin={togglePinExpedition}
             ignoredExpeditions={ignoredExpeditions}
@@ -1383,6 +1878,42 @@ function App() {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Save/Load Modals */}
+      {showSaveRosterModal && (
+        <SaveSetupModal
+          title="Save Staff Roster"
+          existingNames={savedRosters.map(r => r.name)}
+          onSave={handleSaveRoster}
+          onCancel={() => setShowSaveRosterModal(false)}
+        />
+      )}
+      {showLoadRosterModal && (
+        <LoadSetupModal
+          title="Load Staff Roster"
+          setups={savedRosters}
+          onLoad={handleLoadRoster}
+          onDelete={handleDeleteRoster}
+          onCancel={() => setShowLoadRosterModal(false)}
+        />
+      )}
+      {showSaveFiltersModal && (
+        <SaveSetupModal
+          title="Save Filter Set"
+          existingNames={savedFilters.map(f => f.name)}
+          onSave={handleSaveFilters}
+          onCancel={() => setShowSaveFiltersModal(false)}
+        />
+      )}
+      {showLoadFiltersModal && (
+        <LoadSetupModal
+          title="Load Filter Set"
+          setups={savedFilters}
+          onLoad={handleLoadFilters}
+          onDelete={handleDeleteFilters}
+          onCancel={() => setShowLoadFiltersModal(false)}
+        />
       )}
       </div>
     </div>

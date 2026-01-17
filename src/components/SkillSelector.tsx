@@ -1,7 +1,8 @@
 import React from 'react';
 import { Skill, StaffMember } from '../types/index';
-import { getAvailableSkills, calculateUsedSkillSlots, getMaxSkillSlots } from '../config/gameRules';
+import { getAvailableSkills, calculateUsedSkillSlots } from '../config/gameRules';
 import { getSkillIcon } from '../utils/iconMaps';
+import { getAvailableSkillSlots } from '../utils/staffLevelSystem';
 
 interface SkillSelectorProps {
   staffMember: StaffMember;
@@ -17,7 +18,7 @@ export const SkillSelector: React.FC<SkillSelectorProps> = ({
   const availableSkills = getAvailableSkills(staffMember.type);
   const unusedSkills = availableSkills.filter((skill) => !staffMember.skills.has(skill as Skill));
   const usedSlots = calculateUsedSkillSlots(staffMember.skills);
-  const maxSlots = getMaxSkillSlots();
+  const maxSlots = getAvailableSkillSlots(staffMember.level);
   const canAddSkill = usedSlots < maxSlots;
 
   return (

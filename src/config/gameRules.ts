@@ -41,6 +41,39 @@ export const STAFF_SUBTYPES: Record<StaffType, StaffType | null> = {
   'Wizard': 'Fantasy Expert',
 };
 
+// ============================================================================
+// FANTASY EXPERT STAT SYSTEM
+// ============================================================================
+
+// Predefined starting stats for each fantasy expert subtype
+// Stats increase by 1 per level up after level 1
+export const FANTASY_EXPERT_BASE_STATS: Record<string, { strength: number; dexterity: number; intelligence: number; luck: number }> = {
+  'Barbarian': {
+    strength: 10,
+    dexterity: 3,
+    intelligence: 1,
+    luck: 5,
+  },
+  'Bard': {
+    strength: 3,
+    dexterity: 1,
+    intelligence: 5,
+    luck: 10,
+  },
+  'Rogue': {
+    strength: 5,
+    dexterity: 10,
+    intelligence: 3,
+    luck: 1,
+  },
+  'Wizard': {
+    strength: 1,
+    dexterity: 5,
+    intelligence: 10,
+    luck: 3,
+  },
+};
+
 export const SKILL_CATEGORIES = {
   universal: [
     'Aerodynamics',

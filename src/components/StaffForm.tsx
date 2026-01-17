@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { StaffMember, StaffType } from '../types/index';
 import { getStaffTypeIcon } from '../utils/iconMaps';
+import { FANTASY_EXPERT_BASE_STATS } from '../config/gameRules';
 
 interface StaffFormProps {
   onAddStaff: (staff: StaffMember) => void;
+  staff: StaffMember[];
 }
 
 const STAFF_TYPES: StaffType[] = [
@@ -23,22 +25,47 @@ const STAFF_TYPES: StaffType[] = [
 
 const FANTASY_SUBTYPES: StaffType[] = ['Barbarian', 'Bard', 'Rogue', 'Wizard'];
 
-// Counter for auto-generating unique IDs
-const staffIdCounter: Map<StaffType, number> = new Map();
-
-STAFF_TYPES.forEach(type => staffIdCounter.set(type, 0));
-
-export const StaffForm: React.FC<StaffFormProps> = ({ onAddStaff }) => {
+export const StaffForm: React.FC<StaffFormProps> = ({ onAddStaff, staff }) => {
   const [fantasySubtypeMenu, setFantasySubtypeMenu] = useState<{ x: number; y: number } | null>(null);
 
   const handleAddStaffType = (type: StaffType) => {
-    const id = `${type}-${Date.now()}`; // Use unique ID instead of counter for name
+    // Get the grouping key for the type (to handle fantasy subtypes)
+    const getGroupingKey = (staffType: StaffType): StaffType => {
+      if (['Barbarian', 'Bard', 'Rogue', 'Wizard'].includes(staffType as any)) {
+        return 'Fantasy Expert';
+      }
+      return staffType;
+    };
+
+    // Find the highest number for this type/grouping
+    const groupingKey = getGroupingKey(type);
+    const staffOfThisType = staff.filter(s => getGroupingKey(s.type) === groupingKey);
+    
+    let highestNumber = 0;
+    staffOfThisType.forEach(s => {
+      const match = s.name.match(/#(\d+)$/);
+      if (match) {
+        const num = parseInt(match[1], 10);
+        if (num > highestNumber) {
+          highestNumber = num;
+        }
+      }
+    });
+    
+    const nextNumber = highestNumber + 1;
+    const id = `${type}-${Date.now()}`; // Use unique ID based on timestamp
+    
+    // Check if this is a fantasy expert subtype
+    const isFastasySubtype = ['Barbarian', 'Bard', 'Rogue', 'Wizard'].includes(type as any);
+    const baseStats = isFastasySubtype ? FANTASY_EXPERT_BASE_STATS[type] : undefined;
     
     onAddStaff({
       id,
-      name: `${type}`, // Name is just the type, display name with number is in StaffList
+      name: `${type} #${nextNumber}`, // Auto-generated name with number
       type,
+      level: 1, // Start at level 1
       skills: new Map(),
+      ...(baseStats && { stats: { ...baseStats } }), // Add base stats for fantasy experts
     });
   };
 

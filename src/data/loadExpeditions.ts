@@ -1,6 +1,54 @@
-import { Expedition, Skill, StaffType } from '../types/index';
+import { Expedition, Skill, StaffType, Requirement } from '../types/index';
 import { parseCSV } from './csvParser';
 import { DataValidator } from './dataValidator';
+
+/**
+ * Parse EventCounter data into normalized Requirement array
+ * Handles Skill, Stat, Rank, and Item requirements
+ */
+function parseEventRequirements(counter: {
+  skill?: string;
+  skillLevel?: number;
+  rank?: number;
+  stat?: string;
+  statLevel?: number;
+  item?: string;
+}): Requirement[] {
+  const requirements: Requirement[] = [];
+
+  if (counter.skill) {
+    requirements.push({
+      type: 'Skill',
+      name: counter.skill,
+      level: counter.skillLevel,
+    });
+  }
+
+  if (counter.stat) {
+    requirements.push({
+      type: 'Stat',
+      name: counter.stat,
+      level: counter.statLevel,
+    });
+  }
+
+  if (counter.rank) {
+    requirements.push({
+      type: 'Rank',
+      name: `Rank ${counter.rank}`, // Rank is a number, normalize to readable format
+      level: counter.rank, // Store the rank number as level for evaluation
+    });
+  }
+
+  if (counter.item) {
+    requirements.push({
+      type: 'Item',
+      name: counter.item,
+    });
+  }
+
+  return requirements;
+}
 
 interface RawExpedition {
   Expedition: string;
@@ -146,6 +194,15 @@ export async function loadExpeditionsFromCSV(): Promise<LoadedExpeditions> {
     eventsData.forEach((row) => {
       const expedition = expeditionMap.get(row.ExpeditionName);
       if (expedition) {
+        const counter = {
+          skill: row.EventunlockSkill || undefined,
+          skillLevel: row.EventunlockSkillLevel ? parseInt(row.EventunlockSkillLevel, 10) : undefined,
+          rank: row.EventunlockRank ? parseInt(row.EventunlockRank, 10) : undefined,
+          stat: row.EventunlockStat || undefined,
+          statLevel: row.EventunlockStatLevel ? parseInt(row.EventunlockStatLevel, 10) : undefined,
+          item: row.EventunlockItem || undefined,
+        };
+
         expedition.events.push({
           id: parseInt(row.ID, 10),
           name: row.Event,
@@ -153,14 +210,8 @@ export async function loadExpeditionsFromCSV(): Promise<LoadedExpeditions> {
           subtype: row.EventSubType,
           description: row.EventDescription,
           unlockDescription: row.EventunlockDescription,
-          counter: {
-            skill: row.EventunlockSkill || undefined,
-            skillLevel: row.EventunlockSkillLevel ? parseInt(row.EventunlockSkillLevel, 10) : undefined,
-            rank: row.EventunlockRank ? parseInt(row.EventunlockRank, 10) : undefined,
-            stat: row.EventunlockStat || undefined,
-            statLevel: row.EventunlockStatLevel ? parseInt(row.EventunlockStatLevel, 10) : undefined,
-            item: row.EventunlockItem || undefined,
-          },
+          counter,
+          requirements: parseEventRequirements(counter),
         });
       }
     });

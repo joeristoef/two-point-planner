@@ -161,6 +161,48 @@ export const getEventTypeIcon = (eventType: string): string => {
 };
 
 // ============================================================================
+// ITEM ICONS
+// ============================================================================
+
+export const getItemIcon = (itemName: string): string => {
+  // Check if this item has a special icon folder mapping
+  if (itemName in rewardSpecialIconFolders) {
+    const { folder, filename } = rewardSpecialIconFolders[itemName];
+    return getAssetPath(folder, filename);
+  }
+  
+  // Normalize item name to kebab-case for filename matching
+  const normalized = itemName
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+  
+  return getAssetPath('item-icons', `${normalized}.webp`);
+};
+
+// ============================================================================
+// STAT ICONS
+// ============================================================================
+
+export const getStatIcon = (statName: string): string => {
+  // Map abbreviated stat names to full names for filename matching
+  const statMap: Record<string, string> = {
+    'STR': 'strength',
+    'DEX': 'dexterity',
+    'INT': 'intelligence',
+    'LUCK': 'luck',
+    // Also support full names in case they appear
+    'Strength': 'strength',
+    'Dexterity': 'dexterity',
+    'Intelligence': 'intelligence',
+    'Luck': 'luck',
+  };
+
+  const normalized = statMap[statName] || statName.toLowerCase();
+  return getAssetPath('stat-icons', `${normalized}.webp`);
+};
+
+// ============================================================================
 // DEPRECATED EXPORTS (for backwards compatibility)
 // ============================================================================
 

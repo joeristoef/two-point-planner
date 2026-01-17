@@ -46,7 +46,14 @@ export interface StaffMember {
   id: string;
   name: string;
   type: StaffType;
+  level: number; // staff member level (1-20)
   skills: Map<Skill, number>; // skill level (1-3)
+  stats?: {
+    strength: number;
+    dexterity: number;
+    intelligence: number;
+    luck: number;
+  };
 }
 
 export interface SkillRequirement {
@@ -74,6 +81,12 @@ export interface EventCounter {
   item?: string;
 }
 
+export interface Requirement {
+  type: 'Skill' | 'Stat' | 'Rank' | 'Item';
+  name: string;
+  level?: number; // For Skill, Stat, and Rank types
+}
+
 export interface Event {
   id: number;
   name: string;
@@ -82,6 +95,7 @@ export interface Event {
   description: string;
   unlockDescription: string;
   counter: EventCounter;
+  requirements: Requirement[]; // Normalized requirements parsed from counter
 }
 
 export interface Expedition {
@@ -93,9 +107,17 @@ export interface Expedition {
   rewards: Reward[];
 }
 
+export interface AccumulatedRequirements {
+  skills: Array<{ name: string; level: number }>;
+  items: Array<{ name: string }>;
+  ranks: Array<{ name: string; level: number }>;
+  stats: Array<{ name: string; level: number }>;
+}
+
 export interface ExpeditionFeasibility {
   expedition: Expedition;
   status: 'possible' | 'partial' | 'impossible';
   missingStaff: string[];
   missingSkills: string[];
+  chosenTeam: StaffMember[]; // Staff composition chosen for this expedition
 }
